@@ -1,0 +1,59 @@
+{
+    "name": "differentdevelopment/different-core",
+    "description": "",
+    "keywords": [
+        "laravel",
+        "backpack",
+        "different",
+        "extension"
+    ],
+    "homepage": "https://github.com/differentdevelopment/different-core",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Different Fejlesztő Kft.",
+            "email": "php@different.hu",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.4|^8.0",
+        "backpack/permissionmanager": "^6.0",
+        "illuminate/support": "^8.0",
+        "spatie/laravel-activitylog": "^4.2"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.0",
+        "phpunit/phpunit": "^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Different\\DifferentCore\\": "src",
+            "Different\\DifferentCore\\Database\\Seeds\\": "database/seeds"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Different\\DifferentCore\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Different\\DifferentCore\\DifferentCoreServiceProvider"
+            ],
+            "aliases": {
+                "DifferentCore": "Different\\DifferentCore\\DifferentCoreFacade"
+            }
+        }
+    }
+}
