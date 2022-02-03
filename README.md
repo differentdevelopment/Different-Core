@@ -7,7 +7,7 @@ Egy teljesen új projekt esetén a telepítéshez a következő parancsokat kell
 > composer require backpack/crud:"4.1.*" <br />
 > composer require --dev backpack/generators <br />
 > php artisan backpack:install <br />
-> composer require **MAJD_IDE_KELL_A_SAJÁT_CSOMAGUNK_NEVE** <br />
+> composer require differentdevelopment/Different-Core <br />
 
 <br />
 
