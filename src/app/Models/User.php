@@ -74,6 +74,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'updated_at',
     ];
     protected $casts = [];
+    protected $guard_name = 'web';
 
     /*
     |--------------------------------------------------------------------------

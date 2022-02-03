@@ -6,18 +6,13 @@ use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-use Different\DifferentCore\app\Models\Role;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Hash;
-use Different\DifferentCore\app\Models\User;
-use Different\DifferentCore\app\Utils\Navbar\NavbarItem;
 use Illuminate\Support\Str;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Different\DifferentCore\app\Http\Requests\RoleStoreRequest;
 use Different\DifferentCore\app\Http\Requests\RoleUpdateRequest;
 use Different\DifferentCore\app\Models\Permission;
 
-class RolesCrudController extends CrudController
+class PermissionsCrudController extends CrudController
 {
     use ListOperation;
     use CreateOperation {
@@ -28,15 +23,12 @@ class RolesCrudController extends CrudController
 
     public function setup()
     {
-        dd($this->crud);
-        crud_permission($this->crud, 'role-manage');
-
         // $this->role_model = $role_model = config('backpack.permissionmanager.models.role');
         $this->permission_model = $permission_model = config('backpack.permissionmanager.models.permission');
 
-        $this->crud->setModel(Role::class);
+        $this->crud->setModel(Permission::class);
         $this->crud->setEntityNameStrings(trans('backpack::permissionmanager.role'), trans('backpack::permissionmanager.roles'));
-        $this->crud->setRoute(backpack_url('role'));
+        $this->crud->setRoute(backpack_url('permission'));
 
         // deny access according to configuration file
         if (config('backpack.permissionmanager.allow_role_create') == false) {
@@ -80,7 +72,7 @@ class RolesCrudController extends CrudController
                     return backpack_url('user?role=' . $entry->getKey());
                 },
             ],
-            'suffix'    => ' felhasználó',
+            'suffix'    => ' users',
         ]);
 
         /**
@@ -103,7 +95,7 @@ class RolesCrudController extends CrudController
             'type'      => 'select_multiple',
             'name'      => 'permissions', // the method that defines the relationship in your Model
             'entity'    => 'permissions', // the method that defines the relationship in your Model
-            'attribute' => 'readable_name', // foreign key attribute that is shown to role
+            'attribute' => 'readable_name', // foreign key attribute that is shown to user
             'model'     => $this->permission_model, // foreign key model
             'pivot'     => true, // on create&update, do you need to add/delete pivot table entries?
         ]);
@@ -158,11 +150,13 @@ class RolesCrudController extends CrudController
         }
 
         $this->crud->addField([
-            'label' => ucfirst(trans('backpack::permissionmanager.permission_plural')),
-            'type' => 'permissions',
-            'name' => 'permissions',
-            'permisisons' => Permission::query()->orderBy("group")->get(),
-            'view_namespace' => 'different-core::fields',
+            'label'     => ucfirst(trans('backpack::permissionmanager.permission_plural')),
+            'type'      => 'checklist',
+            'name'      => 'permissions',
+            'entity'    => 'permissions',
+            'attribute' => 'name',
+            'model'     => $this->permission_model,
+            'pivot'     => true,
         ]);
 
         $this->crud->addField([

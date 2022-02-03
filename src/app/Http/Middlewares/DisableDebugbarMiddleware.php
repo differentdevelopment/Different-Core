@@ -1,6 +1,6 @@
 <?php
 
-namespace Different\DifferentCore\app\Middlewares;
+namespace Different\DifferentCore\app\Http\Middlewares;
 
 class DisableDebugbarMiddleware
 {

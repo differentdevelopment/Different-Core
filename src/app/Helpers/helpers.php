@@ -1,0 +1,51 @@
+<?php
+
+use Illuminate\Support\Facades\Auth;
+
+if (!function_exists('user_can')) {
+    function user_can($permission) {
+        return backpack_user()->hasRole('super-admin') || backpack_user()->can($permission);
+    }
+}
+
+if (!function_exists('crud_permission')) {
+    /**
+     * Letiltja az összes CRUD műveletet ha nincs ez a permission a felhasználónak.
+     * @param Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+     * @param string $name
+     */
+    function crud_permission($crud, $name) {
+        if (!user_can($name)) {
+            $crud->denyAccess([
+                'list',
+                'show',
+                'create',
+                'update',
+                'delete',
+            ]);
+        }
+    }
+}
+
+if (!function_exists('crud_permissions')) {
+    /**
+     * Letiltja az egyes CRUD műveletet ha nincs a $name-el kezdődő permission. Például user estén a következő permission-ök: user-list, user-show stb.
+     * @param Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+     * @param string $name
+     */
+    function crud_permissions($crud, $name) {
+        $permissions = [
+            'list',
+            'show',
+            'create',
+            'update',
+            'delete',
+        ];
+        foreach ($permissions as $permission) {
+            if (!user_can($name . '-' . $permission)) {
+                $crud->denyAccess($permission);
+            }
+        }
+    }
+}
+

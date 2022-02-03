@@ -6,9 +6,9 @@ use Different\DifferentCore\app\Http\Controllers\UsersCrudController;
 use Different\DifferentCore\app\Http\Controllers\ActivitiesCrudController;
 use Different\DifferentCore\app\Http\Controllers\SettingsCrudController;
 use Different\DifferentCore\app\Http\Controllers\FilesController;
+use Different\DifferentCore\app\Http\Controllers\RolesCrudController;
 use Different\DifferentCore\app\Http\Middlewares\DisableDebugbarMiddleware;
 use Backpack\PermissionManager\app\Http\Controllers\PermissionCrudController;
-use Backpack\PermissionManager\app\Http\Controllers\RoleCrudController;
 
 Route::group([
     'middleware' => [
@@ -34,7 +34,7 @@ Route::group([
 
     Route::crud('activity', ActivitiesCrudController::class);
     Route::crud('permission', PermissionCrudController::class);
-    Route::crud('role', RoleCrudController::class);
+    Route::crud('role', RolesCrudController::class);
     
     Route::get('settings', [SettingsCrudController::class, 'index']);
     Route::post('settings', [SettingsCrudController::class, 'save']);

@@ -4,14 +4,10 @@ namespace Different\DifferentCore\Database\Seeds;
 
 use Different\DifferentCore\app\Models\User;
 use Different\DifferentCore\app\Models\Account;
+use Different\DifferentCore\app\Models\Permission;
+use Different\DifferentCore\app\Models\Role;
 use Different\DifferentCore\app\Utils\Settings\SettingsManagerController;
-
-//use Backpack\Settings\app\Models\Setting;
-//use Different\Dwfw\app\Models\Account;
-//use Different\Dwfw\app\Models\TimeZone;
 use Illuminate\Database\Seeder;
-//use Spatie\Permission\Models\Permission;
-//use Spatie\Permission\Models\Role;
 
 class DifferentSeeder extends Seeder
 {
@@ -65,15 +61,6 @@ class DifferentSeeder extends Seeder
             'active' => 1,
         ],
     ];
-    const PERMISSIONS = [
-        'login backend',
-        'manage users',
-        'manage bans',
-        'view logs',
-        'manage settings',
-        'manage roles',
-        'manage permissions',
-    ];
 
     const ACCOUNT_RELATED_PERMISSIONS = [
         'change account'
@@ -81,39 +68,101 @@ class DifferentSeeder extends Seeder
 
     public function run()
     {
-        // USERS
+        // ***********************
+        // Users
+        // ***********************
         $user = User::query()->firstOrCreate([
             'email' => 'fejlesztes@different.hu',
         ], [
-            'name' => 'Fejlesztés',
+            'name' => 'Different Fejlesztő Kft.',
             'email_verified_at' => '2020-04-20 04:20:00',
             'password' => '$2y$10$YoqGMgPRGEOUPg4iFRRPqeyqYX3lsNYeZ4fZPqi/jrPaSEBsTVXUK',
             'remember_token' => null,
-            'phone' => '+36204377776',
+            'phone' => null,
             'created_at' => '2020-04-20 04:20:00',
             'updated_at' => '2020-04-20 04:20:00',
         ]);
 
-        // BASE ROLES
-        /*$role_super_admin = Role::query()->firstOrCreate([
-            'name' => 'super admin',
+
+
+        // ***********************
+        // Roles
+        // ***********************
+        $role_super_admin = Role::query()->firstOrCreate([
+            'name' => 'super-admin',
             'guard_name' => 'web',
-        ],[]);
+            'readable_name' => 'Rendszer Admin',
+        ]);
+        $user->assignRole($role_super_admin->name);
 
         $role_admin = Role::query()->firstOrCreate([
             'name' => 'admin',
             'guard_name' => 'web',
-        ], []);
+            'readable_name' => 'Admin',
+        ]);
 
-        foreach(self::PERMISSIONS as $permission)
-        {
+
+
+        // ***********************
+        // Permission
+        // ***********************
+        $permissions = [
+            [
+                'group' => 'Általános',
+                'name' => 'visit-backend',
+                'readable_name' => 'Megtekintheti az admin felületet',
+            ],
+            [
+                'group' => 'Felhasználó',
+                'name' => 'user-list',
+                'readable_name' => 'Felhasználók listázása',
+            ],
+            [
+                'group' => 'Felhasználó',
+                'name' => 'user-show',
+                'readable_name' => 'Felhasználó adatainak megtekintése',
+            ],
+            [
+                'group' => 'Felhasználó',
+                'name' => 'user-create',
+                'readable_name' => 'Felhasználó hozzáadása',
+            ],
+            [
+                'group' => 'Felhasználó',
+                'name' => 'user-update',
+                'readable_name' => 'Felhasználó frissítése',
+            ],
+            [
+                'group' => 'Felhasználó',
+                'name' => 'user-delete',
+                'readable_name' => 'Felhasználó törlése',
+            ],
+            [
+                'group' => 'Általános',
+                'name' => 'activity-list',
+                'readable_name' => 'Aktivitások listázása',
+            ],
+            [
+                'group' => 'Általános',
+                'name' => 'setting-manage',
+                'readable_name' => 'Beállítások megtekintése és szerkesztése',
+            ],
+            [
+                'group' => 'Általános',
+                'name' => 'role-manage',
+                'readable_name' => 'Szerepek megtekintése és szerkesztése',
+            ],
+        ];
+        foreach($permissions as $permission) {
             Permission::firstOrCreate([
-                'name' => $permission,
+                'name' => $permission['name'],
                 'guard_name' => 'web',
-            ], []);
-            $role_admin->givePermissionTo($permission);
+                'group' => $permission['group'],
+                'readable_name' => $permission['readable_name'],
+            ]);
+            $role_admin->givePermissionTo($permission['name']);
         }
-
+        /*
         if(config('dwfw.has_accounts')){
             foreach(self::ACCOUNT_RELATED_PERMISSIONS as $permission)
             {
@@ -124,10 +173,6 @@ class DifferentSeeder extends Seeder
                 $role_admin->givePermissionTo($permission);
             }
         }
-
-
-        // add admin role to base user
-        $user->assignRole($role_super_admin->name);
         */
 
         // TIMEZONES
@@ -159,11 +204,11 @@ class DifferentSeeder extends Seeder
         ]);
         $account->users()->syncWithoutDetaching($user->id);
         
+
         
         // ***********************
         // Settings
         // ***********************
-
         SettingsManagerController::create([
             [
                 'name' => 'company_name',
