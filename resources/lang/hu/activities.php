@@ -6,6 +6,7 @@ return [
     'created_at' => 'Készült ekkor',
     'description' => 'Leírás',
     'causer' => 'Készítette',
-    'subject_type' => 'Modell',
-    'subject_id' => 'Azonosító',
+    'subject' => 'Tárgy',
+    'properties' => 'Értékek',
+    'log_name' => 'Típus',
 ];
