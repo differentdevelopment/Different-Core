@@ -21,6 +21,7 @@
         "php": "^7.4|^8.0",
         "backpack/permissionmanager": "^6.0",
         "illuminate/support": "^8.0",
+        "nunomaduro/larastan": "1.0.3",
         "spatie/laravel-activitylog": "^4.2"
     },
     "require-dev": {
@@ -34,11 +35,6 @@
         "psr-4": {
             "Different\\DifferentCore\\": "src",
             "Different\\DifferentCore\\Database\\Seeds\\": "database/seeds"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Different\\DifferentCore\\Tests\\": "tests"
         }
     },
     "scripts": {
