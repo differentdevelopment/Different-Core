@@ -42,10 +42,10 @@ Ha ez megvolt akkor nincs más mint mint az alábbi pár parancsot lefuttatni:
 > php artisan migrate<br />
 > php artisan db:seed --class=Different\\DifferentCore\\Database\\Seeds\\DifferentSeeder<br />
 
-
-### Opcionális<br />
+<br /><br />
+## Opcionális<br />
 <br />
-#### Larastan
+### Larastan
 A csomag előre telepítve van viszont rendszerenként a `phpstan.neon` config fájlt létre kell hozni.<br />
 [https://packagist.org/packages/nunomaduro/larastan#1.0.3](https://packagist.org/packages/nunomaduro/larastan#1.0.3)<br/>
 Később futtatni a `./vendor/bin/phpstan analyse` vagy automatizálni.
