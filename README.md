@@ -45,7 +45,7 @@ Ha ez megvolt akkor nincs más mint mint az alábbi pár parancsot lefuttatni:
 <br /><br />
 ## Opcionális<br />
 <br />
-### Larastan
+**Larastan**<br />
 A csomag előre telepítve van viszont rendszerenként a `phpstan.neon` config fájlt létre kell hozni.<br />
 [https://packagist.org/packages/nunomaduro/larastan#1.0.3](https://packagist.org/packages/nunomaduro/larastan#1.0.3)<br/>
 Később futtatni a `./vendor/bin/phpstan analyse` vagy automatizálni.
