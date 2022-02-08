@@ -117,14 +117,8 @@ class ActivitiesCrudController extends CrudController
             [
                 'name' => 'properties',
                 'label' => __('different-core::activities.properties'),
-                'type' => 'closure',
-                'function' => function($entry) {
-                    if ($entry->properties === []) {
-                        return '';
-                    }
-
-                    return '<code class="prettyprint">' . $entry->properties . '</code>';
-                }
+                'type' => 'view',
+                'view' => 'different-core::columns.json',
             ],
         ]);
     }

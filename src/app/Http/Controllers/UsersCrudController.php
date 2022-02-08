@@ -12,8 +12,8 @@ use Different\DifferentCore\app\Http\Controllers\Traits\CrudTab;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Hash;
 use Different\DifferentCore\app\Models\User;
-use Different\DifferentCore\app\Models\Permission;
 use Different\DifferentCore\app\Models\Role;
+use Prologue\Alerts\Facades\Alert;
 
 class UsersCrudController extends CrudController
 {
@@ -40,6 +40,7 @@ class UsersCrudController extends CrudController
         $this->crud->setModel(User::class);
         // $this->crud->addButton('line', 'verify', 'view', 'dwfw::crud.buttons.users.verify', 'beginning');
 
+        $this->crud->setEditContentClass('col-md-8');
         $this->setupColumnsFieldsFromMethod();
         // $this->setupFiltersFromMethod();
         /*if (config('dwfw.user_list_global', true)) {
@@ -370,7 +371,6 @@ class UsersCrudController extends CrudController
         $request->request->remove('roles_show');
         $request->request->remove('permissions_show');
 
-        // Encrypt password if specified.
         if ($request->input('password')) {
             $request->request->set('password', Hash::make($request->input('password')));
         } else {
@@ -378,5 +378,15 @@ class UsersCrudController extends CrudController
         }
 
         return $request;
+    }
+
+    /**
+     * Handle user verify.
+     */
+    public function verifyUser(User $user)
+    {
+        $user->verify();
+        Alert::success(__('different-core::users.verified'))->flash();
+        return redirect(backpack_url('users'));
     }
 }

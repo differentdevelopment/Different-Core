@@ -1,10 +1,24 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
-
 if (!function_exists('user_can')) {
     function user_can($permission) {
         return backpack_user()->hasRole('super-admin') || backpack_user()->can($permission);
+    }
+}
+
+if (!function_exists('user_can_any')) {
+    function user_can_any(array $permissions) {
+        if (backpack_user()->hasRole('super-admin')) {
+            return true;
+        }
+
+        foreach ($permissions as $permission) {
+            if (backpack_user()->can($permission)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 

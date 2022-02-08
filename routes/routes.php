@@ -27,10 +27,7 @@ Route::group([
         ? \App\Http\Controllers\Admin\UsersCrudController::class
         : UsersCrudController::class
     );
-    /*Route::crud('/roles', class_exists('App\Http\Controllers\Admin\RolesCrudController')
-        ? \App\Http\Controllers\Admin\RolesCrudController::class
-        : RolesCrudController::class
-    );*/
+    Route::get('/users/{user}/verify', [UsersCrudController::class, 'verifyUser'])->name('.verify');
 
     Route::crud('activity', ActivitiesCrudController::class);
     Route::crud('permission', PermissionCrudController::class);
