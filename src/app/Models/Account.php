@@ -3,7 +3,7 @@
 
 namespace Different\DifferentCore\app\Models;
 
-use App\Models\User;
+use Different\DifferentCore\app\Models\User;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

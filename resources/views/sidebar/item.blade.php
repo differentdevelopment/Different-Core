@@ -1,13 +1,13 @@
 @if (!isset($permission) || user_can($permission))
-    <li class="nav-item @active({{ $url }})">
+    <li class="nav-item">
         <a 
             class="nav-link" 
             href="{{ $url }}"
         >
-            @if (isset($icon))
+            @if ($icon !== "")
                 <i class="nav-icon {{ $icon }}"></i>
             @endif
-            {{ $title ?? "" }}
+            {{ __($title) }}
         </a>
     </li>
 @endif

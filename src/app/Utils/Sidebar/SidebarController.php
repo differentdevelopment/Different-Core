@@ -11,12 +11,13 @@ class SidebarController
     {
         $default = [
             new SidebarMenuGroup(
-                __('different-core::sidebar.system'),
+                'different-core::sidebar.system',
                 [
-                    new SidebarMenuItem(backpack_url('user'), __('different-core::users.users'), 'las la-user', 'user-list'),
-                    new SidebarMenuItem(backpack_url('role'), __('different-core::roles.roles'), 'las la-users', 'role-manage'),
-                    new SidebarMenuItem(backpack_url('activity'), __('different-core::activities.activities'), 'las la-history', 'activity-list'),
-                    new SidebarMenuItem(backpack_url('settings'), __('different-core::settings.settings'), 'las la-sliders-h', 'setting-manage'),
+                    new SidebarMenuItem(route('admin.user.index'), 'different-core::users.users', 'las la-user', 'user-list'),
+                    new SidebarMenuItem(route('admin.account.index'), 'different-core::accounts.accounts', 'las la-users', 'account-list'),
+                    new SidebarMenuItem(route('admin.role.index'), 'different-core::roles.roles', 'las la-id-badge', 'role-manage'),
+                    new SidebarMenuItem(route('admin.activity.index'), 'different-core::activities.activities', 'las la-history', 'activity-list'),
+                    new SidebarMenuItem(route('admin.settings'), 'different-core::settings.settings', 'las la-sliders-h', 'setting-manage'),
                 ],
                 'las la-cog',
                 [

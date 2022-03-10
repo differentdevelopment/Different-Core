@@ -16,17 +16,15 @@ class DifferentCoreServiceProvider extends ServiceProvider
         /*if (empty(config("backpack"))) {
             $this->loadRoutesFrom(__DIR__ . '/../routes/routes.php');
         }*/
-
-
-        // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'patent oauth client');
+        
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'different-core');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         $this->loadRoutesFrom(__DIR__ . '/../routes/routes.php');
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'different-core');
 
         if ($this->app->runningInConsole()) {
-            /*$this->publishes([
-                __DIR__ . '/../config/config.php' => config_path('patent-oauth-client.php'),
+            $this->publishes([
+                __DIR__ . '/../config/different-core' => config_path(),
             ], 'config');
 
             // Publishing the views.
@@ -60,10 +58,10 @@ class DifferentCoreServiceProvider extends ServiceProvider
     public function register()
     {
         // Automatically apply the package configuration
-        $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'different-core');
-        $this->mergeConfigFrom(__DIR__ . '/../config/activitylog.php', 'activitylog');
-        $this->mergeConfigFrom(__DIR__ . '/../config/permission.php', 'permission');
-        $this->mergeConfigFrom(__DIR__ . '/../config/permissionmanager.php', 'permissionmanager');
+        $this->mergeConfigFrom(__DIR__ . '/../config/different-core/config.php', 'different-core');
+        $this->mergeConfigFrom(__DIR__ . '/../config/different-core/activitylog.php', 'activitylog');
+        $this->mergeConfigFrom(__DIR__ . '/../config/different-core/permission.php', 'permission');
+        $this->mergeConfigFrom(__DIR__ . '/../config/different-core/permissionmanager.php', 'permissionmanager');
 
         // Register the main class to use with the facade
         $this->app->singleton('different-core', function () {

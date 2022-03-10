@@ -5,7 +5,7 @@
 Egy teljesen új projekt esetén a telepítéshez a következő parancsokat kell futtatni:
 
 > laravel new **PROJEKT-NEVE** <br />
-> composer require backpack/crud:"4.1.*" <br />
+> composer require backpack/crud:"^5.0" <br />
 > composer require --dev backpack/generators <br />
 > php artisan backpack:install <br />
 > composer require differentdevelopment/Different-Core <br />
@@ -17,9 +17,10 @@ A parancsok lefuttatása után állítsuk be az alábbi értékeket a konfigurá
 `config\backpack\base.php - 262. sor`<br />
 'view_namespace' => 'different-core::',<br />
 <br />
-`config\backpack\base.php - 15. - 16. sor `<br />
+`config\backpack\base.php - 15., 16., 250. sor `<br />
 'default_date_format' => 'YYYY. MMM. D.',<br />
 'default_datetime_format' => 'YYYY. MMM. D. HH:mm',<br />
+'avatar_type' => 'getProfileImage',<br />
 <br />
 `config\backpack\base.php - 27. sor`<br />
 'project_name' => '**PROJEKT-NEVE**',<br />

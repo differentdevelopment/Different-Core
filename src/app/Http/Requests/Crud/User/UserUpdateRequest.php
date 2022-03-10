@@ -1,6 +1,6 @@
 <?php
 
-namespace Different\DifferentCore\app\Http\Requests;
+namespace Different\DifferentCore\app\Http\Requests\Crud\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 

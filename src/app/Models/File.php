@@ -3,15 +3,16 @@
 namespace Different\DifferentCore\app\Models;
 
 use Carbon\Carbon;
-use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Storage;
+use Different\DifferentCore\app\Http\Controllers\FilesController;
 use Illuminate\Database\Eloquent\Model;
-use Different\DifferentCore\app\Traits\Uuids;
+use Different\DifferentCore\app\Traits\Uuid;
+use Illuminate\Support\Str;
 
 /**
  * Class File
  * @package Different\DifferentCore\app\Models
  * @property int $id
+ * @property string $uuid
  * @property int $partner_id
  * @property Partner $partner
  * @property string $original_name
@@ -22,7 +23,7 @@ use Different\DifferentCore\app\Traits\Uuids;
  */
 class File extends Model
 {
-    use Uuids;
+    use Uuid;
 
     /*
     |--------------------------------------------------------------------------
@@ -31,52 +32,34 @@ class File extends Model
     */
     protected $table = 'files';
     protected $fillable = [
+        'uuid',
         'original_name',
         'mime_type',
         'path',
     ];
-
     
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-    public function identifiableAttribute(): string
-    {
-        return 'original_name';
-    }
 
-    /**
-     * @param string|null $storage_path
-     */
-    public function orientate(): void
-    {
-        // TODO: Fixme, ez egy nagyon jó funkció, mi köze a File modellhez amúgy?
-        /*$image_path = $this->getImagePath();
-        ini_set('memory_limit', '256M');
-        Image::make(Storage::url($image_path))
-            ->orientate()
-            ->save($image_path);*/
+    protected static function boot() {
+        parent::boot();
+        static::deleting(function ($file) { 
+            FilesController::deleteFile($file);
+        });
+        static::creating(function ($model) {
+            if (empty($model->uuid)) {
+                $model->uuid = Str::uuid()->toString();
+            }
+        });
     }
+    
 
-    /**
-     * A PHP a 8.0 verziótól képes lett kezelni a nevesített paramétereket, így onnantól lehet hívni csak attribútumra. Előtte sajnos meg kell majd adni a storage_pathot..
-     * @param null|string $storage_path
-     * @param array $attributes
-     */
-    public function resizeImage(array $attributes = []): void
+    public function getUrl()
     {
-        // TODO: Fixme, ez egy nagyon jó funkció, mi köze a File modellhez amúgy?
-        /*$attributes = array_merge($this->default_attributes, $attributes);
-        $image_path = $this->getImagePath();
-        ini_set('memory_limit', '256M');
-        Image::make($image_path)
-            ->resize($attributes['resize_x'], $attributes['resize_y'], function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            })
-            ->save($image_path);*/
+        return route('different-core.file', $this);
     }
 
     /*

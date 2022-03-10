@@ -11,6 +11,9 @@ use Illuminate\Support\Str;
 
 class FilesController extends Controller
 {
+    /**
+     * @param File $file
+     */
     public function __invoke(File $file)
     {
         return $this->getFile($file);
@@ -21,9 +24,9 @@ class FilesController extends Controller
      * @return \Symfony\Component\HttpFoundation\StreamedResponse
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function getFile(File $file)
+    public static function getFile(File $file)
     {
-        $file_path = $this->getPath($file);
+        $file_path = self::getPath($file);
         return Storage::response($file_path);
     }
 
@@ -32,9 +35,9 @@ class FilesController extends Controller
      * @return \Illuminate\Support\Facades\Response
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function getFileBase64(File $file)
+    public static function getFileBase64(File $file)
     {
-        $file_path = $this->getPath($file);
+        $file_path = self::getPath($file);
         return Response::make('data:' . Storage::mimeType($file_path) . ';base64,' . base64_encode(Storage::get($file_path)), 200);
     }
 
@@ -43,9 +46,9 @@ class FilesController extends Controller
      * @return \Symfony\Component\HttpFoundation\StreamedResponse
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function getFileDownload(File $file)
+    public static function getFileDownload(File $file)
     {
-        $file_path = $this->getPath($file);
+        $file_path = self::getPath($file);
         return Storage::download($file_path, $file->original_name);
     }
 
@@ -55,9 +58,9 @@ class FilesController extends Controller
      * @return string
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function getFileUrl(File $file)
+    public static function getFileUrl(File $file)
     {
-        $file_path = $this->getPath($file);
+        $file_path = self::getPath($file);
         return Storage::url($file_path);
     }
 
@@ -67,9 +70,9 @@ class FilesController extends Controller
      * @return string
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function getFileTemporaryUrl(File $file, $minutes = 5)
+    public static function getFileTemporaryUrl(File $file, $minutes = 5)
     {
-        $file_path = $this->getPath($file);
+        $file_path = self::getPath($file);
         return Storage::temporaryUrl($file_path, now()->addMinutes($minutes));
     }
 
@@ -78,15 +81,13 @@ class FilesController extends Controller
      * @return string
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    private function getPath(File $file)
+    private static function getPath(File $file)
     {
-        $file_path = Storage::path($file->path);
-
-        if (!Storage::exists($file_path)) {
-            abort(404);
+        if (!Storage::exists($file->path)) {
+            return "";
         }
 
-        return $file_path;
+        return $file->path;
     }
 
     /**
@@ -94,9 +95,9 @@ class FilesController extends Controller
      * @return int
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function getFileSize(File $file)
+    public static function getFileSize(File $file)
     {
-        $file_path = $this->getPath($file);
+        $file_path = self::getPath($file);
         return Storage::size($file_path);
     }
 
@@ -137,25 +138,36 @@ class FilesController extends Controller
         $file_data = base64_decode($image_parts[1]);
         file_put_contents($tmp_file_path, $file_data);
         $tmp_file = new \Illuminate\Http\File($tmp_file_path);
-        $uploaded_file = new UploadedFile(
-            $tmp_file->getPathname(),
-            $tmp_file->getFilename(),
-            $tmp_file->getMimeType(),
-            0,
-            true
-        );
 
-        return self::insertUploadedFile(
-            $uploaded_file,
-            $directory,
-            $safe_name,
-            $image_type_aux[1]
-        );
+        if ($directory === null) {
+            $directory = "";
+        } else {
+            if (Str::startsWith($directory, '/')) {
+                Str::replaceFirst('/', '', $directory);
+            }
+
+            if (Str::endsWith($directory, '/')) {
+                Str::replaceLast('/', '', $directory);
+            }
+        }
+
+        $file_path = $directory . '/' . $safe_name;
+        Storage::put($file_path, $file_data, 'public');
+
+        $file = new File;
+        $file->original_name = $safe_name;
+        $file->mime_type = $tmp_file->getMimeType();
+        $file->path = $file_path;
+        $file->save();
+
+        unlink($tmp_file_path);
+        
+        return $file;
     }
 
     /**
      * Stores the UploadedFile and creates the db entry
-     * @param UploadedFile $file
+     * @param UploadedFile $uploaded_file
      * @param string|null $directory
      * @param string|null $original_name
      * @param string|null $mime_type
@@ -168,9 +180,6 @@ class FilesController extends Controller
         string $mime_type = null
     ): File
     {
-        $file = File::query()->findOrNew($file_id);
-        Storage::delete($file->path);
-
         if ($directory === null) {
             $directory = "";
         } else {
@@ -185,6 +194,7 @@ class FilesController extends Controller
 
         $path = Storage::putFile($directory, $uploaded_file, 'public');
 
+        $file = new File;
         $file->original_name = $original_name;
         $file->mime_type = $mime_type;
         $file->path = $path;
@@ -193,10 +203,11 @@ class FilesController extends Controller
         return $file;
     }
 
-    public function deleteFile(File $file) {
-        $file_path = $this->getPath($file);
+    public static function deleteFile(File $file, bool $withModel = false) {
+        $file_path = self::getPath($file);
 
-        if (Storage::delete($file_path)) {
+        $delete = Storage::delete($file_path);
+        if ($delete && $withModel) {
             $file->delete();
         }
 

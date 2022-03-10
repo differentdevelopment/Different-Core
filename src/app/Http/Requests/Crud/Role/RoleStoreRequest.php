@@ -1,10 +1,10 @@
 <?php
 
-namespace Different\DifferentCore\app\Http\Requests;
+namespace Different\DifferentCore\app\Http\Requests\Crud\Role;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserStoreRequest extends FormRequest
+class RoleStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,7 @@ class UserStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'email'     => ['required', 'unique:' . config('permission.table_names.users', 'users') . ',email'],
-            'name'      => ['required'],
-            'password'  => ['required', 'confirmed'],
-            'roles'     => ['nullable'],
-            'phone'     => ['nullable', 'string'],
+            'readable_name' => 'required|string|max:255|unique:'.config('permission.table_names.roles', 'roles').',readable_name',
         ];
     }
 }

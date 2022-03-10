@@ -10,9 +10,12 @@ return [
     'profile_image' => 'Profilkép',
     'last_device' => 'Utolsó eszköz',
     'password' => 'Jelszó',
+    'password_confirmation' => 'Jelszó megerősítés',
     'super_admin_role_error'=> 'Super admin szerepet csak super admin adhat!',
     'name' => 'Név',
     'email' => 'E-mail',
     'roles' => 'Szerepkörök',
     'phone' => 'Telefonszám',
+    'user_role_permission' => 'Szerepkörök és jogok',
+    'permissions' => 'Jogok',
 ];

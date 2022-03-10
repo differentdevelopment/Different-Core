@@ -1,21 +1,18 @@
 <?php
 
-namespace Different\DifferentCore\app\Http\Controllers;
+namespace Different\DifferentCore\app\Http\Controllers\Crud;
 
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Different\DifferentCore\app\Models\Role;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Hash;
-use Different\DifferentCore\app\Models\User;
-use Different\DifferentCore\app\Utils\Navbar\NavbarItem;
 use Illuminate\Support\Str;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
-use Different\DifferentCore\app\Http\Requests\RoleStoreRequest;
-use Different\DifferentCore\app\Http\Requests\RoleUpdateRequest;
+use Different\DifferentCore\app\Http\Requests\Crud\Role\RoleStoreRequest;
+use Different\DifferentCore\app\Http\Requests\Crud\Role\RoleUpdateRequest;
 use Different\DifferentCore\app\Models\Permission;
+use Illuminate\Support\Facades\Cache;
 
 class RolesCrudController extends CrudController
 {
@@ -74,7 +71,7 @@ class RolesCrudController extends CrudController
             'name'      => 'users_count',
             'wrapper'   => [
                 'href' => function ($crud, $column, $entry, $related_key) {
-                    return backpack_url('user?role=' . $entry->getKey());
+                    return backpack_url('user?roles=' . urlencode('["' . $entry->getKey() . '"]'));
                 },
             ],
             'suffix'    => ' felhasználó',
@@ -108,20 +105,16 @@ class RolesCrudController extends CrudController
 
     public function setupCreateOperation()
     {
-        $this->addFields();
         $this->crud->setValidation(RoleStoreRequest::class);
-
-        //otherwise, changes won't have effect
-        \Cache::forget('spatie.permission.cache');
+        $this->addFields();
+        Cache::forget('spatie.permission.cache');
     }
 
     public function setupUpdateOperation()
     {
-        $this->addFields();
         $this->crud->setValidation(RoleUpdateRequest::class);
-
-        //otherwise, changes won't have effect
-        \Cache::forget('spatie.permission.cache');
+        $this->addFields();
+        Cache::forget('spatie.permission.cache');
     }
 
     public function store()
@@ -179,7 +172,7 @@ class RolesCrudController extends CrudController
         $guards = config('auth.guards');
 
         $returnable = [];
-        foreach ($guards as $key => $details) {
+        foreach ($guards as $key) {
             $returnable[$key] = $key;
         }
 

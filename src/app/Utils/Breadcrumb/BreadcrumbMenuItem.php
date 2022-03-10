@@ -1,30 +1,30 @@
 <?php
 
-namespace Different\DifferentCore\app\Utils\Navbar;
+namespace Different\DifferentCore\app\Utils\Breadcrumb;
 
-class NavbarItem
+class BreadcrumbMenuItem
 {
     protected $url = "";
     protected $title = "";
+    protected $icon = "";
     protected $permission = null;
-    protected $active = false;
     protected $disabled = false;
 
-    function __construct($url, $title, $permission = null, $active = false, $disabled = false) {
+    function __construct($url, $title, $icon = "", $permission = null, $disabled = false) {
         $this->url = $url;
         $this->title = $title;
+        $this->icon = $icon;
         $this->permission = $permission;
-        $this->active = $active;
         $this->disabled = $disabled;
     }
 
     function render()
     {
-        return view('different-core::navbar.item', [
+        return view('different-core::breadcrumb.item', [
             'url' => $this->url,
             'title' => $this->title,
+            'icon' => $this->icon,
             'permission' => $this->permission,
-            'active' => $this->active,
             'disabled' => $this->disabled,
         ]);
     }

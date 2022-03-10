@@ -1,6 +1,6 @@
 <?php
 
-namespace Different\DifferentCore\app\Http\Controllers;
+namespace Different\DifferentCore\app\Http\Controllers\Crud;
 
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Illuminate\Http\Request;

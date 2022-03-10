@@ -2,8 +2,6 @@
 
 namespace Different\DifferentCore\app\Models;
 
-//use App\Notifications\CustomPasswordResetNotification;
-//use App\Notifications\CustomRegistrationConfirmNotification;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Different\DifferentCore\app\Models\File;
@@ -18,6 +16,8 @@ use Spatie\Activitylog\Traits\CausesActivity;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Activitylog\Facades\CauserResolver;
+use Different\DifferentCore\app\Traits\HasUploadFields;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 
 /**
@@ -47,20 +47,14 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
     use LogsActivity;
     use CausesActivity;
+    use HasUploadFields;
 
-    /*
-    |--------------------------------------------------------------------------
-    | GLOBAL VARIABLES
-    |--------------------------------------------------------------------------
-    */
+    #region Globális változók
     protected $guarded = ['id'];
     protected $fillable = [
         'name',
         'email',
         'password',
-        'partner_id',
-        'timezone_id',
-        'last_device',
         'profile_image_id',
         'email_verified_at',
     ];
@@ -73,14 +67,20 @@ class User extends Authenticatable implements MustVerifyEmail
         'created_at',
         'updated_at',
     ];
-    protected $casts = [];
     protected $guard_name = 'web';
+    #endregion
 
-    /*
-    |--------------------------------------------------------------------------
-    | FUNCTIONS
-    |--------------------------------------------------------------------------
-    */
+    #region Funkciók
+    public static function boot()
+    {
+        parent::boot();
+        static::deleting(function ($user) {
+            if ($user->profile_image_id) {
+                $user->profile_image->delete();
+            }
+        });
+    }
+
     public function verify()
     {
         $this->update([
@@ -88,47 +88,35 @@ class User extends Authenticatable implements MustVerifyEmail
         ]);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | RELATIONS
-    |--------------------------------------------------------------------------
-    */
+    public function getProfileImageUrl()
+    {
+        if ($this->profile_image_id) {
+            return $this->profile_image->getUrl();
+        }
+        return 'https://avatars.dicebear.com/api/initials/' . substr($this->name, 0, 2) . '.svg';
+    }
+    #endregion
+
+    #region Relációk
     public function profile_image()
     {
         return $this->belongsTo(File::class);
     }
+    #endregion
 
-    /*
-    |--------------------------------------------------------------------------
-    | SCOPES
-    |--------------------------------------------------------------------------
-    */
-
-    /*
-    |--------------------------------------------------------------------------
-    | ACCESSORS
-    |--------------------------------------------------------------------------
-    */
-    public function getProfileImage()
+    #region Segítő (Accessor)
+    public function getFileProfileImageAttribute()
     {
         if ($this->profile_image_id) {
-            return $this->profile_image;
-        } else {
-            return Gravatar::fallback('https://placehold.it/160x160/662d8c/b284d1/&text=' . strtoupper(substr($this->email, 0, 1)))
-                ->get($this->email);
+            return $this->profile_image->getUrl();
         }
+        return "";
     }
 
     public function getActivitylogOptions(): LogOptions
     {
         CauserResolver::setCauser(backpack_user());
-        return LogOptions::defaults()
-            ->logOnly(['name', 'email']);
+        return LogOptions::defaults()->useLogName('users')->logOnly(['name', 'email']);
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | MUTATORS
-    |--------------------------------------------------------------------------
-    */
+    #endregion
 }

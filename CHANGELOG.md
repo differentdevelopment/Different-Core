@@ -1,7 +1,7 @@
-# Changelog
+# Változási napló
 
-All notable changes to `patent oauth client` will be documented in this file
+Minden változás itt lesz felsorolva.
 
-## 1.0.0 - 201X-XX-XX
+## 0.0.1 - 2022-03-16
 
-- initial release
+- Első verzió.

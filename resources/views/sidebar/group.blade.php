@@ -1,10 +1,10 @@
 @if (!isset($permissions) || user_can_any($permissions))
     <li class="nav-item nav-dropdown">
         <a class="nav-link nav-dropdown-toggle" href="#">
-            @isset($icon)
+            @if($icon !== "")
                 <i class="nav-icon {{ $icon }}"></i>
             @endif
-            {{ $title ?? "" }}
+            {{ __($title) }}
         </a>
         <ul class="nav-dropdown-items">
             @isset($items)
