@@ -1,7 +1,11 @@
-
+<p align="center">
+    <a href="https://different.hu/" title="different.hu"><img src="https://raw.githubusercontent.com/differentdevelopment/Different-Core/main/assets/img/different-logo.png" style="max-width: 600px"></a>
+<p>
   
-
-# Different-Core
+<p align="center">
+    <a href="https://packagist.org/packages/differentdevelopment/Different-Core" title="Latest Version on Packagist"><img src="https://img.shields.io/packagist/v/differentdevelopment/Different-Core.svg?style=flat-square"></a>
+    <a href="https://github.com/differentdevelopment/Different-Core/commits/main" title="Last commit"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/differentdevelopment/Different-Core"></a>
+</p>
 
 ## Telepítés
 
@@ -98,8 +102,10 @@ Ha ez megvolt akkor már csak az alábbi pár parancsot kell lefuttatni:
 
 > php artisan vendor:publish --tag=config<br  />
 
-## Opcionális <br />
-**Módosított Backpack design**<br />
+## Opcionális csomagok / kiegészítések<br />
+
+### Módosított Backpack design<br />
+
 > php artisan vendor:publish --tag=scss --force
 
 Módosítsd a színeket a `backpack-overrides.scss` fájlban a `:root {` selectorban. Színek generálásához érdemes ezt használni: https://ionicframework.com/docs/theming/color-generator
@@ -108,9 +114,17 @@ Módosítsd a színeket a `backpack-overrides.scss` fájlban a `:root {` selecto
 > .sass('resources/scss/backpack-overrides.scss', 'public/css')
 
 Az új buildelt css fájlt felvenni a `config/backpack/base.php -> styles` tömbhöz:<br />
-> 'css/backpack-overrides.css',
 
-<br  />**Rendszer szintű logolás**<br  />
+'css/backpack-overrides.css',
+
+<br  />
+
+> `yarn` majd `yarn watch` futtatása
+> 
+<br  />
+
+### Rendszer szintű logolás<br  />
+
 Nyisd meg a `app\Exceptions\Handler.php` fájlt és módosítsd a `register` metódust erre:
 ```
     public function register()
@@ -123,7 +137,9 @@ Nyisd meg a `app\Exceptions\Handler.php` fájlt és módosítsd a `register` met
     }
 ```
 
-<br  />**Larastan**<br  />
+<br  />
+
+### Larastan<br />
 
 A csomag előre telepítve van viszont rendszerenként a `phpstan.neon` config fájlt létre kell hozni.<br  />
 
