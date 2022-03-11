@@ -29,11 +29,10 @@ Fontos: Ha a Different-Core csomagot szeretnéd fejleszteni akkor létre kell ho
 
 > composer require differentdevelopment/Different-Core <br  />
 
-  
-
+<br  />
 <br  />
 
-  
+## Telepítés után
 
 A parancsok lefuttatása után állítsuk be az alábbi értékeket a konfigurációs fájlokban:
 
@@ -101,6 +100,9 @@ Ha ez megvolt akkor már csak az alábbi pár parancsot kell lefuttatni:
 > php artisan migrate --seed<br  />
 
 > php artisan vendor:publish --tag=config<br  />
+
+<br  />
+<br  />
 
 ## Opcionális csomagok / kiegészítések<br />
 
