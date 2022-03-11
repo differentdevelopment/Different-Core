@@ -47,7 +47,7 @@ A parancsok lefuttatása után állítsuk be az alábbi értékeket a konfigurá
 
 'default_datetime_format' => 'YYYY. MMM. D. HH:mm',<br  />
 
-'avatar_type' => 'getProfileImage',<br  />
+'avatar_type' => 'getProfileImageUrl',<br  />
 
 <br  />
 
@@ -77,11 +77,11 @@ A parancsok lefuttatása után állítsuk be az alábbi értékeket a konfigurá
 
   
 
-**Ne felejtsd el az .env fájl helyes kitöltését, főleg az adatbázis részt!**
+**Ne felejtsd el az .env fájl helyes kitöltését!**
 
   
 
-Ha ez megvolt akkor nincs más mint mint az alábbi pár parancsot lefuttatni:
+Ha ez megvolt akkor már csak az alábbi pár parancsot kell lefuttatni:
 
   
 

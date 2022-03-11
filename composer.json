@@ -35,7 +35,7 @@
         ],
         "psr-4": {
             "Different\\DifferentCore\\": "src",
-            "Different\\DifferentCore\\Database\\Seeds\\": "database/seeds"
+            "Different\\Database\\Seeds\\": "database/seeds"
         }
     },
     "scripts": {
