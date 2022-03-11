@@ -75,9 +75,18 @@ A parancsok lefuttatása után állítsuk be az alábbi értékeket a konfigurá
 
 <br  />
 
-  
+`database\seeders\DatabaseSeeder.php`<br  />
 
-**Ne felejtsd el az .env fájl helyes kitöltését!**
+```
+    public function run()
+    {
+        $this->call(\Different\DifferentCore\Database\Seeds\DifferentSeeder::class);
+    }
+```
+
+<br  />
+
+**Ne felejtsd el az `.env` fájl helyes kitöltését!**
 
   
 
@@ -85,9 +94,7 @@ Ha ez megvolt akkor már csak az alábbi pár parancsot kell lefuttatni:
 
   
 
-> php artisan migrate<br  />
-
-> php artisan db:seed --class=Different\\Database\\Seeds\\DifferentSeeder<br  />
+> php artisan migrate --seed<br  />
 
 > php artisan vendor:publish --tag=config<br  />
 

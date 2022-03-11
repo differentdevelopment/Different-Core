@@ -1,13 +1,13 @@
 <?php
 
-namespace Different\Database\Seeds;
+namespace Different\DifferentCore\Database\Seeds;
 
+use Illuminate\Database\Seeder;
 use Different\DifferentCore\app\Models\User;
 use Different\DifferentCore\app\Models\Account;
 use Different\DifferentCore\app\Models\Permission;
 use Different\DifferentCore\app\Models\Role;
 use Different\DifferentCore\app\Utils\Settings\SettingsManagerController;
-use Illuminate\Database\Seeder;
 
 class DifferentSeeder extends Seeder
 {
