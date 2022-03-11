@@ -11,45 +11,27 @@ class DifferentCoreServiceProvider extends ServiceProvider
      * Bootstrap the application services.
      */
     public function boot()
-    {
-        /* Csak akkor bootoljunk ha látjuk a Backpack telepítés jeleit */
-        /*if (empty(config("backpack"))) {
-            $this->loadRoutesFrom(__DIR__ . '/../routes/routes.php');
-        }*/
-        
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'different-core');
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-        $this->loadRoutesFrom(__DIR__ . '/../routes/routes.php');
-        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'different-core');
+    {   
+        $this->loadViewsFrom(__DIR__ . '/resources/views', 'different-core');
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+        $this->loadRoutesFrom(__DIR__ . '/routes/routes.php');
+        $this->loadTranslationsFrom(__DIR__ . '/resources/lang', 'different-core');
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../config/different-core' => config_path(),
+                __DIR__ . '/config' => config_path(),
             ], 'config');
-
-            // Publishing the views.
-            /*$this->publishes([
-                __DIR__.'/../resources/views' => resource_path('views/vendor/patent oauth client'),
-            ], 'views');
-
-            // Publishing assets.
             $this->publishes([
-                __DIR__.'/../resources/assets' => public_path('vendor/patent oauth client'),
-            ], 'assets');
-
-            // Publishing the translation files.
+                __DIR__ . '/resources/scss' => resource_path('scss'),
+            ], 'scss');
             $this->publishes([
-                __DIR__.'/../resources/lang' => resource_path('lang/vendor/patent oauth client'),
-            ], 'lang');*/
+                __DIR__ . '/resources/lang' => resource_path('lang/vendor/different-core'),
+            ], 'lang');
 
-            // Registering package commands.
             $this->commands([
                 SeederCommand::class,
             ]);
         }
-        
-        // register the helper functions
-        // $this->loadHelpers();
     }
 
     /**
@@ -58,22 +40,14 @@ class DifferentCoreServiceProvider extends ServiceProvider
     public function register()
     {
         // Automatically apply the package configuration
-        $this->mergeConfigFrom(__DIR__ . '/../config/different-core/config.php', 'different-core');
-        $this->mergeConfigFrom(__DIR__ . '/../config/different-core/activitylog.php', 'activitylog');
-        $this->mergeConfigFrom(__DIR__ . '/../config/different-core/permission.php', 'permission');
-        $this->mergeConfigFrom(__DIR__ . '/../config/different-core/permissionmanager.php', 'permissionmanager');
+        $this->mergeConfigFrom(__DIR__ . '/config/different-core/config.php', 'different-core');
+        $this->mergeConfigFrom(__DIR__ . '/config/different-core/activitylog.php', 'activitylog');
+        $this->mergeConfigFrom(__DIR__ . '/config/different-core/permission.php', 'permission');
+        $this->mergeConfigFrom(__DIR__ . '/config/different-core/permissionmanager.php', 'permissionmanager');
 
         // Register the main class to use with the facade
         $this->app->singleton('different-core', function () {
             return new DifferentCore;
         });
     }
-
-    /**
-     * Load the Backpack helper methods, for convenience.
-     */
-    /*public function loadHelpers()
-    {
-        require_once __DIR__ . '/helpers.php';
-    }*/
 }
