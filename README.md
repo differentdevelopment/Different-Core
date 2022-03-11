@@ -17,6 +17,8 @@ Egy teljesen új projekt esetén a telepítéshez a következő parancsokat kell
 
 > composer require --dev backpack/generators <br  />
 
+Adatbázis létrehozása és az `.env`-ben felvenni!
+
 > php artisan backpack:install <br  />
 
 > composer require differentdevelopment/Different-Core <br  />
