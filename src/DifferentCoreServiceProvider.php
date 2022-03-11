@@ -40,7 +40,7 @@ class DifferentCoreServiceProvider extends ServiceProvider
     public function register()
     {
         // Automatically apply the package configuration
-        $this->mergeConfigFrom(__DIR__ . '/config/different-core/config.php', 'different-core');
+        $this->mergeConfigFrom(__DIR__ . '/config/different-core/config.php', 'different-core.config');
         $this->mergeConfigFrom(__DIR__ . '/config/different-core/activitylog.php', 'activitylog');
         $this->mergeConfigFrom(__DIR__ . '/config/different-core/permission.php', 'permission');
         $this->mergeConfigFrom(__DIR__ . '/config/different-core/permissionmanager.php', 'permissionmanager');

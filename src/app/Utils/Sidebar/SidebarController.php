@@ -30,7 +30,7 @@ class SidebarController
         ];
 
         return array_merge(
-            config('different-core.sidebar_menu'),
+            config('different-core.config.sidebar_menu'),
             $default,
         );
     }
