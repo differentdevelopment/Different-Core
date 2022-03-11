@@ -148,3 +148,10 @@ A csomag előre telepítve van viszont rendszerenként a `phpstan.neon` config f
 https://packagist.org/packages/nunomaduro/larastan#1.0.3<br/>
 
 Később futtatni a `./vendor/bin/phpstan analyse` vagy automatizálni.<br/>
+
+<br />
+<br />
+
+## Demo projekt<br />
+
+https://github.com/differentdevelopment/Different-Core-Demo-Project
