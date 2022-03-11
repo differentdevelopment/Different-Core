@@ -87,7 +87,7 @@ Ha ez megvolt akkor nincs más mint mint az alábbi pár parancsot lefuttatni:
 
 > php artisan migrate<br  />
 
-> php artisan db:seed --class=Different\\DifferentCore\\Database\\Seeds\\DifferentSeeder<br  />
+> php artisan db:seed --class=Different\\Database\\Seeds\\DifferentSeeder<br  />
 
 > php artisan vendor:publish --tag=config<br  />
 

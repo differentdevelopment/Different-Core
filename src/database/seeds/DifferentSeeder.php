@@ -1,6 +1,6 @@
 <?php
 
-namespace Different\DifferentCore\Database\Seeds;
+namespace Different\Database\Seeds;
 
 use Different\DifferentCore\app\Models\User;
 use Different\DifferentCore\app\Models\Account;
