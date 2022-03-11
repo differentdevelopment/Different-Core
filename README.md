@@ -21,6 +21,8 @@ Adatbázis létrehozása és az `.env`-ben felvenni!
 
 > php artisan backpack:install <br  />
 
+Fontos: Ha a Different-Core csomagot szeretnéd fejleszteni akkor létre kell hozni egy `packages` nevű mappát a gyökérkönyvtárban, és oda kicheckoutolni a repo-t!
+
 > composer require differentdevelopment/Different-Core <br  />
 
   
