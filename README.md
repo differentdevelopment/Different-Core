@@ -29,6 +29,10 @@ Fontos: Ha a Different-Core csomagot szeretnéd fejleszteni akkor létre kell ho
 
 > composer require differentdevelopment/Different-Core <br  />
 
+Backpack PRO kiegészítő feltelepítése: https://backpackforlaravel.com/products/pro-for-unlimited-projects (Installation rész)
+
+> composer require backpack/pro <br  />
+
 <br  />
 <br  />
 
