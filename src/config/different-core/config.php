@@ -6,7 +6,7 @@ use Different\DifferentCore\app\Utils\Sidebar\SidebarMenuGroup;
 return [
     'sidebar_menu' => [
         new SidebarMenuItem(
-            'dashboard',
+            '/admin/dashboard',
             'backpack::base.dashboard',
             'las la-home'
         ),
