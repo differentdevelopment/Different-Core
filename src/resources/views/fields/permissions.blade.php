@@ -34,7 +34,13 @@
             @endif
             <div class="col-sm-4 mb-3" >
                 <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" data-group="{{ $group }}" id="permCheck{{ $option->id }}" value="{{ $option->id }}">
+                    <input 
+                      type="checkbox" 
+                      class="custom-control-input" 
+                      data-group="{{ $group }}" 
+                      id="permCheck{{ $option->id }}" 
+                      value="{{ $option->id }}"
+                    >
                     <label class="custom-control-label" for="permCheck{{ $option->id }}" style="line-height: 1.3;">
                         <span class="m-0">
                             {{ $option->name }}
@@ -70,7 +76,7 @@
                 // set the default checked/unchecked states on checklist options
                 checkboxes.each(function(key, option) {
                   var id = $(this).val();
-                  if (selected_options.map(String).includes(id)) {
+                  if (selected_options.find(e => e.id == id)) {
                     $(this).prop('checked', 'checked');
                   } else {
                     $(this).prop('checked', false);
