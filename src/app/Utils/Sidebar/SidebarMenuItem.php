@@ -25,4 +25,15 @@ class SidebarMenuItem
             'permission' => $this->permission,
         ]);
     }
+
+    public static function __set_state($an_array)
+    {
+        $obj = new SidebarMenuItem(
+            $an_array['url'],
+            $an_array['title'],
+            $an_array['icon']??"",
+            $an_array['permission']??null
+        );
+        return $obj;
+    }
 }
