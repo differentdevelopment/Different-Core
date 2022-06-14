@@ -23,8 +23,43 @@ trait FileUpload
 
         foreach ($fields as $key => $options) {
             switch ($options["type"]) {
-                case "base64_image":
-                case "upload":
+                case "file":
+                    $column = $options["name"]??null;
+
+                    if ($column === null) {
+                        throw new \ErrorException("A `name` mező megadása kötelező fájl / kép feltöltés mező esetén! Ez határozza meg, hogy hova szúrja be a App\Models\File id-t.");
+                    }
+
+                    $upload_key = 'upload_' . $key;
+                    $remove_key = 'remove_' . $key;
+
+                    $pending_upload = $this->crud->getRequest()->{$upload_key}??null;
+                    $pending_remove = $this->crud->getRequest()->{$remove_key}??null;
+
+                    if ($pending_remove) {
+                        $file = File::query()->find($pending_remove);
+                        if ($file) {
+                            $file->delete();
+                        }
+
+                        if (!$pending_upload) {
+                            // Ha nincs új feltöltés csak simán kitörlöm és mentek akkor el kell menteni az adott sor file mezőjét üresen!
+                            $this->addHiddenFileColumn($column, null);
+                        }
+                    }
+
+                    if ($pending_upload && $this->crud->getRequest()->hasFile($upload_key)) {
+                        $storage_dir = $this->crud->model->getTable() . "/" . date("Y") . "/" . date("m") . "/" . $column;
+                        $file = FilesController::postFile($pending_upload, $storage_dir);
+                        $this->addHiddenFileColumn($column, $file->id);
+                        
+                        $crud_request = $this->crud->getRequest();
+                        $crud_request->files->remove($upload_key);
+                        $this->crud->setRequest($crud_request);
+                    }
+
+                    break;
+                /*case "base64_image":
                 case "image":
                     $column = $options["column"]??null;
 
@@ -45,7 +80,8 @@ trait FileUpload
                             $file = FilesController::postFile($value, $storage_dir);
                             $this->addHiddenFileColumn($column, $file->id);
                         }
-                    } else {
+                    }
+                    else {
                         $model_primary_id = $this->crud->getRequest()->{$this->crud->model->getKeyName()};
                         if ($model_primary_id) {
                             $row = $this->crud->model->find($model_primary_id);
@@ -62,7 +98,7 @@ trait FileUpload
                         $this->addHiddenFileColumn($column, null);
                     }
                     $this->crud->getRequest()->request->remove($key);
-                    break;
+                    break;*/
             }
         }
     }

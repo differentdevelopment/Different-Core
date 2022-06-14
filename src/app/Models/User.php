@@ -105,14 +105,6 @@ class User extends Authenticatable implements MustVerifyEmail
     #endregion
 
     #region Segítő (Accessor)
-    public function getFileProfileImageAttribute()
-    {
-        if ($this->profile_image_id) {
-            return $this->profile_image->getUrl();
-        }
-        return "";
-    }
-
     public function getActivitylogOptions(): LogOptions
     {
         CauserResolver::setCauser(backpack_user());

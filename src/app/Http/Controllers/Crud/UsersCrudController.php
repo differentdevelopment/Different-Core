@@ -185,25 +185,30 @@ class UsersCrudController extends BaseCrudController
                 ],
             ],
             /*
-            *   Üdv idegen, gondolom azt keresed hogy lehet feltölteni képet egy model-hez CRUD-on keresztül, hát tessék:
+            *   Üdv idegen, gondolom azt keresed hogy lehet feltölteni képet vagy fájlt egy model-hez CRUD-on keresztül, hát tessék:
             *
-            *   'name': mező megadása kötelező, fontos, hogy ne legyen ugyan az mint a relation. Itt is látható, hogy
-            *   nem 'profile_image' a mező neve. Ha ez kész akkor a model osztályban elő kell készíteni az accessort.
-            *   (Different\DifferentCore\app\Models\User.php -> getFileProfileImageAttribute())
-            *
-            *   'column': ide fog bekerülni a feltöltött fájl azonosítója (id)
+            *   'name': mező megadása kötelező, fontos, hogy ugyan az legyen mint a realtion. Itt is látható, hogy
+            *   'profile_image' a mező neve.
             *
             *   A `store` és `update` metódust felül kell írni és első sorba ezt meghívni: `$this->handleFileUpload();`
-            *   Ez a lépés később lehet nem kell már remélhetőleg.
+            *   Ez a lépés később lehet nem kell már. Fejlesztés alatt van.
             *
             *   A model-ben (ezesetben User) le kell kezelni, hogy ha a sort törlik akkor a fájlt is töröljük ki vele együtt.
             *   (Different\DifferentCore\app\Models\User.php -> boot())
+            *
+            *   Ha szeretnénk előnézetet is (kép esetén) akkor a 'has_preview' paraméter értékét igazra kell állítani.
+            *
+            *   FONTOS: Ahhoz hogy a fájl feltöltés működjön a `'upload' => true` kötelezően meg kell adni. Ez egy Backpack szintű működés.
+            *   Adatbázis szinten figyelni kell hogy ne legyen cascade törlés hiszen akkor a fájl törléssel együtt az adott elem is törlődik amit
+            *   éppen szerkesztünk.
             */
             [
-                'name' => 'file_profile_image',
-                'column' => 'profile_image_id',
+                'name' => 'profile_image',
                 'label' => __('different-core::users.profile_image'),
-                'type' => 'image',
+                'view_namespace' => 'different-core::fields',
+                'type' => 'file',
+                'has_preview' => true,
+                'upload' => true,
                 'wrapper' => [
                     'class' => 'form-group col-12',
                 ],

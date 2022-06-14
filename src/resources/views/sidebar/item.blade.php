@@ -2,7 +2,7 @@
     <li class="nav-item">
         <a 
             class="nav-link" 
-            href="{{ $url }}"
+            href="{{ url($url) }}"
         >
             @if ($icon !== "")
                 <i class="nav-icon {{ $icon }}"></i>
