@@ -1,10 +1,10 @@
 <?php
 
-namespace Different\DifferentCore\app\Http\Controllers\Crud;
+namespace Different\DifferentCore\app\Http\Controllers\Cruds;
 
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Different\DifferentCore\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 // use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -35,6 +35,11 @@ class UsersCrudController extends BaseCrudController
         $this->crud->setRoute(backpack_url('user'));
         $this->crud->setEntityNameStrings(__('different-core::users.user'), __('different-core::users.users'));
         $this->crud->setModel(User::class);
+        
+        $this->crud->data['delete_modal'] = [
+            'title' => __('different-core::users.delete_title'),
+            'text' =>  __('different-core::users.delete_text'),
+        ];
 
         $this->data['breadcrumbs_menu'] = [
             new BreadcrumbMenuItem(

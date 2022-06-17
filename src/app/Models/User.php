@@ -6,7 +6,6 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Different\DifferentCore\app\Models\File;
 use Different\DifferentCore\app\Models\TimeZone;
-use Creativeorange\Gravatar\Facades\Gravatar;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -17,8 +16,7 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Activitylog\Facades\CauserResolver;
 use Different\DifferentCore\app\Traits\HasUploadFields;
-use Illuminate\Database\Eloquent\Casts\Attribute;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class User
@@ -38,6 +36,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
  * @property string $last_device
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property Carbon $deleted_at
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -48,6 +47,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use LogsActivity;
     use CausesActivity;
     use HasUploadFields;
+    use SoftDeletes;
 
     #region Globális változók
     protected $guarded = ['id'];
@@ -98,6 +98,9 @@ class User extends Authenticatable implements MustVerifyEmail
     #endregion
 
     #region Relációk
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function profile_image()
     {
         return $this->belongsTo(File::class);

@@ -18,4 +18,6 @@ return [
     'phone' => 'Telefonszám',
     'user_role_permission' => 'Szerepkörök és jogok',
     'permissions' => 'Jogok',
+    'delete_title' => 'Megerősítés',
+    'delete_text' => 'Biztosan törölni szeretné ezt a felhasználót?',
 ];

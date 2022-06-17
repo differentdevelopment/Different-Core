@@ -89,6 +89,11 @@ class DifferentSeeder extends Seeder
                 'name' => 'role-manage',
                 'readable_name' => 'Szerepek megtekintése és szerkesztése',
             ],
+            [
+                'group' => 'Általános',
+                'name' => 'documentation-read',
+                'readable_name' => 'Dokumentáció megjelnítése',
+            ],
         ];
         foreach($permissions as $permission) {
             Permission::firstOrCreate([
