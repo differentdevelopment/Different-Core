@@ -39,7 +39,7 @@ public function setup() {
         </b>
     </p>
     <pre><code class="language-php">[
-    'name' => 'profile_image', // Relation neve
+    'name' => 'profile_image', // Reláció
     'label' => __('different-core::users.profile_image'), // Cím
     'view_namespace' => 'different-core::fields', // KÖTELEZŐ
     'type' => 'file', // KÖTELEZŐ
