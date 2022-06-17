@@ -39,13 +39,13 @@ public function setup() {
         </b>
     </p>
     <pre><code class="language-php">[
-    'name' => 'profile_image',
-    'label' => __('different-core::users.profile_image'),
-    'view_namespace' => 'different-core::fields',
-    'type' => 'file',
-    'has_preview' => true, // Kép esetén
-    'upload' => true,
-    'wrapper' => [
+    'name' => 'profile_image', // Relation neve
+    'label' => __('different-core::users.profile_image'), // Cím
+    'view_namespace' => 'different-core::fields', // KÖTELEZŐ
+    'type' => 'file', // KÖTELEZŐ
+    'has_preview' => true, // Kép esetén true
+    'upload' => true, // KÖTELEZŐ
+    'wrapper' => [ // Opcionális
         'class' => 'form-group col-12',
     ],
 ],</code></pre>
