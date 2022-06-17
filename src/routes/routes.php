@@ -10,7 +10,7 @@ use Different\DifferentCore\app\Http\Controllers\Cruds\PermissionsCrudController
 use Different\DifferentCore\app\Http\Controllers\Cruds\AccountsCrudController;
 use Different\DifferentCore\app\Http\Controllers\FilesController;
 use Different\DifferentCore\app\Http\Middlewares\DisableDebugbarMiddleware;
-use Different\DifferentCore\app\Http\Controllers\Pages\DocumentationPage;
+use Different\DifferentCore\app\Http\Controllers\Pages\DocumentationPageController;
 
 Route::group([
     'middleware' => [
@@ -36,5 +36,5 @@ Route::group([
     Route::get('settings', [SettingsCrudController::class, 'index'])->name('settings');
     Route::post('settings', [SettingsCrudController::class, 'save']);
     
-    Route::get('documentation', [DocumentationPage::class, 'index'])->name('documentation');
+    Route::get('documentation', [DocumentationPageController::class, 'index'])->name('documentation');
 });

@@ -4,7 +4,7 @@ namespace Different\DifferentCore;
 
 use Illuminate\Support\ServiceProvider;
 use Different\DifferentCore\app\Console\Commands\SeederCommand;
-
+use Illuminate\Support\Facades\Blade;
 class DifferentCoreServiceProvider extends ServiceProvider
 {
     /**
@@ -16,6 +16,8 @@ class DifferentCoreServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
         $this->loadRoutesFrom(__DIR__ . '/routes/routes.php');
         $this->loadTranslationsFrom(__DIR__ . '/resources/lang', 'different-core');
+        
+        Blade::componentNamespace('Different\\DifferentCore\\app\\View\\Components', 'different-core');
 
         if ($this->app->runningInConsole()) {
             $this->publishes([

@@ -1,0 +1,45 @@
+<?php
+
+namespace Different\DifferentCore\app\View\Components;
+
+use Illuminate\View\Component;
+
+class EmailNotification extends Component
+{
+    public $background, $type, $title, $message, $text_color, $button_href, $button_text;
+
+
+    /**
+     * Create a new component instance.
+     *
+     * @return void
+     */
+    public function __construct(
+        $background = '#FFC402',
+        $type = 'WARNING',
+        $title = '',
+        $message = '',
+        $textColor = '#7A5200',
+        $buttonHref = '',
+        $buttonText = '',
+    ) {
+        $this->background = $background;
+        $this->type = $type;
+        $this->title = $title??'';
+        $this->message = $message??'';
+        $this->text_color = $textColor;
+        $this->button_href = $buttonHref;
+        $this->button_text = $buttonText;
+
+    }
+
+    /**
+     * Get the view / contents that represent the component.
+     *
+     * @return \Illuminate\Contracts\View\View|\Closure|string
+     */
+    public function render()
+    {
+        return view('different-core::email.components.notification');
+    }
+}
