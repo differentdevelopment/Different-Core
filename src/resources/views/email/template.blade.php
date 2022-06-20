@@ -87,12 +87,20 @@
       -webkit-font-smoothing: antialiased !important;
       -moz-osx-font-smoothing: grayscale !important;
     }
+
+    .background {
+      background: #f3f3f5;
+    }
+
+    .foreground {
+      background: #54595f;
+    }
   </style>
   @yield('style')
 </head>
 
-<body style="background-color:#f3f3f5;">
-  <div style="background-color:#f3f3f5;">
+<body class="background">
+  <div class="background">
     <!--[if mso | IE]>
       <table
          align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
@@ -156,8 +164,8 @@
         <tr>
           <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
       <![endif]-->
-    <div style="background:#54595f;background-color:#54595f;margin:0px auto;border-radius:4px 4px 0 0;max-width:600px;">
-      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#54595f;background-color:#54595f;width:100%;border-radius:4px 4px 0 0;">
+    <div class="foreground" style="margin:0px auto;border-radius:4px 4px 0 0;max-width:600px;">
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" class="foreground" style="width:100%;border-radius:4px 4px 0 0;">
         <tbody>
           <tr>
             <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">

@@ -6,17 +6,19 @@ use Illuminate\View\Component;
 
 class EmailButton extends Component
 {
-    public $href, $text;
+    public $href, $text, $background, $textColor;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($href, $text)
+    public function __construct($href, $text, $background = '#2e58ff', $textColor = '#fff')
     {
         $this->href = $href;
         $this->text = $text;
+        $this->background = $background;
+        $this->textColor = $textColor;
     }
 
     /**
