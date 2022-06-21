@@ -90,7 +90,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getProfileImageUrl()
     {
-        if ($this->profile_image_id) {
+        if ($this->profile_image_id && $this->profile_image) {
             return $this->profile_image->getUrl();
         }
         return 'https://avatars.dicebear.com/api/initials/' . substr($this->name, 0, 2) . '.svg';
