@@ -128,6 +128,7 @@ class DifferentSeeder extends Seeder
                 'value' => 'Different Fejlesztő Kft.',
             ],
         ]);
+        // SettingsManagerController::delete('company_name');
         #endregion
     }
 }

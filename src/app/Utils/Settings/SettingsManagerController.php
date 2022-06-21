@@ -68,7 +68,7 @@ class SettingsManagerController
             $setting['label'] = $setting['label'] ?? $setting['name'];
 
             $settingOptions = Arr::except($setting, ['type', 'name', 'label', 'tab', 'group', 'value', 'id']);
-            
+
             $dbSetting = Setting::where('name', $setting['name'])->first();
             
             if (!isset($dbSetting) && is_null($dbSetting)) {
@@ -81,12 +81,18 @@ class SettingsManagerController
                     'value' => $setting['value'] ?? null,
                 ]);
             }
-        
+
             $dbSetting->options = $settingOptions;
             $dbSetting->save();
         }
+    }
 
-        self::cleanUpDatabaseSettings(Arr::pluck($settings, 'name'));
+    public static function delete($settingName) {
+        $dbSetting = Setting::where('name', $settingName)->first();
+
+        if (isset($dbSetting) && !is_null($dbSetting)) {
+            $dbSetting->delete();
+        }
     }
 
     public static function getFieldValidations($settings) {

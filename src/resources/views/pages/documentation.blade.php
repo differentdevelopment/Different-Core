@@ -85,12 +85,12 @@ public function setup() {
     <h4 class="text-primary mt-5">"Breadcrumbs" menü</h4>
     <p>Az adott CRUD <b>setup()</b> metódusába kell ezt a kódrészletet beletenni.</p>
     <pre><code class="language-php">$this->data['breadcrumbs_menu'] = [
-        new BreadcrumbMenuItem(
-            backpack_url('dashboard'), // Hivatkozás
-            __('backpack::crud.admin'), // Cím
-            'las la-tachometer-alt', // Ikon (https://icons8.com/line-awesome)
-        ),
-    ];</code></pre>
+    new BreadcrumbMenuItem(
+        backpack_url('dashboard'), // Hivatkozás
+        __('backpack::crud.admin'), // Cím
+        'las la-tachometer-alt', // Ikon (https://icons8.com/line-awesome)
+    ),
+];</code></pre>
 
     <h4 class="text-primary mt-5">Crud permission(s)</h4>
     <p>Az adott CRUD <b>setup()</b> metódusába kell ezt a kódrészletet beletenni.</p>
@@ -104,5 +104,25 @@ public function setup() {
     <pre><code class="language-php">user_can('ide_kell_a_permission');</code></pre>
     <p>Az átadott permission-ök közül van-e joga a felhasználónak legalább az egyikhez.</p>
     <pre><code class="language-php">user_can_any(['ide_kell_a_permission', 'ide_kell_a_masodik_permission']);</code></pre>
+
+    <h4 class="text-primary mt-5">Beállítások</h4>
+    <p>A seeder fájlt úgy kell előkészíteni hogy az minden egyes alkalommal le fog futni amikor deploy-olva lesz a rendszer.</p>
+    <p>Új beállítást a seeder fájlban így kell felvenni:</p>
+    <pre><code class="language-php">SettingsManagerController::create([
+    [
+        'name' => 'company_name', // Egyedi azonosító
+        'type' => 'text',
+        'tab' => 'Rendszer',
+        'label' => 'Cégnév',
+        'wrapper' => [
+            'class' => 'form-group col-md-4',
+        ],
+        'value' => 'Different Fejlesztő Kft.',
+    ],
+]);</code></pre>
+    <p>Ha később egy beállítás már nincs használva akkor az alábbi sornak kell belekerülnie a seederbe, hogy törölve legyen:</p>
+    <pre><code class="language-php">SettingsManagerController::delete('company_name');</code></pre>
+    <p>Beállítás lekérésehez pedig használd az alábbi funkciót:</p>
+    <pre><code class="language-php">SettingsManagerController::get('company_name');</code></pre>
 </div>
 @endsection
