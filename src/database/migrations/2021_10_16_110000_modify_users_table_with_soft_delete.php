@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
 
-class ModifyUsersTable extends Migration
+class ModifyUsersTableWithSoftDelete extends Migration
 {
     /**
      * Run the migrations.
