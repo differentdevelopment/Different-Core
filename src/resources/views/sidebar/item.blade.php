@@ -1,7 +1,7 @@
 @if (!isset($permission) || user_can($permission))
     <li class="nav-item">
-        <a 
-            class="nav-link" 
+        <a
+            class="nav-link text-capitalize"
             href="{{ url($url) }}"
         >
             @if ($icon !== "")

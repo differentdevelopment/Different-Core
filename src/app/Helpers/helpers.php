@@ -74,7 +74,7 @@ if (!function_exists('crud_permissions')) {
 if (!function_exists('store_system_logs')) {
     /**
      * Tárolja a rendszer szintű hibákat.
-     * 
+     *
      * Használati utasítás:
      * Nyisd meg az alábbi fájlt: app\Exceptions\Handler.php
      * public function register()
@@ -85,11 +85,25 @@ if (!function_exists('store_system_logs')) {
      *       }
      *   });
      * }
-     * 
+     *
      * @param Throwable $e
      */
     function store_system_logs($e) {
         activity()->byAnonymous()->useLog("system")->withProperties($e->getTrace())->log($e->getMessage());
+    }
+}
+
+if (!function_exists('___')) {
+    /**
+     * Teljesen megegyezik a __ nyelvi megoldással, de ez nagy kezdőbetűvel adja vissza minden esetben a szöveget
+     */
+    function ___($key = null, $replace = [], $locale = null): string
+    {
+        if (is_null($key)) {
+            return ucfirst($key);
+        }
+
+        return ucfirst(trans($key, $replace, $locale));
     }
 }
 

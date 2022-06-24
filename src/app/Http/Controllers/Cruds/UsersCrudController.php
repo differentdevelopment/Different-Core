@@ -35,7 +35,7 @@ class UsersCrudController extends BaseCrudController
         $this->crud->setRoute(backpack_url('user'));
         $this->crud->setEntityNameStrings(__('different-core::users.user'), __('different-core::users.users'));
         $this->crud->setModel(User::class);
-        
+
         $this->crud->data['delete_modal'] = [
             'title' => __('different-core::users.delete_title'),
             'text' =>  __('different-core::users.delete_text'),
@@ -50,7 +50,7 @@ class UsersCrudController extends BaseCrudController
         ];
     }
 
-    protected  function setupListOperation()
+    protected function setupListOperation()
     {
         #region Columns
         $this->crud->addColumn([
@@ -154,7 +154,7 @@ class UsersCrudController extends BaseCrudController
                 'label' => __('different-core::users.password_confirmation'),
                 'type' => 'password',
             ],
-            [   
+            [
                 'label' => __('different-core::users.user_role_permission'),
                 'field_unique_name' => 'user_role_permission',
                 'type' => 'roles',
@@ -235,7 +235,7 @@ class UsersCrudController extends BaseCrudController
         $this->handlePasswordInput($this->crud->getRequest());
         return $this->traitUpdate();
     }
-    
+
     #region Nem Backpack metódusok
     protected function handlePasswordInput($request)
     {

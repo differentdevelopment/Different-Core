@@ -4,10 +4,9 @@ namespace Different\DifferentCore\app\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
-use Different\DifferentCore\app\Models\File;
-use Different\DifferentCore\app\Models\TimeZone;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -26,14 +25,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $email
  * @property Carbon $email_verified_at
  * @property string $password
- * @property int $partner_id
- * @property Partner $partner
- * @property int $timezone_id
- * @property TimeZone $timezone
  * @property string $remember_token
  * @property int $profile_image_id
  * @property File $profile_image
- * @property string $last_device
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon $deleted_at
@@ -88,10 +82,10 @@ class User extends Authenticatable implements MustVerifyEmail
         ]);
     }
 
-    public function getProfileImageUrl()
+    public function getProfileImageUrl(): string
     {
         if ($this->profile_image_id && $this->profile_image) {
-            return $this->profile_image->getUrl();
+            return $this->profile_image?->getUrl();
         }
         return 'https://avatars.dicebear.com/api/initials/' . substr($this->name, 0, 2) . '.svg';
     }
@@ -99,9 +93,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
     #region Relációk
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function profile_image()
+    public function profile_image(): BelongsTo
     {
         return $this->belongsTo(File::class);
     }
