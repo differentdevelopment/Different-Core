@@ -20,7 +20,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use Different\DifferentCore\app\Mail\MagicLoginLink;
-use Illuminate\Support\Str;
 
 /**
  * Class User
