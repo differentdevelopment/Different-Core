@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use Different\DifferentCore\app\Mail\MagicLoginLink;
+use Illuminate\Support\Str;
 
 /**
  * Class User
@@ -91,7 +92,7 @@ class User extends Authenticatable implements MustVerifyEmail
         if ($this->profile_image_id && $this->profile_image) {
             return $this->profile_image?->getUrl();
         }
-        return 'https://avatars.dicebear.com/api/initials/' . substr(str_slug($this->name, ''), 0, 2) . '.svg';
+        return 'https://avatars.dicebear.com/api/initials/' . substr(Str::slug($this->name, ''), 0, 2) . '.svg';
     }
 
     public function sendLoginLink()
