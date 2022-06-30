@@ -13,7 +13,7 @@ class EmailButton extends Component
      *
      * @return void
      */
-    public function __construct($href, $text, $background = '#2e58ff', $textColor = '#fff')
+    public function __construct($href, $text, $background = '#0067f4', $textColor = '#fff')
     {
         $this->href = $href;
         $this->text = $text;

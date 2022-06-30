@@ -93,7 +93,7 @@
     }
 
     .foreground {
-      background: #54595f;
+      background: {{ config('different-core.email.fg_color') }};
     }
   </style>
   @yield('style')
@@ -186,7 +186,9 @@
                         <tbody>
                           <tr>
                             <td style="width:150px;">
-                              @yield('logo')
+                              @if(config('different-core.email.logo'))
+                                <img height="auto" src="{{ $message->embed(config('different-core.email.logo')) }}" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="150">
+                              @endif
                             </td>
                           </tr>
                         </tbody>
@@ -255,7 +257,15 @@
                   <tr>
                     <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                       <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:20px;text-align:center;color:#93999f;">
-                        @yield('footer')
+                        © {{ date('Y') }} {{ config('different-core.email.footer_company') }}
+                        <br>
+                        E-mail: <a class="footer-link" href="mailto:{{ config('different-core.email.footer_email') }}">
+                          {{ config('different-core.email.footer_email') }}
+                        </a>
+                        <br>
+                        Web: <a class="footer-link" href="{{ config('different-core.email.footer_web') }}">
+                          {{ config('different-core.email.footer_web') }}
+                        </a>
                       </div>
                     </td>
                   </tr>

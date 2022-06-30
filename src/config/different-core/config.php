@@ -11,4 +11,5 @@ return [
             'las la-home'
         ),
     ],
+    'magic_link_login' => false,
 ];

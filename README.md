@@ -93,6 +93,12 @@ A parancsok lefuttatása után állítsuk be az alábbi értékeket a konfigurá
 
 <br  />
 
+`app\Providers\RouteServiceProvider.php - 20. sor`<br  />
+
+public const HOME = '/';<br  />
+
+<br  />
+
 **Ne felejtsd el az `.env` fájl helyes kitöltését!**
 
   

@@ -4,6 +4,7 @@ namespace Different\DifferentCore\app\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
+use Different\DifferentCore\app\Models\File;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,6 +17,9 @@ use Spatie\Permission\Traits\HasRoles;
 use Spatie\Activitylog\Facades\CauserResolver;
 use Different\DifferentCore\app\Traits\HasUploadFields;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use Different\DifferentCore\app\Mail\MagicLoginLink;
 
 /**
  * Class User
@@ -89,6 +93,16 @@ class User extends Authenticatable implements MustVerifyEmail
         }
         return 'https://avatars.dicebear.com/api/initials/' . substr($this->name, 0, 2) . '.svg';
     }
+
+    public function sendLoginLink()
+    {
+        $plaintext = Str::random(32);
+        $token = $this->loginTokens()->create([
+            'token' => hash('sha256', $plaintext),
+            'expires_at' => now()->addMinutes(5),
+        ]);
+        Mail::to($this->email)->queue(new MagicLoginLink($plaintext, $token->expires_at, $this->name));
+    }
     #endregion
 
     #region Relációk
@@ -98,6 +112,14 @@ class User extends Authenticatable implements MustVerifyEmail
     public function profile_image(): BelongsTo
     {
         return $this->belongsTo(File::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function loginTokens()
+    {
+        return $this->hasMany(LoginToken::class);
     }
     #endregion
 

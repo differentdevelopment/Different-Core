@@ -8,6 +8,7 @@ use Different\DifferentCore\app\Http\Controllers\Cruds\SettingsCrudController;
 use Different\DifferentCore\app\Http\Controllers\Cruds\RolesCrudController;
 use Different\DifferentCore\app\Http\Controllers\Cruds\PermissionsCrudController;
 use Different\DifferentCore\app\Http\Controllers\Cruds\AccountsCrudController;
+use Different\DifferentCore\app\Http\Controllers\MagicLinkController;
 use Different\DifferentCore\app\Http\Controllers\FilesController;
 use Different\DifferentCore\app\Http\Middlewares\DisableDebugbarMiddleware;
 use Different\DifferentCore\app\Http\Controllers\Pages\DocumentationPageController;
@@ -20,6 +21,23 @@ Route::group([
 ], function () {
     Route::get('/file/{file:uuid}', FilesController::class)->name('different-core.file');
 });
+
+if (config('different-core.config.magic_link_login')) {
+    Route::group([
+        'prefix' => config('backpack.base.route_prefix', 'admin') . '/login',
+        'middleware' => [
+            'web',
+            'guest',
+        ],
+        'as' => 'magic-link.'
+    ], function() {
+        Route::get('magic', [MagicLinkController::class, 'getLogin'])->name('get');
+        Route::post('magic', [MagicLinkController::class, 'postLogin'])->name('post');
+        Route::get('magic/verify/{token}', [MagicLinkController::class, 'verifyLogin'])
+            ->middleware(['signed'])    
+            ->name('verify');
+    });
+}
 
 Route::group([
     'prefix' => config('backpack.base.route_prefix', 'admin'),
