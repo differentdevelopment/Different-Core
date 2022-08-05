@@ -4,26 +4,25 @@ namespace Different\DifferentCore\app\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
-use Different\DifferentCore\app\Models\File;
+use Different\DifferentCore\app\Mail\MagicLoginLink;
+use Different\DifferentCore\app\Traits\HasUploadFields;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Activitylog\Traits\CausesActivity;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Permission\Traits\HasRoles;
-use Spatie\Activitylog\Facades\CauserResolver;
-use Different\DifferentCore\app\Traits\HasUploadFields;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
-use Different\DifferentCore\app\Mail\MagicLoginLink;
+use Illuminate\Support\Str;
+use Spatie\Activitylog\Facades\CauserResolver;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\CausesActivity;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Permission\Traits\HasRoles;
 
 /**
  * Class User
- * @package Different\DifferentCore\app\Models
+ *
  * @property int $id
  * @property string $name
  * @property string $email
@@ -47,8 +46,9 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasUploadFields;
     use SoftDeletes;
 
-    #region Globális változók
+    //region Globális változók
     protected $guarded = ['id'];
+
     protected $fillable = [
         'name',
         'email',
@@ -56,19 +56,22 @@ class User extends Authenticatable implements MustVerifyEmail
         'profile_image_id',
         'email_verified_at',
     ];
+
     protected $hidden = [
         'password',
         'remember_token',
     ];
+
     protected $dates = [
         'email_verified_at',
         'created_at',
         'updated_at',
     ];
-    protected $guard_name = 'web';
-    #endregion
 
-    #region Funkciók
+    protected $guard_name = 'web';
+    //endregion
+
+    //region Funkciók
     public static function boot()
     {
         parent::boot();
@@ -82,7 +85,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function verify()
     {
         $this->update([
-            'email_verified_at' => Carbon::now()
+            'email_verified_at' => Carbon::now(),
         ]);
     }
 
@@ -91,7 +94,8 @@ class User extends Authenticatable implements MustVerifyEmail
         if ($this->profile_image_id && $this->profile_image) {
             return $this->profile_image?->getUrl();
         }
-        return 'https://avatars.dicebear.com/api/initials/' . substr(Str::slug($this->name, ''), 0, 2) . '.svg';
+
+        return 'https://avatars.dicebear.com/api/initials/'.substr(Str::slug($this->name, ''), 0, 2).'.svg';
     }
 
     public function sendLoginLink()
@@ -103,9 +107,9 @@ class User extends Authenticatable implements MustVerifyEmail
         ]);
         Mail::to($this->email)->queue(new MagicLoginLink($plaintext, $token->expires_at, $this->name));
     }
-    #endregion
+    //endregion
 
-    #region Relációk
+    //region Relációk
     /**
      * @return BelongsTo
      */
@@ -121,13 +125,14 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(LoginToken::class);
     }
-    #endregion
+    //endregion
 
-    #region Segítő (Accessor)
+    //region Segítő (Accessor)
     public function getActivitylogOptions(): LogOptions
     {
         CauserResolver::setCauser(backpack_user());
+
         return LogOptions::defaults()->useLogName('users')->logOnly(['name', 'email']);
     }
-    #endregion
+    //endregion
 }

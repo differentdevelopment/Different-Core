@@ -2,8 +2,8 @@
 
 namespace Different\DifferentCore\app\Console\Commands;
 
-use Illuminate\Console\Command;
 use Different\DifferentCore\Database\Seeds\DifferentSeeder;
+use Illuminate\Console\Command;
 
 class SeederCommand extends Command
 {

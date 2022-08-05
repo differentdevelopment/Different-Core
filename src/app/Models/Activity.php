@@ -2,13 +2,13 @@
 
 namespace Different\DifferentCore\app\Models;
 
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Spatie\Activitylog\Contracts\Activity as ActivityContract;
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
 
 class Activity extends Model implements ActivityContract
 {

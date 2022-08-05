@@ -24,9 +24,9 @@ class SettingsManagerController
     public static function cleanUpDatabaseSettings($seededSettings)
     {
         $settings_in_db = Setting::query()->get()->toArray();
-        if (!empty($settings_in_db) && !empty($seededSettings)) {
+        if (! empty($settings_in_db) && ! empty($seededSettings)) {
             $settings_in_db = Arr::pluck($settings_in_db, 'name');
-            if (!empty($diff = array_diff($settings_in_db, $seededSettings))) {
+            if (! empty($diff = array_diff($settings_in_db, $seededSettings))) {
                 foreach ($diff as $settingToDelete) {
                     if (in_array($settingToDelete, $settings_in_db)) {
                         Setting::query()->where('name', $settingToDelete)->first()->delete();
@@ -39,14 +39,14 @@ class SettingsManagerController
     /**
      * Returns the setting value.
      *
-     * @param string $setting
+     * @param  string  $setting
      * @return mixed
      */
     public static function get($setting): mixed
     {
         $name = is_string($setting) ? $setting : (is_array($setting) ? $setting['name'] : abort(500, 'Could not parse setting.'));
         $setting = Setting::query()->where('name', $name)->first();
-        if (isset($setting) && !empty($setting)) {
+        if (isset($setting) && ! empty($setting)) {
             return $setting?->value ?? '';
         }
 
@@ -56,6 +56,7 @@ class SettingsManagerController
     public static function settingExists($setting): bool
     {
         $name = is_string($setting) ? $setting : (is_array($setting) ? $setting['name'] : abort(500, 'Could not parse setting.'));
+
         return Setting::query()->where('name', $name)->count() > 0;
     }
 
@@ -74,7 +75,7 @@ class SettingsManagerController
 
             $dbSetting = Setting::query()->where('name', $setting['name'])->first();
 
-            if (!isset($dbSetting) && is_null($dbSetting)) {
+            if (! isset($dbSetting) && is_null($dbSetting)) {
                 $dbSetting = Setting::query()->create([
                     'name' => $setting['name'],
                     'type' => $setting['type'],
@@ -94,17 +95,18 @@ class SettingsManagerController
     {
         $dbSetting = Setting::query()->where('name', $settingName)->first();
 
-        if (isset($dbSetting) && !is_null($dbSetting)) {
+        if (isset($dbSetting) && ! is_null($dbSetting)) {
             $dbSetting->delete();
         }
     }
 
     public static function getFieldValidations($settings): array
     {
-        $validations = array();
+        $validations = [];
         foreach (Setting::query()->whereIn('name', array_keys($settings))->get() as $setting) {
             $validations[$setting['name']] = $setting['options']['validation'] ?? null;
         }
+
         return array_filter($validations);
     }
 
@@ -113,7 +115,7 @@ class SettingsManagerController
         $settingsInDb = Setting::whereIn('name', array_keys($settings))->get();
         foreach ($settings as $settingName => $settingValue) {
             $setting = $settingsInDb->where('name', $settingName)->first();
-            if (!is_null($setting)) {
+            if (! is_null($setting)) {
                 /*switch ($setting->type) { TODO: Fixme
                     case 'image': {
                         $settingValue = $this->saveImageToDisk($settingValue, $settingName);
@@ -121,8 +123,8 @@ class SettingsManagerController
                 }*/
                 $setting->update(['value' => $settingValue]);
             }
-
         }
+
         return true;
     }
 
@@ -135,6 +137,7 @@ class SettingsManagerController
             }
             unset($setting->options);
         }
+
         return $settings->keyBy('name')->toArray();
     }
 

@@ -6,7 +6,13 @@ use Illuminate\View\Component;
 
 class EmailButton extends Component
 {
-    public $href, $text, $background, $textColor;
+    public $href;
+
+    public $text;
+
+    public $background;
+
+    public $textColor;
 
     /**
      * Create a new component instance.

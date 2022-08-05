@@ -2,19 +2,19 @@
 
 namespace Different\DifferentCore\app\Http\Controllers\Cruds;
 
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-use Different\DifferentCore\app\Http\Controllers\Operations\DeleteOperation;
-use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+use Different\DifferentCore\app\Http\Controllers\Operations\DeleteOperation;
 // use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Different\DifferentCore\app\Http\Controllers\Traits\VerifyButton;
-use Different\DifferentCore\app\Models\User;
-use Different\DifferentCore\app\Models\Role;
-use Prologue\Alerts\Facades\Alert;
-use Different\DifferentCore\app\Utils\Breadcrumb\BreadcrumbMenuItem;
 use Different\DifferentCore\app\Http\Requests\Crud\User\UserStoreRequest;
 use Different\DifferentCore\app\Http\Requests\Crud\User\UserUpdateRequest;
+use Different\DifferentCore\app\Models\Role;
+use Different\DifferentCore\app\Models\User;
+use Different\DifferentCore\app\Utils\Breadcrumb\BreadcrumbMenuItem;
+use Prologue\Alerts\Facades\Alert;
 
 class UsersCrudController extends BaseCrudController
 {
@@ -38,7 +38,7 @@ class UsersCrudController extends BaseCrudController
 
         $this->crud->data['delete_modal'] = [
             'title' => __('different-core::users.delete_title'),
-            'text' =>  __('different-core::users.delete_text'),
+            'text' => __('different-core::users.delete_text'),
         ];
 
         $this->data['breadcrumbs_menu'] = [
@@ -52,7 +52,7 @@ class UsersCrudController extends BaseCrudController
 
     protected function setupListOperation()
     {
-        #region Columns
+        //region Columns
         $this->crud->addColumn([
             'name' => 'avatar_with_name',
             'label' => __('different-core::users.name'),
@@ -77,31 +77,31 @@ class UsersCrudController extends BaseCrudController
             'attribute' => 'readable_name',
             'model' => config('permission.models.role'),
         ]);
-        #endregion
+        //endregion
 
-        #region Filters
+        //region Filters
         $this->crud->addFilter([
             'name' => 'name',
             'type' => 'text',
             'label' => __('different-core::users.name'),
         ],
-        false,
-        function ($value) {
-            $this->crud->addClause('where', 'name', 'like', '%' . $value . '%');
-        });
+            false,
+            function ($value) {
+                $this->crud->addClause('where', 'name', 'like', '%'.$value.'%');
+            });
         $this->crud->addFilter([
             'name' => 'email',
             'type' => 'text',
             'label' => __('different-core::users.email'),
         ],
-        false,
-        function ($value) {
-            $this->crud->addClause('where', 'email', 'like', '%' . $value . '%');
-        });
+            false,
+            function ($value) {
+                $this->crud->addClause('where', 'email', 'like', '%'.$value.'%');
+            });
         $this->crud->addFilter([
             'name' => 'roles',
             'type' => 'select2_multiple',
-            'label'=> __('different-core::users.roles'),
+            'label' => __('different-core::users.roles'),
         ], function () {
             return Role::all()->keyBy('id')->pluck('readable_name', 'id')->toArray();
         }, function ($values) {
@@ -115,7 +115,7 @@ class UsersCrudController extends BaseCrudController
                 }
             });
         });
-        #endregion
+        //endregion
     }
 
     protected function setupCreateOperation()
@@ -132,7 +132,7 @@ class UsersCrudController extends BaseCrudController
 
     protected function addFields()
     {
-        #region Create & Update Operation
+        //region Create & Update Operation
         $this->crud->addFields([
             [
                 'name' => 'name',
@@ -219,13 +219,14 @@ class UsersCrudController extends BaseCrudController
                 ],
             ],
         ]);
-        #endregion
+        //endregion
     }
 
     public function store()
     {
         parent::store();
         $this->handlePasswordInput($this->crud->getRequest());
+
         return $this->traitStore();
     }
 
@@ -233,10 +234,11 @@ class UsersCrudController extends BaseCrudController
     {
         parent::update();
         $this->handlePasswordInput($this->crud->getRequest());
+
         return $this->traitUpdate();
     }
 
-    #region Nem Backpack metódusok
+    //region Nem Backpack metódusok
     protected function handlePasswordInput($request)
     {
         $crud_request = $this->crud->getRequest();
@@ -255,7 +257,8 @@ class UsersCrudController extends BaseCrudController
     {
         $user->verify();
         Alert::success(__('different-core::users.verified'))->flash();
+
         return redirect(backpack_url('users'));
     }
-    #endregion
+    //endregion
 }

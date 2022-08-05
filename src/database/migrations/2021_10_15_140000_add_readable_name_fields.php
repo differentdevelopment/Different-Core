@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddReadableNameFields extends Migration
 {
@@ -18,7 +18,7 @@ class AddReadableNameFields extends Migration
         if (empty($tableNames)) {
             throw new \Exception('Error: config/permission.php not loaded. Run [php artisan config:clear] and try again.');
         }
-        
+
         Schema::table($tableNames['roles'], function (Blueprint $table) {
             $table->string('readable_name')->after('name');
         });
@@ -45,7 +45,7 @@ class AddReadableNameFields extends Migration
         if (empty($tableNames)) {
             throw new \Exception('Error: config/permission.php not loaded. Run [php artisan config:clear] and try again.');
         }
-        
+
         Schema::table($tableNames['permissions'], function (Blueprint $table) {
             $table->dropColumn('readable_name');
             $table->dropColumn('group');

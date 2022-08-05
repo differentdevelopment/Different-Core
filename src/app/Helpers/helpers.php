@@ -1,21 +1,25 @@
 <?php
 
-if (!function_exists('user_can')) {
+if (! function_exists('user_can')) {
     /**
      * Az átadott permission-höz van-e joga a felhasználónak.
-     * @param string $permissions
+     *
+     * @param  string  $permissions
      */
-    function user_can(string $permission) {
+    function user_can(string $permission)
+    {
         return backpack_user()->hasRole('super-admin') || backpack_user()->can($permission);
     }
 }
 
-if (!function_exists('user_can_any')) {
+if (! function_exists('user_can_any')) {
     /**
      * Az átadott permission-ök közül van-e joga a felhasználónak legalább az egyikhez.
-     * @param array $permissions
+     *
+     * @param  array  $permissions
      */
-    function user_can_any(array $permissions) {
+    function user_can_any(array $permissions)
+    {
         if (backpack_user()->hasRole('super-admin')) {
             return true;
         }
@@ -30,14 +34,16 @@ if (!function_exists('user_can_any')) {
     }
 }
 
-if (!function_exists('crud_permission')) {
+if (! function_exists('crud_permission')) {
     /**
      * Letiltja az összes CRUD műveletet ha nincs ez a permission a felhasználónak.
-     * @param Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
-     * @param string $name
+     *
+     * @param  Backpack\CRUD\app\Library\CrudPanel\CrudPanel  $crud
+     * @param  string  $name
      */
-    function crud_permission($crud, $name) {
-        if (!user_can($name)) {
+    function crud_permission($crud, $name)
+    {
+        if (! user_can($name)) {
             $crud->denyAccess([
                 'list',
                 'show',
@@ -49,13 +55,15 @@ if (!function_exists('crud_permission')) {
     }
 }
 
-if (!function_exists('crud_permissions')) {
+if (! function_exists('crud_permissions')) {
     /**
      * Letiltja az egyes CRUD műveletet ha nincs a $name-el kezdődő permission. Például user estén a következő permission-ök: user-list, user-show stb.
-     * @param Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
-     * @param string $name
+     *
+     * @param  Backpack\CRUD\app\Library\CrudPanel\CrudPanel  $crud
+     * @param  string  $name
      */
-    function crud_permissions($crud, $name) {
+    function crud_permissions($crud, $name)
+    {
         $permissions = [
             'list',
             'show',
@@ -64,14 +72,14 @@ if (!function_exists('crud_permissions')) {
             'delete',
         ];
         foreach ($permissions as $permission) {
-            if (!user_can($name . '-' . $permission)) {
+            if (! user_can($name.'-'.$permission)) {
                 $crud->denyAccess($permission);
             }
         }
     }
 }
 
-if (!function_exists('store_system_logs')) {
+if (! function_exists('store_system_logs')) {
     /**
      * Tárolja a rendszer szintű hibákat.
      *
@@ -86,14 +94,15 @@ if (!function_exists('store_system_logs')) {
      *   });
      * }
      *
-     * @param Throwable $e
+     * @param  Throwable  $e
      */
-    function store_system_logs($e) {
-        activity()->byAnonymous()->useLog("system")->withProperties($e->getTrace())->log($e->getMessage());
+    function store_system_logs($e)
+    {
+        activity()->byAnonymous()->useLog('system')->withProperties($e->getTrace())->log($e->getMessage());
     }
 }
 
-if (!function_exists('___')) {
+if (! function_exists('___')) {
     /**
      * Teljesen megegyezik a __ nyelvi megoldással, de ez nagy kezdőbetűvel adja vissza minden esetben a szöveget
      */
@@ -106,5 +115,3 @@ if (!function_exists('___')) {
         return ucfirst(trans($key, $replace, $locale));
     }
 }
-
-

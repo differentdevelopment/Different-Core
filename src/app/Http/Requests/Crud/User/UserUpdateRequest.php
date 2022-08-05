@@ -29,16 +29,16 @@ class UserUpdateRequest extends FormRequest
 
         $userId = $this->get('id') ?? \Request::instance()->segment($routeSegmentWithId);
 
-        if (!$userModel->find($userId)) {
+        if (! $userModel->find($userId)) {
             abort(400, 'Could not find that entry in the database.');
         }
 
         return [
-            'email'     => ['required', 'unique:'.config('permission.table_names.users', 'users').',email,'.$userId],
-            'name'      => ['required'],
-            'password'  => ['confirmed'],
-            'roles'     => ['nullable'],
-            'phone'     => ['nullable', 'string'],
+            'email' => ['required', 'unique:'.config('permission.table_names.users', 'users').',email,'.$userId],
+            'name' => ['required'],
+            'password' => ['confirmed'],
+            'roles' => ['nullable'],
+            'phone' => ['nullable', 'string'],
         ];
     }
 }

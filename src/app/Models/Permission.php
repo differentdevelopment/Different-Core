@@ -7,7 +7,7 @@ use Spatie\Permission\Models\Permission as OriginalPermission;
 
 /**
  * Class Permission
- * @package Different\DifferentCore\app\Models
+ *
  * @property int $id
  * @property string $name
  * @property string $guard_name
@@ -25,5 +25,6 @@ class Permission extends OriginalPermission
         'readable_name',
         'group',
     ];
+
     public $timestamps = true;
 }

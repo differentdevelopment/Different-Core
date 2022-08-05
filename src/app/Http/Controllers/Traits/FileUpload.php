@@ -7,34 +7,33 @@ use Different\DifferentCore\app\Models\File;
 
 trait FileUpload
 {
-
     /**
      * if {$input_name} file is set, stores the file, adds {$input_name}_id to grid/request
      */
     protected function handleFileUpload()
     {
-        $fields = $this->crud->get("update.fields");
+        $fields = $this->crud->get('update.fields');
         if ($fields === null) {
-            $fields = $this->crud->get("create.fields");
+            $fields = $this->crud->get('create.fields');
             if ($fields === null) {
                 return;
             }
         }
 
         foreach ($fields as $key => $options) {
-            switch ($options["type"]) {
-                case "file":
-                    $column = $options["name"]??null;
+            switch ($options['type']) {
+                case 'file':
+                    $column = $options['name'] ?? null;
 
                     if ($column === null) {
                         throw new \ErrorException("A `name` mező megadása kötelező fájl / kép feltöltés mező esetén! Ez határozza meg, hogy hova szúrja be a App\Models\File id-t.");
                     }
 
-                    $upload_key = 'upload_' . $key;
-                    $remove_key = 'remove_' . $key;
+                    $upload_key = 'upload_'.$key;
+                    $remove_key = 'remove_'.$key;
 
-                    $pending_upload = $this->crud->getRequest()->{$upload_key}??null;
-                    $pending_remove = $this->crud->getRequest()->{$remove_key}??null;
+                    $pending_upload = $this->crud->getRequest()->{$upload_key} ?? null;
+                    $pending_remove = $this->crud->getRequest()->{$remove_key} ?? null;
 
                     if ($pending_remove) {
                         $file = File::query()->find($pending_remove);
@@ -42,17 +41,17 @@ trait FileUpload
                             $file->delete();
                         }
 
-                        if (!$pending_upload) {
+                        if (! $pending_upload) {
                             // Ha nincs új feltöltés csak simán kitörlöm és mentek akkor el kell menteni az adott sor file mezőjét üresen!
                             $this->addHiddenFileColumn($column, null);
                         }
                     }
 
                     if ($pending_upload && $this->crud->getRequest()->hasFile($upload_key)) {
-                        $storage_dir = $this->crud->model->getTable() . "/" . date("Y") . "/" . date("m") . "/" . $column;
+                        $storage_dir = $this->crud->model->getTable().'/'.date('Y').'/'.date('m').'/'.$column;
                         $file = FilesController::postFile($pending_upload, $storage_dir);
                         $this->addHiddenFileColumn($column, $file->id);
-                        
+
                         $crud_request = $this->crud->getRequest();
                         $crud_request->files->remove($upload_key);
                         $this->crud->setRequest($crud_request);
@@ -69,7 +68,7 @@ trait FileUpload
 
                     $storage_dir = $this->crud->model->getTable() . "/" . date("Y") . "/" . date("m") . "/" . $column;
                     $value = $this->crud->getRequest()->{$key}??null;
-                    
+
                     if ($value !== null) {
                         if ($this->isBase64Image($value)) {
                             // Ha a base64 képet töltenek fel.
@@ -104,10 +103,11 @@ trait FileUpload
     }
 
     /**
-     * @param string $value
+     * @param  string  $value
      * @return bool
      */
-    private function isBase64Image($value) {
+    private function isBase64Image($value)
+    {
         $explode = explode(',', $value);
         $allow = ['png', 'jpg', 'jpeg', 'svg', 'gif'];
         $format = str_replace(
@@ -121,16 +121,18 @@ trait FileUpload
             ],
             $explode[0]
         );
-        if (!in_array($format, $allow)) {
+        if (! in_array($format, $allow)) {
             return false;
         }
-        if (!preg_match('%^[a-zA-Z0-9/+]*={0,2}$%', $explode[1])) {
+        if (! preg_match('%^[a-zA-Z0-9/+]*={0,2}$%', $explode[1])) {
             return false;
         }
+
         return true;
     }
 
-    private function addHiddenFileColumn($column, $value) {
+    private function addHiddenFileColumn($column, $value)
+    {
         $this->crud->addField(['name' => $column, 'type' => 'hidden', 'default' => $value]);
         $this->crud->getRequest()->request->add([$column => $value]);
     }

@@ -2,16 +2,15 @@
 
 namespace Different\DifferentCore\app\Http\Controllers;
 
-use Illuminate\Routing\Controller;
-use Illuminate\Http\Request;
-use Different\DifferentCore\app\Models\User;
 use Different\DifferentCore\app\Models\LoginToken;
-use Illuminate\Support\Facades\Auth;
+use Different\DifferentCore\app\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class MagicLinkController extends Controller
 {
     /**
-     * @param Request $request
+     * @param  Request  $request
      */
     public function getLogin()
     {
@@ -22,7 +21,7 @@ class MagicLinkController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param  Request  $request
      */
     public function postLogin(Request $request)
     {
@@ -31,6 +30,7 @@ class MagicLinkController extends Controller
         ]);
         User::whereEmail($data['email'])->first()->sendLoginLink();
         session()->flash('success', true);
+
         return redirect()->back();
     }
 
@@ -41,7 +41,7 @@ class MagicLinkController extends Controller
 
         $token->consume();
         backpack_auth()->login($token->user);
-        
+
         return redirect(backpack_url('/'));
     }
 }

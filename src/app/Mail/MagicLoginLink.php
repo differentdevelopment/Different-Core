@@ -12,7 +12,9 @@ class MagicLoginLink extends Mailable
     use Queueable, SerializesModels;
 
     public $plaintextToken;
+
     public $expiresAt;
+
     public $name;
 
     public function __construct($plaintextToken, $expiresAt, $name)
@@ -24,7 +26,7 @@ class MagicLoginLink extends Mailable
 
     public function build()
     {
-        return $this->subject(config('app.name') . ' - ' . __('different-core::magic-link.login'))
+        return $this->subject(config('app.name').' - '.__('different-core::magic-link.login'))
             ->view('different-core::emails.magic-login-link', [
                 'url' => URL::temporarySignedRoute('magic-link.verify', $this->expiresAt, [
                     'token' => $this->plaintextToken,

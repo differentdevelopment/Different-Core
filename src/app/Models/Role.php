@@ -7,7 +7,7 @@ use Spatie\Permission\Models\Role as OriginalRole;
 
 /**
  * Class Role
- * @package Different\DifferentCore\app\Models
+ *
  * @property int $id
  * @property string $name
  * @property string $guard_name
@@ -24,5 +24,6 @@ class Role extends OriginalRole
         'guard_name',
         'readable_name',
     ];
+
     public $timestamps = true;
 }

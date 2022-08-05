@@ -28,7 +28,7 @@ trait HasUploadFields
      * @param  string  $destination_path  Path in disk where to store the files.
      */
     public function uploadFileTo($value, $attribute_name, $destination_path)
-    {        
+    {
         // if a new file is uploaded, delete the file from the disk
         if (request()->hasFile($attribute_name) && $this->{$attribute_name} && $this->{$attribute_name} != null) {
             FilesController::deleteFile($this->{$attribute_name});
@@ -48,7 +48,6 @@ trait HasUploadFields
 
             // 2. Move the new file to the correct path
             $file_in_db = FilesController::postFile($file, $destination_path);
-
 
             // 3. Save the complete path to the database
             $this->attributes[$attribute_name] = $file_in_db->path;

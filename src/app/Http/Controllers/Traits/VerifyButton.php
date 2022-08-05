@@ -1,6 +1,7 @@
 <?php
 
 namespace Different\DifferentCore\app\Http\Controllers\Traits;
+
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 trait VerifyButton

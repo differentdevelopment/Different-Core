@@ -6,8 +6,19 @@ use Illuminate\View\Component;
 
 class EmailNotification extends Component
 {
-    public $background, $type, $title, $message, $text_color, $button_href, $button_text;
+    public $background;
 
+    public $type;
+
+    public $title;
+
+    public $message;
+
+    public $text_color;
+
+    public $button_href;
+
+    public $button_text;
 
     /**
      * Create a new component instance.
@@ -25,12 +36,11 @@ class EmailNotification extends Component
     ) {
         $this->background = $background;
         $this->type = $type;
-        $this->title = $title??'';
-        $this->message = $message??'';
+        $this->title = $title ?? '';
+        $this->message = $message ?? '';
         $this->text_color = $textColor;
         $this->button_href = $buttonHref;
         $this->button_text = $buttonText;
-
     }
 
     /**

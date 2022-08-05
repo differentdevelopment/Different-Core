@@ -9,5 +9,5 @@ return [
     'settings_saved' => 'Sikeres mentés.',
     'saving' => 'Kérem várjon',
     'no_settings_in_database' => 'Nem található beállítás.',
-    'save_button_text' => 'Mentés'
+    'save_button_text' => 'Mentés',
 ];

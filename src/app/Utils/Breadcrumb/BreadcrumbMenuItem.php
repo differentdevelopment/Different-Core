@@ -4,13 +4,18 @@ namespace Different\DifferentCore\app\Utils\Breadcrumb;
 
 class BreadcrumbMenuItem
 {
-    protected $url = "";
-    protected $title = "";
-    protected $icon = "";
+    protected $url = '';
+
+    protected $title = '';
+
+    protected $icon = '';
+
     protected $permission = null;
+
     protected $disabled = false;
 
-    function __construct($url, $title, $icon = "", $permission = null, $disabled = false) {
+    public function __construct($url, $title, $icon = '', $permission = null, $disabled = false)
+    {
         $this->url = $url;
         $this->title = $title;
         $this->icon = $icon;
@@ -18,7 +23,7 @@ class BreadcrumbMenuItem
         $this->disabled = $disabled;
     }
 
-    function render()
+    public function render()
     {
         return view('different-core::breadcrumb.item', [
             'url' => $this->url,

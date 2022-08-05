@@ -2,19 +2,20 @@
 
 namespace Different\DifferentCore\app\Http\Controllers\Cruds;
 
-use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 // use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 // use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Different\DifferentCore\app\Http\Requests\Crud\Account\AccountRequest;
 use Different\DifferentCore\app\Models\Account;
 use Different\DifferentCore\app\Utils\Breadcrumb\BreadcrumbMenuItem;
-use Different\DifferentCore\app\Http\Requests\Crud\Account\AccountRequest;
 
 class AccountsCrudController extends BaseCrudController
 {
     use ListOperation;
+
     // use ShowOperation;
     use CreateOperation {
         store as traitStore;
@@ -31,7 +32,7 @@ class AccountsCrudController extends BaseCrudController
         $this->crud->setEntityNameStrings(__('different-core::accounts.account'), __('different-core::accounts.accounts'));
         $this->crud->setModel(Account::class);
 
-        if (!$this->crud->getRequest()->order) {
+        if (! $this->crud->getRequest()->order) {
             $this->crud->orderBy('name', 'asc');
         }
 
@@ -44,9 +45,9 @@ class AccountsCrudController extends BaseCrudController
         ];
     }
 
-    protected  function setupListOperation()
+    protected function setupListOperation()
     {
-        #region Oszlopok
+        //region Oszlopok
         $this->crud->addColumn([
             'name' => 'id',
             'label' => __('different-core::accounts.id'),
@@ -57,19 +58,19 @@ class AccountsCrudController extends BaseCrudController
             'label' => __('different-core::accounts.name'),
             'type' => 'text',
         ]);
-        #endregion
+        //endregion
 
-        #region Szűrők
+        //region Szűrők
         $this->crud->addFilter([
             'name' => 'name',
             'type' => 'text',
             'label' => __('different-core::accounts.name'),
         ],
-        false,
-        function ($value) {
-            $this->crud->addClause('where', 'name', 'like', '%' . $value . '%');
-        });
-        #endregion
+            false,
+            function ($value) {
+                $this->crud->addClause('where', 'name', 'like', '%'.$value.'%');
+            });
+        //endregion
     }
 
     protected function setupCreateOperation()
@@ -86,7 +87,7 @@ class AccountsCrudController extends BaseCrudController
 
     protected function addFields()
     {
-        #region Mezők
+        //region Mezők
         $this->crud->addFields([
             [
                 'name' => 'name',
@@ -94,18 +95,20 @@ class AccountsCrudController extends BaseCrudController
                 'type' => 'text',
             ],
         ]);
-        #endregion
+        //endregion
     }
 
     public function store()
     {
         parent::store();
+
         return $this->traitStore();
     }
 
     public function update()
     {
         parent::update();
+
         return $this->traitUpdate();
     }
 }

@@ -11,7 +11,7 @@ return [
     'last_device' => 'Utolsó eszköz',
     'password' => 'Jelszó',
     'password_confirmation' => 'Jelszó megerősítés',
-    'super_admin_role_error'=> 'Super admin szerepet csak super admin adhat!',
+    'super_admin_role_error' => 'Super admin szerepet csak super admin adhat!',
     'name' => 'Név',
     'email' => 'E-mail',
     'roles' => 'Szerepkörök',

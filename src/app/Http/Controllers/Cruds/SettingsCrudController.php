@@ -3,26 +3,28 @@
 namespace Different\DifferentCore\app\Http\Controllers\Cruds;
 
 use Backpack\CRUD\app\Http\Controllers\CrudController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Different\DifferentCore\app\Models\Setting;
 use Different\DifferentCore\app\Utils\Settings\SettingsManagerController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class SettingsCrudController extends CrudController
 {
-    public function setup() {
+    public function setup()
+    {
         $this->crud->setRoute(backpack_url('settings'));
         $this->crud->setModel(Setting::class);
         $this->crud->setEntityNameStrings(trans('different-core::settings.setting'), trans('different-core::settings.settings')); // TODO: Fixme
     }
 
-    public function index() {
+    public function index()
+    {
         $fields = SettingsManagerController::getFieldsForEditor();
 
-        foreach($fields as $field) {
+        foreach ($fields as $field) {
             $this->crud->addField($field);
         }
-        
+
         $this->data['breadcrumbs'] = [
             trans('backpack::crud.admin') => backpack_url('dashboard'),
             trans('different-core::settings.settings') => false,
@@ -33,13 +35,14 @@ class SettingsCrudController extends CrudController
         return view('different-core::settings.settings', $this->data);
     }
 
-    public function save(Request $request) {
+    public function save(Request $request)
+    {
         $settings = $request->except(['http_referrer', '_token']);
         $validationRules = SettingsManagerController::getFieldValidations($settings);
-        
+
         Validator::make($settings, $validationRules)->validate();
 
-        if(SettingsManagerController::saveSettingsValues($settings)) {
+        if (SettingsManagerController::saveSettingsValues($settings)) {
             return response()->json('success');
         }
 

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class LoginToken extends Model
 {
     protected $guarded = [];
+
     protected $dates = [
         'expires_at', 'consumed_at',
     ];
@@ -18,7 +19,7 @@ class LoginToken extends Model
 
     public function isValid()
     {
-        return !$this->isExpired() && !$this->isConsumed();
+        return ! $this->isExpired() && ! $this->isConsumed();
     }
 
     public function isExpired()

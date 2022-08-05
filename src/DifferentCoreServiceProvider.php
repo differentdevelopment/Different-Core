@@ -2,32 +2,33 @@
 
 namespace Different\DifferentCore;
 
-use Illuminate\Support\ServiceProvider;
 use Different\DifferentCore\app\Console\Commands\SeederCommand;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\ServiceProvider;
+
 class DifferentCoreServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
      */
     public function boot()
-    {   
-        $this->loadViewsFrom(__DIR__ . '/resources/views', 'different-core');
-        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
-        $this->loadRoutesFrom(__DIR__ . '/routes/routes.php');
-        $this->loadTranslationsFrom(__DIR__ . '/resources/lang', 'different-core');
-        
+    {
+        $this->loadViewsFrom(__DIR__.'/resources/views', 'different-core');
+        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
+        $this->loadRoutesFrom(__DIR__.'/routes/routes.php');
+        $this->loadTranslationsFrom(__DIR__.'/resources/lang', 'different-core');
+
         Blade::componentNamespace('Different\\DifferentCore\\app\\View\\Components', 'different-core');
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/config' => config_path(),
+                __DIR__.'/config' => config_path(),
             ], 'config');
             $this->publishes([
-                __DIR__ . '/resources/scss' => resource_path('scss'),
+                __DIR__.'/resources/scss' => resource_path('scss'),
             ], 'scss');
             $this->publishes([
-                __DIR__ . '/resources/lang' => resource_path('lang/vendor/different-core'),
+                __DIR__.'/resources/lang' => resource_path('lang/vendor/different-core'),
             ], 'lang');
 
             $this->commands([
@@ -42,10 +43,10 @@ class DifferentCoreServiceProvider extends ServiceProvider
     public function register()
     {
         // Automatically apply the package configuration
-        $this->mergeConfigFrom(__DIR__ . '/config/different-core/config.php', 'different-core.config');
-        $this->mergeConfigFrom(__DIR__ . '/config/different-core/activitylog.php', 'activitylog');
-        $this->mergeConfigFrom(__DIR__ . '/config/different-core/permission.php', 'permission');
-        $this->mergeConfigFrom(__DIR__ . '/config/different-core/permissionmanager.php', 'permissionmanager');
+        $this->mergeConfigFrom(__DIR__.'/config/different-core/config.php', 'different-core.config');
+        $this->mergeConfigFrom(__DIR__.'/config/different-core/activitylog.php', 'activitylog');
+        $this->mergeConfigFrom(__DIR__.'/config/different-core/permission.php', 'permission');
+        $this->mergeConfigFrom(__DIR__.'/config/different-core/permissionmanager.php', 'permissionmanager');
 
         // Register the main class to use with the facade
         $this->app->singleton('different-core', function () {

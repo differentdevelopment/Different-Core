@@ -13,9 +13,10 @@ class DisableDebugbarMiddleware
      */
     public function handle($request, \Closure $next)
     {
-        if(class_exists(\Debugbar::class)) {
+        if (class_exists(\Debugbar::class)) {
             \Debugbar::disable();
         }
+
         return $next($request);
     }
 }

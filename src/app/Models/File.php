@@ -4,13 +4,13 @@ namespace Different\DifferentCore\app\Models;
 
 use Carbon\Carbon;
 use Different\DifferentCore\app\Http\Controllers\FilesController;
-use Illuminate\Database\Eloquent\Model;
 use Different\DifferentCore\app\Traits\Uuid;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 /**
  * Class File
- * @package Different\DifferentCore\app\Models
+ *
  * @property int $id
  * @property string $uuid
  * @property int $partner_id
@@ -31,22 +31,24 @@ class File extends Model
     |--------------------------------------------------------------------------
     */
     protected $table = 'files';
+
     protected $fillable = [
         'uuid',
         'original_name',
         'mime_type',
         'path',
     ];
-    
+
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
 
-    protected static function boot() {
+    protected static function boot()
+    {
         parent::boot();
-        static::deleting(function ($file) { 
+        static::deleting(function ($file) {
             FilesController::deleteFile($file);
         });
         static::creating(function ($model) {
@@ -55,7 +57,6 @@ class File extends Model
             }
         });
     }
-    
 
     public function getUrl()
     {

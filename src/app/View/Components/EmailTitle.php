@@ -13,7 +13,7 @@ class EmailTitle extends Component
      */
     public function __construct()
     {
-        // 
+        //
     }
 
     /**

@@ -3,6 +3,6 @@
 return [
     'account' => 'Fiók',
     'accounts' => 'Fiókok',
-    'id' => 'Azonosító', 
+    'id' => 'Azonosító',
     'name' => 'Megnevezés',
 ];

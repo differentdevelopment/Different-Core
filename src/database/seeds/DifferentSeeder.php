@@ -2,32 +2,31 @@
 
 namespace Different\DifferentCore\Database\Seeds;
 
-use Illuminate\Database\Seeder;
-use Different\DifferentCore\app\Models\User;
 use Different\DifferentCore\app\Models\Account;
 use Different\DifferentCore\app\Models\Permission;
 use Different\DifferentCore\app\Models\Role;
+use Different\DifferentCore\app\Models\User;
 use Different\DifferentCore\app\Utils\Settings\SettingsManagerController;
+use Illuminate\Database\Seeder;
 
 class DifferentSeeder extends Seeder
 {
     public function run()
     {
-        #region Felhasználók
+        //region Felhasználók
         $user = User::query()->firstOrCreate([
-            'email'             => 'fejlesztes@different.hu',
+            'email' => 'fejlesztes@different.hu',
         ], [
-            'name'              => 'Different Fejlesztő Kft.',
-            'password'          => '$2y$10$YoqGMgPRGEOUPg4iFRRPqeyqYX3lsNYeZ4fZPqi/jrPaSEBsTVXUK',
-            'remember_token'    => null,
+            'name' => 'Different Fejlesztő Kft.',
+            'password' => '$2y$10$YoqGMgPRGEOUPg4iFRRPqeyqYX3lsNYeZ4fZPqi/jrPaSEBsTVXUK',
+            'remember_token' => null,
             'email_verified_at' => '2020-04-20 04:20:00',
-            'created_at'        => '2020-04-20 04:20:00',
-            'updated_at'        => '2020-04-20 04:20:00',
+            'created_at' => '2020-04-20 04:20:00',
+            'updated_at' => '2020-04-20 04:20:00',
         ]);
-        #endregion
+        //endregion
 
-
-        #region Szerepek
+        //region Szerepek
         $role_super_admin = Role::query()->firstOrCreate([
             'name' => 'super-admin',
             'guard_name' => 'web',
@@ -39,10 +38,9 @@ class DifferentSeeder extends Seeder
             'readable_name' => 'Admin',
         ]);
         $user->assignRole($role_super_admin->name);
-        #endregion
+        //endregion
 
-
-        #region Jogok
+        //region Jogok
         $permissions = [
             [
                 'group' => 'Általános',
@@ -95,7 +93,7 @@ class DifferentSeeder extends Seeder
                 'readable_name' => 'Dokumentáció megjelnítése',
             ],
         ];
-        foreach($permissions as $permission) {
+        foreach ($permissions as $permission) {
             Permission::firstOrCreate([
                 'name' => $permission['name'],
                 'guard_name' => 'web',
@@ -104,18 +102,16 @@ class DifferentSeeder extends Seeder
             ]);
             $role_admin->givePermissionTo($permission['name']);
         }
-        #endregion
+        //endregion
 
-
-        #region Fiókok
+        //region Fiókok
         $account = Account::query()->firstOrCreate([
             'name' => 'Different Fejlesztő Kft.',
         ]);
         $account->users()->syncWithoutDetaching($user->id);
-        #endregion
-        
+        //endregion
 
-        #region Beállítások
+        //region Beállítások
         SettingsManagerController::create([
             [
                 'name' => 'company_name',
@@ -129,6 +125,6 @@ class DifferentSeeder extends Seeder
             ],
         ]);
         // SettingsManagerController::delete('company_name');
-        #endregion
+        //endregion
     }
 }

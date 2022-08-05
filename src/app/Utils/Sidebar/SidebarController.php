@@ -2,9 +2,6 @@
 
 namespace Different\DifferentCore\app\Utils\Sidebar;
 
-use Different\DifferentCore\app\Utils\Sidebar\SidebarMenuItem;
-use Different\DifferentCore\app\Utils\Sidebar\SidebarMenuGroup;
-
 class SidebarController
 {
     public static function menus()

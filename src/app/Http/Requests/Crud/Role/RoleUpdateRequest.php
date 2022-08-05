@@ -3,7 +3,7 @@
 namespace Different\DifferentCore\app\Http\Requests\Crud\Role;
 
 use Illuminate\Foundation\Http\FormRequest;
-use \Illuminate\Validation\Rule;
+use Illuminate\Validation\Rule;
 
 class RoleUpdateRequest extends FormRequest
 {
@@ -29,7 +29,7 @@ class RoleUpdateRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                Rule::unique(config('permission.table_names.roles', 'roles'))->ignore($this->id)
+                Rule::unique(config('permission.table_names.roles', 'roles'))->ignore($this->id),
             ],
         ];
     }
