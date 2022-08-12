@@ -34,7 +34,7 @@ class UsersCrudController extends BaseCrudController
         crud_permissions($this->crud, 'user');
         $this->crud->setRoute(backpack_url('user'));
         $this->crud->setEntityNameStrings(__('different-core::users.user'), __('different-core::users.users'));
-        $this->crud->setModel(User::class);
+        $this->crud->setModel(config('backpack.base.user_model_fqn', User::class));
 
         $this->crud->data['delete_modal'] = [
             'title' => __('different-core::users.delete_title'),
