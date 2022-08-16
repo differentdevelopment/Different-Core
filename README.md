@@ -17,7 +17,7 @@ Egy teljesen új projekt esetén a telepítéshez a következő parancsokat kell
 
 > laravel new **PROJEKT-NEVE**  <br  />
 
-> composer require backpack/crud:"^5.0" <br  />
+> composer require backpack/crud<br  />
 
 > composer require --dev backpack/generators <br  />
 
