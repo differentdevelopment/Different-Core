@@ -63,6 +63,11 @@ class File extends Model
         return route('different-core.file', $this);
     }
 
+    public function getThumbnailUrl()
+    {
+        return route('different-core.thumbnail', $this);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS

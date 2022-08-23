@@ -19,6 +19,7 @@ Route::group([
     ],
 ], function () {
     Route::get('/file/{file:uuid}', FilesController::class)->name('different-core.file');
+    Route::get('/thumbnail/{file:uuid}/{width?}/{height?}', [FilesController::class, 'thumbnail'])->name('different-core.thumbnail');
 });
 
 if (config('different-core.config.magic_link_login')) {

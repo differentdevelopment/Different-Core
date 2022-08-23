@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 
 class FilesController extends Controller
 {
@@ -17,6 +18,42 @@ class FilesController extends Controller
     public function __invoke(File $file)
     {
         return $this->getFile($file);
+    }
+
+    /**
+     * @param  File  $file
+     * @param  int  $width
+     * @param  int  $height
+     */
+    public function thumbnail(File $file, $width = 200, $height = 200)
+    {
+        $storage_path = self::getPath($file);
+
+        $ext = pathinfo(storage_path($storage_path), PATHINFO_EXTENSION);
+        $filepath = 'generated/' . $file->id . '/' . $width . '_' . $height . '.' . $ext;
+
+        if (Storage::exists($filepath)) {
+            return Storage::response($filepath);
+        }
+
+        $_file = Storage::get($storage_path);
+        $_mime = Storage::mimeType($storage_path);
+
+        $allowed_mime_types = ['image/jpeg','image/gif','image/png'];
+
+        if(!in_array($_mime, $allowed_mime_types)) {
+            return Storage::response($storage_path);
+        }
+
+        $img = Image::make($_file);
+
+        $img->resize($width, $height, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        $img->stream();
+
+        Storage::put($filepath, $img, 'public');
+        return Storage::response($filepath);
     }
 
     /**
@@ -222,9 +259,11 @@ class FilesController extends Controller
         $file_path = self::getPath($file);
 
         $delete = Storage::delete($file_path);
+        Storage::deleteDirectory('generated/' . $file->id);
         if ($delete && $withModel) {
             $file->delete();
         }
+
 
         return Response::make('', 204);
     }
