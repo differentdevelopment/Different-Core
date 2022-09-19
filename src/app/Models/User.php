@@ -144,7 +144,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getSelectableAccountsAttribute()
     {
-        return Cache::remember('selectable_accounts_for_user_' . $this->id, config('different-core.config.user_account_cache_ttl') ?? 3600, function(){
+        return Cache::remember('selectable_accounts_for_user_' . $this->id, 3600 * 24, function(){
             if($this->can('select-all-accounts')) return Account::query()->orderBy('name', 'asc')->get();
             return $this->accounts()->orderBy('name', 'asc')->get();
         });

@@ -1,6 +1,6 @@
 @yield('topbar_right')
 
-@if (config('different-core.config.account_selector_enabled') && session('account_id') && (backpack_user()->selectable_accounts->count() > 0))
+@if (session('account_id') && (backpack_user()->selectable_accounts->count() > 0))
     <li class="nav-item mr-4">
         <form action="{{ route('admin.change-account') }}" class="" method="POST" id="accountSelectorForm">
             @csrf

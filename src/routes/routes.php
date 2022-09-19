@@ -51,10 +51,7 @@ Route::group([
     Route::crud('permission', PermissionsCrudController::class);
     Route::crud('role', RolesCrudController::class);
 
-    if(config('different-core.config.account_selector_enabled'))
-    {
-        Route::post('change-account', [ChangeAccountController::class, 'changeAccount'])->name('change-account');
-    }
+    Route::post('change-account', [ChangeAccountController::class, 'changeAccount'])->name('change-account');
 
     Route::get('/users/{user}/verify', [UsersCrudController::class, 'verifyUser'])->name('verify');
     Route::get('settings', [SettingsCrudController::class, 'index'])->name('settings');
