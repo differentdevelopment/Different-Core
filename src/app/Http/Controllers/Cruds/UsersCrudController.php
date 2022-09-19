@@ -14,6 +14,7 @@ use Different\DifferentCore\app\Http\Requests\Crud\User\UserUpdateRequest;
 use Different\DifferentCore\app\Models\Role;
 use Different\DifferentCore\app\Models\User;
 use Different\DifferentCore\app\Utils\Breadcrumb\BreadcrumbMenuItem;
+use Illuminate\Support\Facades\Cache;
 use Prologue\Alerts\Facades\Alert;
 
 class UsersCrudController extends BaseCrudController
@@ -155,6 +156,20 @@ class UsersCrudController extends BaseCrudController
                 'type' => 'password',
             ],
             [
+                'name' => 'accounts',
+                'type' => 'select2_multiple',
+                'label' => __('different-core::users.accounts'),
+                'pivot' => true,
+                'options' => (function($query){
+                    return $query->orderBy('name', 'asc')->get();
+                }),
+                'events' => [
+                    'updating' => function($entry){
+                        Cache::forget('selectable_accounts_for_user_' . backpack_user()->id);
+                    },
+                ],
+            ],
+            [
                 'label' => __('different-core::users.user_role_permission'),
                 'field_unique_name' => 'user_role_permission',
                 'type' => 'roles',
@@ -187,6 +202,11 @@ class UsersCrudController extends BaseCrudController
                         'order_by' => 'group',
                         'hasGroup' => true,
                     ],
+                ],
+                'events' => [
+                    'updating' => function($entry){
+                        Cache::forget('selectable_accounts_for_user_' . backpack_user()->id);
+                    },
                 ],
             ],
             /*
@@ -235,7 +255,9 @@ class UsersCrudController extends BaseCrudController
         parent::update();
         $this->handlePasswordInput($this->crud->getRequest());
 
-        return $this->traitUpdate();
+        $response = $this->traitUpdate();
+
+        return $response;
     }
 
     //region Nem Backpack metódusok

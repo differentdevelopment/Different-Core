@@ -11,6 +11,7 @@ use Different\DifferentCore\app\Http\Requests\Crud\Role\RoleStoreRequest;
 use Different\DifferentCore\app\Http\Requests\Crud\Role\RoleUpdateRequest;
 use Different\DifferentCore\app\Models\Permission;
 use Different\DifferentCore\app\Models\Role;
+use Different\DifferentCore\app\Models\User;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
@@ -20,8 +21,12 @@ class RolesCrudController extends CrudController
     use CreateOperation {
         store as traitStore;
     }
-    use UpdateOperation;
-    use DeleteOperation;
+    use UpdateOperation{
+        update as traitUpdate;
+    }
+    use DeleteOperation{
+        destroy as traitDestroy;
+    }
 
     public function setup()
     {
@@ -42,6 +47,32 @@ class RolesCrudController extends CrudController
         if (config('backpack.permissionmanager.allow_role_delete') == false) {
             $this->crud->denyAccess('delete');
         }
+    }
+
+    public function update()
+    {
+        User::query()
+            ->whereHas('roles', function($query){
+                $query->where('roles.id', request()->id);
+            })
+            ->each(function(User $user){
+                Cache::forget('selectable_accounts_for_user_' . $user->id);
+            });
+
+        return $this->traitUpdate();
+    }
+
+    public function destroy($id)
+    {
+        User::query()
+            ->whereHas('roles', function($query) use ($id){
+                $query->where('roles.id', $id);
+            })
+            ->each(function(User $user){
+                Cache::forget('selectable_accounts_for_user_' . $user->id);
+            });
+
+        return $this->traitDestroy($id);
     }
 
     public function setupListOperation()
