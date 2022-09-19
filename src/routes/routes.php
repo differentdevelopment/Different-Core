@@ -1,5 +1,6 @@
 <?php
 
+use Different\DifferentCore\app\Http\Controllers\ChangeAccountController;
 use Different\DifferentCore\app\Http\Controllers\Cruds\AccountsCrudController;
 use Different\DifferentCore\app\Http\Controllers\Cruds\ActivitiesCrudController;
 use Different\DifferentCore\app\Http\Controllers\Cruds\PermissionsCrudController;
@@ -49,6 +50,11 @@ Route::group([
     Route::crud('activity', ActivitiesCrudController::class);
     Route::crud('permission', PermissionsCrudController::class);
     Route::crud('role', RolesCrudController::class);
+
+    if(config('different-core.config.account_selector_enabled'))
+    {
+        Route::post('change-account', [ChangeAccountController::class, 'changeAccount'])->name('change-account');
+    }
 
     Route::get('/users/{user}/verify', [UsersCrudController::class, 'verifyUser'])->name('verify');
     Route::get('settings', [SettingsCrudController::class, 'index'])->name('settings');

@@ -92,6 +92,11 @@ class DifferentSeeder extends Seeder
                 'name' => 'documentation-read',
                 'readable_name' => 'Dokumentáció megjelnítése',
             ],
+            [
+                'group' => 'Általános',
+                'name' => 'select-all-accounts',
+                'readable_name' => 'Minden accounthoz hozzáfér'
+            ]
         ];
         foreach ($permissions as $permission) {
             Permission::firstOrCreate([

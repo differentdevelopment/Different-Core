@@ -4,6 +4,7 @@ namespace Different\DifferentCore;
 
 use Different\DifferentCore\app\Console\Commands\SeederCommand;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class DifferentCoreServiceProvider extends ServiceProvider
@@ -35,6 +36,10 @@ class DifferentCoreServiceProvider extends ServiceProvider
                 SeederCommand::class,
             ]);
         }
+
+        Gate::before(function ($user, $ability) {
+            return $user->hasRole('super-admin') ? true : null;
+        });
     }
 
     /**

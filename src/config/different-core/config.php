@@ -11,4 +11,6 @@ return [
         ),
     ],
     'magic_link_login' => false,
+    'account_selector_enabled' => false,
+    'user_account_cache_ttl' => 3600,
 ];

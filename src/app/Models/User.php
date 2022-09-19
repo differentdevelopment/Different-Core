@@ -9,9 +9,11 @@ use Different\DifferentCore\app\Traits\HasUploadFields;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Spatie\Activitylog\Facades\CauserResolver;
@@ -118,6 +120,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(File::class);
     }
 
+    public function accounts(): BelongsToMany
+    {
+        return $this->belongsToMany(Account::class);
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -133,6 +140,14 @@ class User extends Authenticatable implements MustVerifyEmail
         CauserResolver::setCauser(backpack_user());
 
         return LogOptions::defaults()->useLogName('users')->logOnly(['name', 'email']);
+    }
+
+    public function getSelectableAccountsAttribute()
+    {
+        return Cache::remember('selectable_accounts_for_user_' . $this->id, config('different-core.config.user_account_cache_ttl') ?? 3600, function(){
+            if($this->can('select-all-accounts')) return Account::query()->orderBy('name', 'asc')->get();
+            return $this->accounts()->orderBy('name', 'asc')->get();
+        });
     }
     //endregion
 }
