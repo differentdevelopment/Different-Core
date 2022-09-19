@@ -58,6 +58,14 @@ A parancsok lefuttatása után állítsuk be az alábbi értékeket a konfigurá
 
 <br  />
 
+`config\backpack\base.php - 262. sor`<br  />
+
+'guard' => null,<br  />
+
+'passwords' => null,<br  />
+
+<br  />
+
 `config\backpack\base.php - 27. sor`<br  />
 
 'project_name' => '**PROJEKT-NEVE**',<br  />
