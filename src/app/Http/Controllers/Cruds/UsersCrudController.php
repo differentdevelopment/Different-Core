@@ -158,7 +158,7 @@ class UsersCrudController extends BaseCrudController
             [
                 'name' => 'accounts',
                 'type' => 'select2_multiple',
-                'label' => __('different-core::users.accounts'),
+                'label' => __('different-core::accounts.accounts'),
                 'pivot' => true,
                 'options' => (function($query){
                     return $query->orderBy('name', 'asc')->get();

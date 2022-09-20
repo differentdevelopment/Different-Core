@@ -51,7 +51,7 @@ Route::group([
     Route::crud('permission', PermissionsCrudController::class);
     Route::crud('role', RolesCrudController::class);
 
-    Route::post('change-account', [ChangeAccountController::class, 'changeAccount'])->name('change-account');
+    Route::get('change-account/{id}', [ChangeAccountController::class, 'changeAccount'])->name('change-account');
 
     Route::get('/users/{user}/verify', [UsersCrudController::class, 'verifyUser'])->name('verify');
     Route::get('settings', [SettingsCrudController::class, 'index'])->name('settings');

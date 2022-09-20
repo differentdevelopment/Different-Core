@@ -20,5 +20,4 @@ return [
     'permissions' => 'Jogok',
     'delete_title' => 'Megerősítés',
     'delete_text' => 'Biztosan törölni szeretné ezt a felhasználót?',
-    'accounts' => 'Accountok',
 ];

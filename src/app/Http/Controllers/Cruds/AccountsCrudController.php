@@ -11,6 +11,8 @@ use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Different\DifferentCore\app\Http\Requests\Crud\Account\AccountRequest;
 use Different\DifferentCore\app\Models\Account;
 use Different\DifferentCore\app\Utils\Breadcrumb\BreadcrumbMenuItem;
+use Different\DifferentCore\app\Models\User;
+use Illuminate\Support\Facades\Cache;
 
 class AccountsCrudController extends BaseCrudController
 {
@@ -23,7 +25,9 @@ class AccountsCrudController extends BaseCrudController
     use UpdateOperation {
         update as traitUpdate;
     }
-    use DeleteOperation;
+    use DeleteOperation {
+        destroy as traitDestroy;
+    }
 
     public function setup()
     {
@@ -102,13 +106,26 @@ class AccountsCrudController extends BaseCrudController
     {
         parent::store();
 
+        User::query()->each(function(User $user){
+            Cache::forget('selectable_accounts_for_user_' . $user->id);
+        });
+
         return $this->traitStore();
     }
 
     public function update()
     {
         parent::update();
-
         return $this->traitUpdate();
     }
+
+    public function destroy($id)
+    {
+        User::query()->each(function(User $user){
+            Cache::forget('selectable_accounts_for_user_' . $user->id);
+        });
+
+        return $this->traitDestroy($id);
+    }
+
 }
