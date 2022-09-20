@@ -101,17 +101,3 @@ if (! function_exists('store_system_logs')) {
         activity()->byAnonymous()->useLog('system')->withProperties($e->getTrace())->log($e->getMessage());
     }
 }
-
-if (! function_exists('___')) {
-    /**
-     * Teljesen megegyezik a __ nyelvi megoldással, de ez nagy kezdőbetűvel adja vissza minden esetben a szöveget
-     */
-    function ___($key = null, $replace = [], $locale = null): string
-    {
-        if (is_null($key)) {
-            return ucfirst($key);
-        }
-
-        return ucfirst(trans($key, $replace, $locale));
-    }
-}
