@@ -116,6 +116,11 @@ class AccountsCrudController extends BaseCrudController
     public function update()
     {
         parent::update();
+        
+        User::query()->each(function(User $user){
+            Cache::forget('selectable_accounts_for_user_' . $user->id);
+        });
+
         return $this->traitUpdate();
     }
 
