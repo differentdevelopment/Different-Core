@@ -15,16 +15,19 @@ class BaseCrudController extends CrudController
     {
         parent::setupConfigurationForCurrentOperation();
 
-        // Modell szinten kell kezelni, global scope
-        /*if ($this->isAccountBasedCrud()) {
-            $this->crud->query->where('account_id', session('account_id'));
-        }*/
+        if (isset($this->data['tabs']) && count($this->data['tabs'])) {
+            $this->crud->setListView('different-core::crud.tabs.list');
+            $this->crud->setShowView('different-core::crud.tabs.show');
+            $this->crud->setCreateView('different-core::crud.tabs.create');
+            $this->crud->setEditView('different-core::crud.tabs.edit');
+        }
     }
 
     
     protected function addAccountIdFieldIfNeeded()
     {
         if ($this->isAccountBasedCrud()) {
+            if (array_key_exists('account_id', $this->crud->getFields())) return;
             $this->crud->addField(['name' => 'account_id', 'type' => 'hidden', 'default' => session('account_id')]);
             $this->crud->getRequest()->request->add(['account_id' => session('account_id')]);
         }
