@@ -46,4 +46,17 @@ class BaseCrudController extends CrudController
     {
         return in_array(AccountCheckMiddleware::class , Route::current()->gatherMiddleware());
     }
+
+    protected function setupColumnsFieldsFromMethod(): void
+    {
+        $this->crud->setColumns($this->getColumns());
+        $this->crud->addFields($this->getFields());
+    }
+
+    protected function setupFiltersFromMethod(): void
+    {
+        foreach($this->getFilters() as $filter) {
+            $this->crud->addFilter($filter[0], $filter[1], $filter[2]);
+        }
+    }
 }
