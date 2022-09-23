@@ -5,7 +5,7 @@
         {!! csrf_field() !!}
 
         <div class="form-group">
-            <label class="control-label" for="{{ $username }}">{{ config('backpack.base.authentication_column_name') }}</label>
+            <label class="control-label" for="{{ $username }}">{{ trans('backpack::base.email_address') }}</label>
 
             <div>
                 <input type="text" class="form-control{{ $errors->has($username) ? ' is-invalid' : '' }}" name="{{ $username }}" value="{{ old($username) }}" id="{{ $username }}">
@@ -44,7 +44,7 @@
 
         <div class="form-group">
             <div>
-                <button type="submit" class="btn btn-block btn-primary">
+                <button type="submit" class="btn btn-block btn-primary btn-lg">
                     {{ trans('backpack::base.login') }}
                 </button>
             </div>
