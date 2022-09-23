@@ -405,3 +405,61 @@ html:not([dir=rtl]) .sidebar {
         transition: all .25s;
     }
 }
+
+#tabs {
+    margin-bottom: 10px;
+
+    .nav  {
+        background-color: #fff;
+        border: 1px solid #0028641f;
+        border-radius: 0.25rem;
+        overflow: hidden;
+
+        &.nav-pills {
+            .nav-link {
+                transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+                border-radius: 0;
+
+                i {
+                    margin: 0 0.25rem 0 0;
+                }
+        
+                &.active {
+                    color: var(--ion-color-primary) !important;
+                    background: rgba(var(--ion-color-primary-rgb), 0.075);
+        
+                    &:hover {
+                        background: rgba(var(--ion-color-primary-rgb), 0.2);
+                    }
+                }
+        
+            }
+        }
+    }
+}
+
+.auth-card {
+    background: #fff;
+    border-radius: .75rem;
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    overflow: hidden;
+    max-width: 450px;
+    margin: 0 auto;
+
+    .auth-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--ion-color-primary);
+        padding: 20px 15px;
+
+        .auth-brand {
+            font-size: 30px;
+            color: var(--ion-color-primary-contrast) !important;
+        }
+    }
+
+    .auth-bottom {
+        padding: 25px;
+    }
+}
