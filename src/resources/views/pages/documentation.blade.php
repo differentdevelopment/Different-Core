@@ -84,11 +84,43 @@ public function setup() {
 
     <h4 class="text-primary mt-5">"Breadcrumbs" menü</h4>
     <p>Az adott CRUD <b>setup()</b> metódusába kell ezt a kódrészletet beletenni.</p>
-    <pre><code class="language-php">$this->data['breadcrumbs_menu'] = [
+<pre><code class="language-php">use Different\DifferentCore\app\Utils\Breadcrumb\BreadcrumbMenuItem;
+
+$this->data['breadcrumbs_menu'] = [
     new BreadcrumbMenuItem(
         backpack_url('dashboard'), // Hivatkozás
         __('backpack::crud.admin'), // Cím
         'las la-tachometer-alt', // Ikon (https://icons8.com/line-awesome)
+    ),
+];</code></pre>
+
+
+<h4 class="text-primary mt-5">"Tabs" menü</h4>
+<p>Az adott CRUD <b>setup()</b> metódusába kell ezt a kódrészletet beletenni.</p>
+<pre><code class="language-php">use Different\DifferentCore\app\Utils\Tab\TabItem;
+
+$this->data['tabs'] = [
+    new TabItem(
+        route('songs.index'),
+        __('songs.songs'),
+        'las la-music',
+        'song.list',
+        false,
+        true,
+        true,
+        true,
+        true
+    ),
+    new TabItem(
+        route('admin.user.index'),
+        __('different-core::users.users'),
+        'las la-user',
+        'user.list',
+        false,
+        true,
+        true,
+        true,
+        true
     ),
 ];</code></pre>
 
