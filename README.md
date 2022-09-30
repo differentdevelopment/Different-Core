@@ -42,13 +42,9 @@ A parancsok lefuttatása után állítsuk be az alábbi értékeket a konfigurá
 
   
 
-`config\backpack\base.php - 262. sor`<br  />
+`config\backpack\base.php`<br  />
 
 'view_namespace' => 'different-core::',<br  />
-
-<br  />
-
-`config\backpack\base.php - 15., 16., 250. sor `<br  />
 
 'default_date_format' => 'YYYY. MMM. D.',<br  />
 
@@ -56,35 +52,33 @@ A parancsok lefuttatása után állítsuk be az alábbi értékeket a konfigurá
 
 'avatar_type' => 'getProfileImageUrl',<br  />
 
-<br  />
-
-`config\backpack\base.php - 262. sor`<br  />
-
 'guard' => null,<br  />
 
 'passwords' => null,<br  />
 
-<br  />
-
-`config\backpack\base.php - 27. sor`<br  />
-
 'project_name' => '**PROJEKT-NEVE**',<br  />
 
+'project_logo' => '**PROJEKT-NEVE**',<br  />
+
+'home_link' => '', // Csak admin rendszerek esetén, amúgy 'admin' <br  />
+
+'developer_name' => 'Different Fejlesztő Kft.',<br  />
+
+'developer_link' => 'https://different.hu',<br  />
+
+'show_powered_by' => false,<br />
+
 <br  />
 
-`config\app.php - 70. sor`<br  />
+`config\app.php`<br  />
 
 'timezone' => 'Europe/Budapest',<br  />
-
-<br  />
-
-`config\app.php - 83. sor`<br  />
 
 'locale' => 'hu',<br  />
 
 <br  />
 
-`config\auth.php - 65. sor`<br  />
+`config\auth.php`<br  />
 
 'model' => Different\DifferentCore\app\Models\User::class,<br  />
 
@@ -101,7 +95,7 @@ A parancsok lefuttatása után állítsuk be az alábbi értékeket a konfigurá
 
 <br  />
 
-`app\Providers\RouteServiceProvider.php - 20. sor`<br  />
+`app\Providers\RouteServiceProvider.php`<br  />
 
 public const HOME = '/';<br  />
 
@@ -130,17 +124,17 @@ Ha ez megvolt akkor már csak az alábbi pár parancsot kell lefuttatni:
 
 Módosítsd a színeket a `backpack-overrides.scss` fájlban a `:root {` selectorban. Színek generálásához érdemes ezt használni: https://ionicframework.com/docs/theming/color-generator
 
-Új sort felvenni a `webpack.mix.js` fájlban:<br />
-> .sass('resources/scss/backpack-overrides.scss', 'public/css')
+Új elemet felvenni a `vite.config.js` fájlban a laravel -> input tömbhöz:<br />
+> 'resources/scss/backpack-overrides.scss'
 
-Az új buildelt css fájlt felvenni a `config/backpack/base.php -> styles` tömbhöz:<br />
+Az új elemet felvenni a `config/backpack/base.php -> vite_styles` tömbhöz:<br />
 
-'css/backpack-overrides.css',
+'resources/scss/backpack-overrides.scss',
 
 <br  />
 
-> `yarn` majd `yarn watch` futtatása
-> 
+> `yarn` majd `yarn dev` futtatása.
+
 <br  />
 
 ### Rendszer szintű logolás<br  />
