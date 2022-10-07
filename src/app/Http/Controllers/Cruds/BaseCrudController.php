@@ -33,6 +33,13 @@ class BaseCrudController extends CrudController
         }
     }
 
+    protected function addUserIdField()
+    {
+        if (array_key_exists('user_id', $this->crud->getFields())) return;
+        $this->crud->addField(['name' => 'user_id', 'type' => 'hidden', 'default' => backpack_user()->id]);
+        $this->crud->getRequest()->request->add(['user_id' => backpack_user()->id]);
+    }
+
     protected function store()
     {
         $this->handleFileUpload();
