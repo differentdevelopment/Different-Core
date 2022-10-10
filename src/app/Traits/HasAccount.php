@@ -4,6 +4,7 @@ namespace Different\DifferentCore\app\Traits;
 
 use Different\DifferentCore\app\Scopes\AccountScope;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Different\DifferentCore\app\Models\Account;
 
 trait HasAccount
 {
@@ -19,6 +20,6 @@ trait HasAccount
     
     public function account(): BelongsTo
     {
-        return $this->belongsTo(Account::class);
+        return $this->belongsTo(config('different-core.config.account_model_fqn', Account::class));
     }
 }
