@@ -48,7 +48,6 @@ Route::group([
     Route::crud('user', UsersCrudController::class);
     Route::crud('account', AccountsCrudController::class);
     Route::crud('activity', ActivitiesCrudController::class);
-    Route::crud('permission', PermissionsCrudController::class);
     Route::crud('role', RolesCrudController::class);
 
     Route::get('change-account/{id}', [ChangeAccountController::class, 'changeAccount'])->name('change-account');

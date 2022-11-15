@@ -1,13 +1,15 @@
 @php
     $field['wrapper'] = $field['wrapper'] ?? ($field['wrapperAttributes'] ?? []);
-    $field['wrapper']['data-init-function'] = $field['wrapper']['data-init-function'] ?? 'bpFieldInitFileElement';
+    $field['wrapper']['data-init-function'] = $field['wrapper']['data-init-function'] ?? 'bpFieldInitUploadElement';
     $field['wrapper']['data-field-name'] = $field['wrapper']['data-field-name'] ?? $field['name'];
     $field['accepted_file_types'] = $field['accepted_file_types'] ?? [];
     $field['max_file_size'] = $field['max_file_size'] ?? null;
     
     $urls = [];
     if (!empty($field['value'])) {
-        $urls[$field['value']] = $field['model']::find($field['value'])->uuid;
+        foreach ($field['value'] as $file) {
+            $urls[$file->id] = $file;
+        }
     }
 @endphp
 
@@ -16,15 +18,16 @@
 <label>{!! $field['label'] !!}</label>
 @include('crud::fields.inc.translatable_icon')
 
-<input type="file" name="upload_{{ $field['name'] }}">
-<div class="file-removes" data-urls="{{ json_encode($urls) }}" data-max-file-size="{{ json_encode($field['max_file_size']) }}"
-    data-accepted-file-types="{{ json_encode($field['accepted_file_types']) }}"></div>
+<input type="file" name="upload_{{ $field['name'] }}[]" multiple>
+<div class="file-removes"></div>
 
 {{-- HINT --}}
 @if (isset($field['hint']))
     <p class="help-block">{!! $field['hint'] !!}</p>
 @endif
 @include('crud::fields.inc.wrapper_end')
+
+
 
 {{-- ########################################## --}}
 {{-- Extra CSS and JS for this particular field --}}
@@ -47,19 +50,19 @@
         <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
         <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
         <script>
-            function bpFieldInitFileElement(element) {
+            function bpFieldInitUploadElement(element) {
                 const fileInput = element.find("input[type='file']");
-                const fileRemoves = element.find(".file-removes");
+                const fileRemoves = element.find(`.file-removes`);
 
-                const accepted_file_types = JSON.parse(fileRemoves[0].dataset.acceptedFileTypes);
-                const max_file_size = JSON.parse(fileRemoves[0].dataset.maxFileSize);
-                const uuids = JSON.parse(fileRemoves[0].dataset.urls);
+                const accepted_file_types = @json($field['accepted_file_types']);
+                const max_file_size = @json($field['max_file_size']);
+                const uuids = @json($urls);
                 const files = [];
 
                 if (Object.entries(uuids).length > 0) {
                     Object.entries(uuids).forEach((entry) => {
                         files.push({
-                            source: entry[1],
+                            source: entry[1].uuid,
                             options: {
                                 type: 'local',
                             },
@@ -81,7 +84,6 @@
                         fetch: '/file/',
                     },
                     files: files,
-                    maxFiles: 1,
                     imagePreviewHeight: 200,
                     acceptedFileTypes: accepted_file_types ?? [],
                     maxFileSize: max_file_size ?? null,
@@ -100,7 +102,7 @@
                             }
 
                             const removeInput = document.createElement('input');
-                            removeInput.name = "remove_{{ $field['name'] }}";
+                            removeInput.name = "remove_{{ $field['name'] }}[]";
                             removeInput.value = file_id;
                             removeInput.type = "hidden";
 

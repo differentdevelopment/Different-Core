@@ -15,7 +15,7 @@ use Different\DifferentCore\app\Models\User;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
-class RolesCrudController extends CrudController
+class RolesCrudController extends BaseCrudController
 {
     use ListOperation;
     use CreateOperation {
@@ -58,8 +58,8 @@ class RolesCrudController extends CrudController
             ->each(function(User $user){
                 Cache::forget('selectable_accounts_for_user_' . $user->id);
             });
-
-        return $this->traitUpdate();
+            
+        return parent::update();
     }
 
     public function destroy($id)
@@ -157,7 +157,7 @@ class RolesCrudController extends CrudController
         $this->crud->setValidation(RoleStoreRequest::class);
         $this->crud->setRequest($this->crud->validateRequest());
 
-        return $this->traitStore();
+        return parent::store();
     }
 
     private function addFields()

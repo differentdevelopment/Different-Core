@@ -7,10 +7,7 @@ use Different\DifferentCore\app\Models\File;
 
 trait FileUpload
 {
-    /**
-     * if {$input_name} file is set, stores the file, adds {$input_name}_id to grid/request
-     */
-    protected function handleFileUpload()
+    protected function handleFileUpload($entry)
     {
         $fields = $this->crud->get('update.fields');
         if ($fields === null) {
@@ -29,8 +26,8 @@ trait FileUpload
                         throw new \ErrorException("A `name` mező megadása kötelező fájl / kép feltöltés mező esetén! Ez határozza meg, hogy hova szúrja be a App\Models\File id-t.");
                     }
 
-                    $upload_key = 'upload_'.$key;
-                    $remove_key = 'remove_'.$key;
+                    $upload_key = 'upload_' . $key;
+                    $remove_key = 'remove_' . $key;
 
                     $pending_upload = $this->crud->getRequest()->{$upload_key} ?? null;
                     $pending_remove = $this->crud->getRequest()->{$remove_key} ?? null;
@@ -41,24 +38,59 @@ trait FileUpload
                             $file->delete();
                         }
 
-                        if (! $pending_upload) {
-                            // Ha nincs új feltöltés csak simán kitörlöm és mentek akkor el kell menteni az adott sor file mezőjét üresen!
-                            $this->addHiddenFileColumn($column, null);
+                        if (!$pending_upload) {
+                            // Ha nincs új feltöltés, csak simán kitörlöm és mentek, akkor el kell menteni az adott sor file mezőjét üresen!
+                            $entry->{$column . '_id'} = null;
+                            $entry->save();
                         }
                     }
 
                     if ($pending_upload && $this->crud->getRequest()->hasFile($upload_key)) {
-                        $storage_dir = $this->crud->model->getTable().'/'.date('Y').'/'.date('m').'/'.$column;
+                        $storage_dir = $this->crud->model->getTable() . '/' . date('Y') . '/' . date('m') . '/' . $column;
                         $file = FilesController::postFile($pending_upload, $storage_dir);
-                        $this->addHiddenFileColumn($column, $file->id);
-
-                        $crud_request = $this->crud->getRequest();
-                        $crud_request->files->remove($upload_key);
-                        $this->crud->setRequest($crud_request);
+                        $entry->{$column . '_id'} = $file->id;
+                        $entry->save();
                     }
 
                     break;
-                /*case "base64_image":
+                case 'file_multiple':
+                    $column = $options['name'] ?? null;
+
+                    if ($column === null) {
+                        throw new \ErrorException("A `name` mező megadása kötelező fájl / kép feltöltés mező esetén! Ez határozza meg, hogy hova szúrja be a App\Models\File id-t.");
+                    }
+
+                    $upload_key = 'upload_' . $key;
+                    $remove_key = 'remove_' . $key;
+
+                    $pending_uploads = $this->crud->getRequest()->{$upload_key} ?? [];
+                    $pending_removes = $this->crud->getRequest()->{$remove_key} ?? [];
+
+                    if (count($pending_removes) > 0) {
+                        foreach ($pending_removes as $file_id) {
+                            $file = File::query()->find($file_id);
+                            if ($file) {
+                                $file->delete();
+                            }
+                        }
+                    }
+
+                    if (count($pending_uploads) > 0) {
+                        $file_ids = [];
+                        foreach ($pending_uploads as $pending_upload) {
+                            if ($pending_upload && $pending_upload instanceof \Illuminate\Http\UploadedFile) {
+                                $storage_dir = $this->crud->model->getTable() . '/' . date('Y') . '/' . date('m') . '/' . $column;
+                                $file = FilesController::postFile($pending_upload, $storage_dir);
+                                $file_ids[] = $file->id;
+                            }
+                        }
+
+                        if (count($file_ids)) {
+                            $entry->{$column}()->syncWithoutDetaching($file_ids);
+                        }
+                    }
+                    break;
+                    /*case "base64_image":
                 case "image":
                     $column = $options["column"]??null;
 
@@ -121,10 +153,10 @@ trait FileUpload
             ],
             $explode[0]
         );
-        if (! in_array($format, $allow)) {
+        if (!in_array($format, $allow)) {
             return false;
         }
-        if (! preg_match('%^[a-zA-Z0-9/+]*={0,2}$%', $explode[1])) {
+        if (!preg_match('%^[a-zA-Z0-9/+]*={0,2}$%', $explode[1])) {
             return false;
         }
 

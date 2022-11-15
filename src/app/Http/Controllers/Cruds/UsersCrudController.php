@@ -244,20 +244,14 @@ class UsersCrudController extends BaseCrudController
 
     public function store()
     {
-        parent::store();
         $this->handlePasswordInput($this->crud->getRequest());
-
-        return $this->traitStore();
+        return parent::store();
     }
 
     public function update()
     {
-        parent::update();
         $this->handlePasswordInput($this->crud->getRequest());
-
-        $response = $this->traitUpdate();
-
-        return $response;
+        return parent::update();
     }
 
     //region Nem Backpack metódusok
