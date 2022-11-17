@@ -101,3 +101,17 @@ if (! function_exists('store_system_logs')) {
         activity()->byAnonymous()->useLog('system')->withProperties($e->getTrace())->log($e->getMessage());
     }
 }
+
+
+if (! function_exists('rendered_tab_count')) {
+    function rendered_tab_count($tabs, $type)
+    {
+        $count = 0;
+        foreach ($tabs as $tab) {
+            if ($tab->isRenderable($type)) {
+                $count++;
+            }
+        }
+        return $count;
+    }
+}

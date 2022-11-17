@@ -69,4 +69,24 @@ class TabItem
             'disabled' => $this->disabled,
         ]);
     }
+
+    public function isRenderable($type)
+    {
+        switch ($type) {
+            case 'list':
+                if ($this->showOnList) return true;
+                break;
+            case 'edit':
+                if ($this->showOnEdit) return true;
+                break;
+            case 'create':
+                if ($this->showOnCreate) return true;
+                break;
+            case 'show':
+                if ($this->showOnShow) return true;
+                break;
+        }
+
+        return false;
+    }
 }
