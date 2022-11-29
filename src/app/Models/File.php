@@ -7,6 +7,7 @@ use Different\DifferentCore\app\Http\Controllers\FilesController;
 use Different\DifferentCore\app\Traits\Uuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 /**
  * Class File
@@ -37,6 +38,9 @@ class File extends Model
         'original_name',
         'mime_type',
         'path',
+    ];
+    protected $appends = [
+        'url'
     ];
 
     /*
@@ -85,6 +89,12 @@ class File extends Model
     | ACCESSORS
     |--------------------------------------------------------------------------
     */
+    protected function url(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->getUrl(),
+        )->shouldCache();
+    }
 
     /*
     |--------------------------------------------------------------------------
