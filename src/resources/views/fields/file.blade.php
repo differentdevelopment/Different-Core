@@ -4,6 +4,7 @@
     $field['wrapper']['data-field-name'] = $field['wrapper']['data-field-name'] ?? $field['name'];
     $field['accepted_file_types'] = $field['accepted_file_types'] ?? [];
     $field['max_file_size'] = $field['max_file_size'] ?? null;
+    $field['clickable'] = $field['clickable'] ?? false;
     
     $urls = [];
     if (!empty($field['value'])) {
@@ -17,8 +18,13 @@
 @include('crud::fields.inc.translatable_icon')
 
 <input type="file" name="upload_{{ $field['name'] }}">
-<div class="file-removes" data-urls="{{ json_encode($urls) }}" data-max-file-size="{{ json_encode($field['max_file_size']) }}"
-    data-accepted-file-types="{{ json_encode($field['accepted_file_types']) }}"></div>
+<div
+    class="file-removes"
+    data-urls="{{ json_encode($urls) }}"
+    data-max-file-size="{{ json_encode($field['max_file_size']) }}"
+    data-accepted-file-types="{{ json_encode($field['accepted_file_types']) }}"
+    data-clickable="{{ json_encode($field['clickable']) }}"
+></div>
 
 {{-- HINT --}}
 @if (isset($field['hint']))
@@ -50,10 +56,11 @@
             function bpFieldInitFileElement(element) {
                 const fileInput = element.find("input[type='file']");
                 const fileRemoves = element.find(".file-removes");
-
+                
                 const accepted_file_types = JSON.parse(fileRemoves[0].dataset.acceptedFileTypes);
                 const max_file_size = JSON.parse(fileRemoves[0].dataset.maxFileSize);
                 const uuids = JSON.parse(fileRemoves[0].dataset.urls);
+                const clickable = JSON.parse(fileRemoves[0].dataset.clickable);
                 const files = [];
 
                 if (Object.entries(uuids).length > 0) {
@@ -105,6 +112,11 @@
                             removeInput.type = "hidden";
 
                             fileRemoves.append(removeInput);
+                        }
+                    },
+                    onactivatefile: (file) => {
+                        if (clickable && file.serverId) {
+                            window.open(`/file/${file.serverId}`, '_blank');
                         }
                     },
                 });
