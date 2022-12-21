@@ -305,7 +305,7 @@ a,
     h4 {
         margin: 0;
     }
-    
+
     p {
         margin: 0;
     }
@@ -346,7 +346,7 @@ a,
     background: #fff;
     border: 0;
     box-shadow: 0 0.125rem 0.225rem rgb(90 97 105 / 8%);
-    
+
     .navbar-brand {
         width: 250px;
         border-right: 1px solid #e0e5ec;
@@ -454,16 +454,16 @@ html:not([dir=rtl]) .sidebar {
                 i {
                     margin: 0 0.25rem 0 0;
                 }
-        
+
                 &.active {
                     color: var(--ion-color-primary) !important;
                     background: rgba(var(--ion-color-primary-rgb), 0.075);
-        
+
                     &:hover {
                         background: rgba(var(--ion-color-primary-rgb), 0.2);
                     }
                 }
-        
+
             }
         }
     }
@@ -502,5 +502,13 @@ html:not([dir=rtl]) .sidebar {
 @media only screen and (max-width: 600px) {
     .app-footer {
         display: none;
+    }
+}
+
+.lang-selector {
+    min-width: auto;
+
+    .dropdown-item {
+        min-width: auto;
     }
 }
