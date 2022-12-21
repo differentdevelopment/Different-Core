@@ -77,7 +77,9 @@ A parancsok lefuttatása után állítsuk be az alábbi értékeket a konfigurá
 'locale' => 'hu',<br  />
 
 <br  />
+
 `app/Http/Kernel.php`<br />
+
 Általában global middleware-ként felvenni: \Different\DifferentCore\app\Http\Middlewares\SetLangMiddleware::class,
 
 `config\auth.php`<br  />
