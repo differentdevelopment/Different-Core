@@ -82,6 +82,10 @@ A parancsok lefuttatása után állítsuk be az alábbi értékeket a konfigurá
 
 Általában web middleware-ként felvenni: \Different\DifferentCore\app\Http\Middlewares\SetLangMiddleware::class,
 
+`config/backpack/crud.php`<br />
+
+Itt a locales-t kitölteni, melyek a választható nyelvek.
+
 `config\auth.php`<br  />
 
 'model' => Different\DifferentCore\app\Models\User::class,<br  />
