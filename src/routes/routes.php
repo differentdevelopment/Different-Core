@@ -1,6 +1,7 @@
 <?php
 
 use Different\DifferentCore\app\Http\Controllers\ChangeAccountController;
+use Different\DifferentCore\app\Http\Controllers\ChangeLangController;
 use Different\DifferentCore\app\Http\Controllers\Cruds\AccountsCrudController;
 use Different\DifferentCore\app\Http\Controllers\Cruds\ActivitiesCrudController;
 use Different\DifferentCore\app\Http\Controllers\Cruds\PermissionsCrudController;
@@ -51,6 +52,8 @@ Route::group([
     Route::crud('role', RolesCrudController::class);
 
     Route::get('change-account/{id}', [ChangeAccountController::class, 'changeAccount'])->name('change-account');
+    Route::get('change-lang/{lang}', [ChangeLangController::class, 'changeLang'])->name('change-lang');
+
 
     Route::get('/users/{user}/verify', [UsersCrudController::class, 'verifyUser'])->name('verify');
     Route::get('settings', [SettingsCrudController::class, 'index'])->name('settings');
