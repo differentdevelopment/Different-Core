@@ -80,7 +80,7 @@ A parancsok lefuttatása után állítsuk be az alábbi értékeket a konfigurá
 
 `app/Http/Kernel.php`<br />
 
-Általában global middleware-ként felvenni: \Different\DifferentCore\app\Http\Middlewares\SetLangMiddleware::class,
+Általában web middleware-ként felvenni: \Different\DifferentCore\app\Http\Middlewares\SetLangMiddleware::class,
 
 `config\auth.php`<br  />
 
