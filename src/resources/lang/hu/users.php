@@ -14,6 +14,7 @@ return [
     'super_admin_role_error' => 'Super admin szerepet csak super admin adhat!',
     'name' => 'Név',
     'email' => 'E-mail',
+    'lang' => 'Nyelv',
     'roles' => 'Szerepkörök',
     'phone' => 'Telefonszám',
     'user_role_permission' => 'Szerepkörök és jogok',

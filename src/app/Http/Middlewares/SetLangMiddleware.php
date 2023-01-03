@@ -4,6 +4,7 @@ namespace Different\DifferentCore\app\Http\Middlewares;
 
 
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 
 class SetLangMiddleware
 {
@@ -16,12 +17,14 @@ class SetLangMiddleware
      */
     public function handle($request, \Closure $next)
     {
-        if(!session()->has('lang'))
+        if(!session()->has('lang') && Auth::user())
         {
-            session()->put('lang', config('app.locale'));
+            session()->put('lang', Auth::user()?->lang ?? config('app.locale'));
         }
 
-        App::setLocale(session()->get('lang'));
+        if(session()->has('lang')){
+            App::setLocale(session()->get('lang'));
+        }
 
         return $next($request);
     }

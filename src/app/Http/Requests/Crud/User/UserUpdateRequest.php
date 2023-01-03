@@ -39,6 +39,7 @@ class UserUpdateRequest extends FormRequest
             'password' => ['confirmed'],
             'roles' => ['nullable'],
             'phone' => ['nullable', 'string'],
+            'lang' => ['nullable', 'string'],
         ];
     }
 }

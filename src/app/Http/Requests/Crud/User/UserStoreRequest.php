@@ -26,6 +26,7 @@ class UserStoreRequest extends FormRequest
         return [
             'email' => ['required', 'unique:'.config('permission.table_names.users', 'users').',email'],
             'name' => ['required'],
+            'lang' => ['nullable', 'string'],
             'password' => ['required', 'confirmed'],
             'roles' => ['nullable'],
             'phone' => ['nullable', 'string'],

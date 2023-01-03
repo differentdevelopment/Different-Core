@@ -14,6 +14,7 @@ return [
     'super_admin_role_error' => 'Super admin role can only be given by a super admin!',
     'name' => 'Name',
     'email' => 'E-mail',
+    'lang' => 'Language',
     'roles' => 'Roles',
     'phone' => 'Phone',
     'user_role_permission' => 'Roles and permissions',
