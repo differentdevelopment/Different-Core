@@ -78,9 +78,12 @@ A parancsok lefuttatása után állítsuk be az alábbi értékeket a konfigurá
 
 <br  />
 
-`app/Http/Kernel.php`<br />
+`config\base.php`<br />
 
-Általában web middleware-ként felvenni: \Different\DifferentCore\app\Http\Middlewares\SetLangMiddleware::class,
+'middleware_class' => [
+    ...
+    \Different\DifferentCore\app\Http\Middlewares\SetLangMiddleware::class,
+]
 
 `config/backpack/crud.php`<br />
 
