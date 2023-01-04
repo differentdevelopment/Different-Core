@@ -469,6 +469,12 @@ html:not([dir=rtl]) .sidebar {
     }
 }
 
+.auth-lang {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+}
+
 .auth-card {
     background: #fff;
     border-radius: .75rem;
