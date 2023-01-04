@@ -20,6 +20,7 @@ Route::group([
         DisableDebugbarMiddleware::class,
     ],
 ], function () {
+    Route::get('change-lang/{lang}', [ChangeLangController::class, 'changeLang'])->name('change-lang');
     Route::get('/file/{file:uuid}', FilesController::class)->name('different-core.file');
     Route::get('/thumbnail/{file:uuid}/{width?}/{height?}', [FilesController::class, 'thumbnail'])->name('different-core.thumbnail');
 });
@@ -52,7 +53,6 @@ Route::group([
     Route::crud('role', RolesCrudController::class);
 
     Route::get('change-account/{id}', [ChangeAccountController::class, 'changeAccount'])->name('change-account');
-    Route::get('change-lang/{lang}', [ChangeLangController::class, 'changeLang'])->name('change-lang');
 
 
     Route::get('/users/{user}/verify', [UsersCrudController::class, 'verifyUser'])->name('verify');

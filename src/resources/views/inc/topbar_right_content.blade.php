@@ -42,7 +42,7 @@
             @foreach ($locales_array as $locale_shortcode => $locale_name)
                 <a
                     class="dropdown-item {{ \Illuminate\Support\Facades\App::getLocale() == $locale_shortcode ? 'active disabled' : '' }}"
-                    href="{{ route('admin.change-lang', [$locale_shortcode]) }}"
+                    href="{{ route('change-lang', [$locale_shortcode]) }}"
                 >
                     @php
                         if($locale_shortcode == 'en')

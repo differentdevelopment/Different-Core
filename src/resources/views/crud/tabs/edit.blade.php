@@ -1,4 +1,4 @@
-@extends('crud::edit')
+@extends('different-core::crud.edit')
 
 @section('content')
     @include('different-core::crud.tabs.tabs', [ 'type' => 'edit' ])
