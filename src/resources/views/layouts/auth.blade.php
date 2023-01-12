@@ -54,7 +54,7 @@ $locales_array = config('backpack.crud.locales');
     <div class="auth-card">
         <div class="auth-top">
           <div class="auth-brand" title="{{ config('backpack.base.project_name') }}">
-            {!! config('backpack.base.project_logo') !!}
+            {!! config('different-core.config.login_logo') ?? config('backpack.base.project_logo') !!}
           </div>
         </div>
         <div class="auth-bottom">
