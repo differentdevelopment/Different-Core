@@ -7,6 +7,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Library\Widget;
 use Different\DifferentCore\app\Models\Activity;
+use Different\DifferentCore\app\Models\User;
 
 class ActivitiesCrudController extends CrudController
 {
@@ -50,7 +51,7 @@ class ActivitiesCrudController extends CrudController
                 'name' => 'description',
                 'label' => __('different-core::activities.description'),
                 'type' => 'text',
-                'limit' => 100,
+                'limit' => 50,
             ],
             [
                 'name' => 'created_at',
@@ -71,6 +72,7 @@ class ActivitiesCrudController extends CrudController
             ],
             [
                 'name' => 'subject_type',
+                'limit' => 99999,
                 'label' => __('different-core::activities.subject_type'),
                 'type' => 'text',
             ],
@@ -103,6 +105,20 @@ class ActivitiesCrudController extends CrudController
                 $this->crud->addClause('where', 'created_at', '>=', $dates->from);
                 $this->crud->addClause('where', 'created_at', '<=', $dates->to.' 23:59:59');
             });
+
+        $this->crud->addFilter([
+            'name' => 'causer',
+            'type' => 'select2_multiple',
+            'label' => __('different-core::activities.causer'),
+        ],
+            function () {
+                return User::query()->get()->keyBy('id')->pluck('name', 'id')->toArray();
+            },
+            function ($values) {
+                $this->crud->addClause('whereIn', 'causer_type', ['App\Models\User', 'Different\DifferentCore\app\Models\User']);
+                $this->crud->addClause('whereIn', 'causer_id', json_decode($values));
+            });
+            
 
         $this->crud->addFilter([
             'name' => 'description',

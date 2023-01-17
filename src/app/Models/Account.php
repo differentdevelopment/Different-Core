@@ -7,6 +7,9 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Facades\CauserResolver;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * Class Partner
@@ -21,6 +24,7 @@ class Account extends Model
     use CrudTrait;
     use HasFactory;
     use SoftDeletes;
+    use LogsActivity;
 
     /*
     |--------------------------------------------------------------------------
@@ -73,6 +77,11 @@ class Account extends Model
     | ACCESSORS
     |--------------------------------------------------------------------------
     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        CauserResolver::setCauser(backpack_user());
+        return LogOptions::defaults()->useLogName('account');
+    }
 
     /*
     |--------------------------------------------------------------------------

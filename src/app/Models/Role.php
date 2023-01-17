@@ -4,6 +4,9 @@ namespace Different\DifferentCore\app\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Spatie\Permission\Models\Role as OriginalRole;
+use Spatie\Activitylog\Facades\CauserResolver;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * Class Role
@@ -18,6 +21,7 @@ use Spatie\Permission\Models\Role as OriginalRole;
 class Role extends OriginalRole
 {
     use CrudTrait;
+    use LogsActivity;
 
     protected $fillable = [
         'name',
@@ -26,4 +30,10 @@ class Role extends OriginalRole
     ];
 
     public $timestamps = true;
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        CauserResolver::setCauser(backpack_user());
+        return LogOptions::defaults()->useLogName('role')->logFillable();
+    }
 }

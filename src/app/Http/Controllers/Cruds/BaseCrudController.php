@@ -15,6 +15,8 @@ class BaseCrudController extends CrudController
     {
         parent::setupConfigurationForCurrentOperation();
 
+        $this->data['crud_account_selector'] = $this->isAccountBasedCrud();
+
         if (isset($this->data['tabs']) && count($this->data['tabs'])) {
             $this->crud->setListView('different-core::crud.tabs.list');
             $this->crud->setShowView('different-core::crud.tabs.show');

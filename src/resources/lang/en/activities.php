@@ -10,4 +10,6 @@ return [
     'properties' => 'Properties',
     'log_name' => 'Type',
     'activity_system_count_heading' => 'Attention, :count system errors today!',
+    'subject_type' => 'Subject type',
+    'subject_id' => 'Subject id',
 ];

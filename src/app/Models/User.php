@@ -142,8 +142,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getActivitylogOptions(): LogOptions
     {
         CauserResolver::setCauser(backpack_user());
-
-        return LogOptions::defaults()->useLogName('users')->logOnly(['name', 'email']);
+        return LogOptions::defaults()->useLogName('user')->logOnly(['name', 'email']);
     }
 
     public function getSelectableAccountsAttribute()

@@ -1,6 +1,7 @@
 <?php
 
 return [
+    // pl.: 'email-logo.png', ezesetben a public/email-logo.png helyen fogja keresni a logót
     'logo' => '',
     'footer_email' => 'hello@different.hu',
     'footer_web' => 'https://different.hu/',
