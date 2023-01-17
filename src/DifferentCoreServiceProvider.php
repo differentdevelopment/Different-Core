@@ -60,9 +60,12 @@ class DifferentCoreServiceProvider extends ServiceProvider
             return new DifferentCore;
         });
 
-        $this->app->bind(
-            ExceptionHandler::class,
-            Handler::class,
-        );
+        if(config('different-core.config.project_uses_core_error_handling', true) == true)
+        {
+            $this->app->bind(
+                ExceptionHandler::class,
+                Handler::class,
+            );
+        }
     }
 }

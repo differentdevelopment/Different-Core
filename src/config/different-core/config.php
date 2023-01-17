@@ -12,4 +12,5 @@ return [
     ],
     'magic_link_login' => false,
     'login_logo' => null, //ha a login screenen más logo-t akarunk megjeleníteni
+    'project_uses_core_error_handling' => true,
 ];
