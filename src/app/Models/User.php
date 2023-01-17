@@ -82,6 +82,9 @@ class User extends Authenticatable implements MustVerifyEmail
             if ($user->profile_image_id) {
                 $user->profile_image->delete();
             }
+            $user->email = 'deleted_' . now()->format('YmdHis') . $user->id . '@deleted.com';
+            $user->name = 'Deleted user';
+            $user->saveQuietly();
         });
     }
 
