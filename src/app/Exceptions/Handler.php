@@ -55,9 +55,6 @@ class Handler extends \Illuminate\Foundation\Exceptions\Handler
     {
         if ($exception instanceof TransportException) {
             Log::error($exception->getMessage());
-            if(request()->wantsJson()){
-                return response()->json(['message' => __('An error occured while sending the email.')], 500);
-            }
             abort(500, __('An error occured while sending the email.'));
         }
         parent::report($exception);
