@@ -3,6 +3,8 @@
 namespace Different\DifferentCore;
 
 use Different\DifferentCore\app\Console\Commands\SeederCommand;
+use Different\DifferentCore\app\Exceptions\Handler;
+use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -57,5 +59,10 @@ class DifferentCoreServiceProvider extends ServiceProvider
         $this->app->singleton('different-core', function () {
             return new DifferentCore;
         });
+
+        $this->app->bind(
+            ExceptionHandler::class,
+            Handler::class,
+        );
     }
 }
