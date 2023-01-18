@@ -58,7 +58,7 @@ class RolesCrudController extends BaseCrudController
             ->each(function(User $user){
                 Cache::forget('selectable_accounts_for_user_' . $user->id);
             });
-            
+
         return parent::update();
     }
 
@@ -105,7 +105,7 @@ class RolesCrudController extends BaseCrudController
                     return backpack_url('user?roles='.urlencode('["'.$entry->getKey().'"]'));
                 },
             ],
-            'suffix' => ' felhasználó',
+            'suffix' => ' ' . __('backpack::permissionmanager.user'),
         ]);
 
         /**
