@@ -10,7 +10,6 @@ use Different\DifferentCore\app\Http\Controllers\Cruds\SettingsCrudController;
 use Different\DifferentCore\app\Http\Controllers\Cruds\UsersCrudController;
 use Different\DifferentCore\app\Http\Controllers\FilesController;
 use Different\DifferentCore\app\Http\Controllers\MagicLinkController;
-use Different\DifferentCore\app\Http\Controllers\Pages\DocumentationPageController;
 use Different\DifferentCore\app\Http\Middlewares\DisableDebugbarMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -58,6 +57,4 @@ Route::group([
     Route::get('/users/{user}/verify', [UsersCrudController::class, 'verifyUser'])->name('verify');
     Route::get('settings', [SettingsCrudController::class, 'index'])->name('settings');
     Route::post('settings', [SettingsCrudController::class, 'save']);
-
-    Route::get('documentation', [DocumentationPageController::class, 'index'])->name('documentation');
 });

@@ -15,7 +15,6 @@ class SidebarController
                     new SidebarMenuItem(route('admin.role.index'), 'different-core::roles.roles', 'las la-id-badge', 'role-manage'),
                     new SidebarMenuItem(route('admin.activity.index'), 'different-core::activities.activities', 'las la-history', 'activity-list'),
                     new SidebarMenuItem(route('admin.settings'), 'different-core::settings.settings', 'las la-sliders-h', 'setting-manage'),
-//                    new SidebarMenuItem(route('admin.documentation'), 'different-core::documentation.documentation', 'las la-book', 'documentation-read'),
                 ],
                 'las la-cog',
                 [
@@ -23,7 +22,6 @@ class SidebarController
                     'role-manage',
                     'activity-list',
                     'setting-manage',
-                    'documentation-read',
                 ]
             ),
         ];

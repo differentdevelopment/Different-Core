@@ -89,11 +89,6 @@ class DifferentSeeder extends Seeder
             ],
             [
                 'group' => 'Általános',
-                'name' => 'documentation-read',
-                'readable_name' => 'Dokumentáció megjelnítése',
-            ],
-            [
-                'group' => 'Általános',
                 'name' => 'select-all-accounts',
                 'readable_name' => 'Minden accounthoz hozzáfér'
             ]

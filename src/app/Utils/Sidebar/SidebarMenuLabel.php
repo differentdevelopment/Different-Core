@@ -26,7 +26,7 @@ class SidebarMenuLabel
     {
         $obj = new SidebarMenuLabel(
             $an_array['title'],
-            $an_array['permission'] ?? null
+            $an_array['permissions'] ?? null
         );
 
         return $obj;
