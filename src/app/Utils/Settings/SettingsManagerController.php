@@ -53,6 +53,23 @@ class SettingsManagerController
         return '';
     }
 
+    /**
+     * Updates the setting value.
+     *
+     * @param  string  $setting
+     * @return mixed
+     */
+    public static function set($setting, $value): mixed
+    {
+        $name = is_string($setting) ? $setting : (is_array($setting) ? $setting['name'] : abort(500, 'Could not parse setting.'));
+        $setting = Setting::query()->where('name', $name)->first();
+        if (isset($setting) && ! empty($setting)) {
+            $setting->value = $value;
+            $setting->save();
+        }
+        return $setting;
+    }
+
     public static function settingExists($setting): bool
     {
         $name = is_string($setting) ? $setting : (is_array($setting) ? $setting['name'] : abort(500, 'Could not parse setting.'));
