@@ -7,6 +7,8 @@
     <a href="https://github.com/differentdevelopment/Different-Core/commits/main" title="Last commit"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/differentdevelopment/Different-Core"></a>
 </p>
 
+[Dokumentáció](https://github.com/differentdevelopment/Different-Core/blob/main/DOCUMENTATION.md)
+
 ## Telepítés
 
   
