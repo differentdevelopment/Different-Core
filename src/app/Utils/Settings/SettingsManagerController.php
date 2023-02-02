@@ -2,6 +2,8 @@
 
 namespace Different\DifferentCore\app\Utils\Settings;
 
+use Different\DifferentCore\app\Http\Controllers\FilesController;
+use Different\DifferentCore\app\Models\File;
 use Different\DifferentCore\app\Models\Setting;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
@@ -129,16 +131,66 @@ class SettingsManagerController
 
     public static function saveSettingsValues($settings): bool
     {
-        $settingsInDb = Setting::whereIn('name', array_keys($settings))->get();
+        $settingsInDb = Setting::query()->get();
         foreach ($settings as $settingName => $settingValue) {
             $setting = $settingsInDb->where('name', $settingName)->first();
+            if(!$setting)
+            {
+                if(str_starts_with($settingName, 'upload_'))
+                {
+                    $setting = $settingsInDb->where('name', explode('upload_', $settingName)[1])->first();
+                }elseif(str_starts_with($settingName, 'remove_'))
+                {
+                    $setting = $settingsInDb->where('name', explode('remove_', $settingName)[1])->first();
+                }
+            }
             if (! is_null($setting)) {
-                /*switch ($setting->type) { TODO: Fixme
-                    case 'image': {
-                        $settingValue = $this->saveImageToDisk($settingValue, $settingName);
-                    }
-                }*/
-                $setting->update(['value' => $settingValue]);
+                switch ($setting->type) {
+//                    case 'image': { TODO FIXME
+//                        $settingValue = $this->saveImageToDisk($settingValue, $settingName);
+//                    }
+                    case 'file':
+                        if(str_starts_with($settingName, 'upload_'))
+                        {
+                            $column = $key = explode('upload_', $settingName)[1];
+                        }elseif(str_starts_with($settingName, 'remove_'))
+                        {
+                            $column = $key = explode('remove_', $settingName)[1];
+                        }else{
+                            $column = $key = $settingName;
+                        }
+
+                        if ($column === null) {
+                            throw new \ErrorException("A `name` mező megadása kötelező fájl / kép feltöltés mező esetén! Ez határozza meg, hogy hova szúrja be a App\Models\File id-t.");
+                        }
+
+                        $upload_key = 'upload_' . $key;
+                        $remove_key = 'remove_' . $key;
+
+                        $pending_upload = request()->file($upload_key) ?? null;
+                        $pending_remove = request()->get($remove_key) ?? null;
+
+                        if ($pending_remove) {
+                            $file = File::query()->find($pending_remove);
+                            if ($file) {
+                                $file->delete();
+                            }
+
+                            if (!$pending_upload) {
+                                // Ha nincs új feltöltés, csak simán kitörlöm és mentek, akkor el kell menteni az adott sor file mezőjét üresen!
+                                $setting->update(['value' => null]);
+                            }
+                        }
+
+                        if ($pending_upload && request()->hasFile($upload_key)) {
+                            $storage_dir = 'settings' . '/' . date('Y') . '/' . date('m') . '/' . $column;
+                            $file = FilesController::postFile($pending_upload, $storage_dir);
+                            $setting->update(['value' => $file->id]);
+                        }
+                        break;
+                    default:
+                        $setting->update(['value' => $settingValue]);
+                }
             }
         }
 
