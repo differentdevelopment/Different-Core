@@ -21,6 +21,7 @@ Route::group([
 ], function () {
     Route::get('change-lang/{lang}', [ChangeLangController::class, 'changeLang'])->name('change-lang');
     Route::get('/file/{file:uuid}', FilesController::class)->name('different-core.file');
+    Route::get('/file/{file:uuid}/download', [FilesController::class, 'download'])->name('different-core.file-download');
     Route::get('/thumbnail/{file:uuid}/{width?}/{height?}', [FilesController::class, 'thumbnail'])->name('different-core.thumbnail');
 });
 

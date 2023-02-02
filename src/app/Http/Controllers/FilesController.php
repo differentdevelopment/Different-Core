@@ -20,6 +20,11 @@ class FilesController extends Controller
         return $this->getFile($file);
     }
 
+    public function download(File $file)
+    {
+        return $this->getFileDownload($file);
+    }
+
     /**
      * @param  File  $file
      * @param  int  $width
