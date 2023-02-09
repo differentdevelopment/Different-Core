@@ -167,7 +167,7 @@ class FilesController extends Controller
         return self::insertUploadedFile(
             $file,
             $directory,
-            $file->getClientOriginalName(),
+            $file->getClientOriginalName() ?? $file->getFilename(),
             $file->getMimeType()
         );
     }
@@ -248,7 +248,8 @@ class FilesController extends Controller
             }
         }
 
-        $path = Storage::putFile($directory, $uploaded_file, 'public');
+        $filename = Str::random(40) . '.' . $uploaded_file->getClientOriginalExtension();
+        $path = Storage::putFileAs($directory, $uploaded_file, $filename, 'public');
 
         $file = new File;
         $file->original_name = $original_name;
