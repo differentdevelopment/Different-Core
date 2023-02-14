@@ -4,7 +4,7 @@ use Different\DifferentCore\app\Http\Controllers\ChangeAccountController;
 use Different\DifferentCore\app\Http\Controllers\ChangeLangController;
 use Different\DifferentCore\app\Http\Controllers\Cruds\AccountsCrudController;
 use Different\DifferentCore\app\Http\Controllers\Cruds\ActivitiesCrudController;
-use Different\DifferentCore\app\Http\Controllers\Cruds\PermissionsCrudController;
+use Different\DifferentCore\app\Http\Controllers\Cruds\FilesCrudController;
 use Different\DifferentCore\app\Http\Controllers\Cruds\RolesCrudController;
 use Different\DifferentCore\app\Http\Controllers\Cruds\SettingsCrudController;
 use Different\DifferentCore\app\Http\Controllers\Cruds\UsersCrudController;
@@ -51,9 +51,9 @@ Route::group([
     Route::crud('account', AccountsCrudController::class);
     Route::crud('activity', ActivitiesCrudController::class);
     Route::crud('role', RolesCrudController::class);
+    Route::crud('filemanager', FilesCrudController::class);
 
     Route::get('change-account/{id}', [ChangeAccountController::class, 'changeAccount'])->name('change-account');
-
 
     Route::get('/users/{user}/verify', [UsersCrudController::class, 'verifyUser'])->name('verify');
     Route::get('settings', [SettingsCrudController::class, 'index'])->name('settings');

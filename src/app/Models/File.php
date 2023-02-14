@@ -8,6 +8,7 @@ use Different\DifferentCore\app\Traits\Uuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 
 /**
  * Class File
@@ -25,6 +26,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 class File extends Model
 {
     use Uuid;
+    use CrudTrait;
 
     /*
     |--------------------------------------------------------------------------
@@ -64,11 +66,19 @@ class File extends Model
 
     public function getUrl()
     {
+        if (!$this) {
+            return "";
+        }
+        
         return route('different-core.file', $this);
     }
 
     public function getThumbnailUrl()
     {
+        if (!$this) {
+            return "";
+        }
+        
         return route('different-core.thumbnail', $this);
     }
 
