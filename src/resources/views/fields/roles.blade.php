@@ -88,6 +88,7 @@
 
       <div class="tab-pane active px-4" id="{{ $primary_dependency['name'] }}" role="tabpanel" aria-labelledby="{{ $primary_dependency['name'] }}-tab">
         <div class="hidden_fields_primary" data-name="{{ $primary_dependency['name'] }}">
+          <input type="hidden" bp-field-name="{{$primary_dependency['name']}}" name="{{$primary_dependency['name']}}" value="" />
           @if(isset($field['value']))
             @if(old($primary_dependency['name']))
                 @foreach( old($primary_dependency['name']) as $item )
@@ -152,6 +153,7 @@
 
       <div class="tab-pane px-4" id="{{ $secondary_dependency['name'] }}" role="tabpanel" aria-labelledby="{{ $secondary_dependency['name'] }}-tab">
           <div class="hidden_fields_secondary" data-name="{{ $secondary_dependency['name'] }}">
+            <input type="hidden" bp-field-name="{{$secondary_dependency['name']}}" name="{{$secondary_dependency['name']}}" value="" />
             @if(isset($field['value']))
               @if(old($secondary_dependency['name']))
                 @foreach( old($secondary_dependency['name']) as $item )
