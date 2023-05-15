@@ -75,6 +75,9 @@ class ActivitiesCrudController extends CrudController
                 'limit' => 99999,
                 'label' => __('different-core::activities.subject_type'),
                 'type' => 'text',
+                'searchLogic' => function ($query, $column, $searchTerm) {
+                    $query->orWhere('subject_type', 'like', '%'.str_replace("\\",'\\\\',$searchTerm).'%');
+                } 
             ],
             [
                 'name' => 'subject_id',
@@ -84,7 +87,7 @@ class ActivitiesCrudController extends CrudController
         ]);
 
         //region Filters
-        $this->crud->addFilter([
+        /*$this->crud->addFilter([
             'name' => 'log_name',
             'type' => 'text',
             'label' => __('different-core::activities.log_name'),
@@ -138,7 +141,7 @@ class ActivitiesCrudController extends CrudController
             false,
             function ($value) {
                 $this->crud->addClause('where', 'subject_type', 'like', '%'.$value.'%');
-            });
+            });*/
         //endregion
     }
 

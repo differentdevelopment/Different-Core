@@ -73,7 +73,7 @@ class UsersCrudController extends BaseCrudController
         ]);
         $this->crud->addColumn([
             'label' => __('different-core::users.roles'),
-            'type' => 'select_multiple',
+            //'type' => 'select_multiple',
             'name' => 'roles',
             'entity' => 'roles',
             'attribute' => 'readable_name',
@@ -82,7 +82,7 @@ class UsersCrudController extends BaseCrudController
         //endregion
 
         //region Filters
-        $this->crud->addFilter([
+        /*$this->crud->addFilter([
             'name' => 'name',
             'type' => 'text',
             'label' => __('different-core::users.name'),
@@ -116,7 +116,7 @@ class UsersCrudController extends BaseCrudController
                     }
                 }
             });
-        });
+        });*/
         //endregion
     }
 
@@ -150,7 +150,7 @@ class UsersCrudController extends BaseCrudController
             [[
                     'name' => 'lang',
                     'label' => __('different-core::users.lang'),
-                    'type' => 'select2_from_array',
+                    //'type' => 'select2_from_array',
                     'allows_null' => true,
                     'options' => LangService::getAvailableLangShortcodesInArray(),
                     'wrapper' => [
@@ -180,7 +180,7 @@ class UsersCrudController extends BaseCrudController
                 ],
                 [
                     'name' => 'accounts',
-                    'type' => 'select2_multiple',
+                    //'type' => 'select2_multiple',
                     'label' => __('different-core::accounts.accounts'),
                     'pivot' => true,
                     'options' => (function($query){
