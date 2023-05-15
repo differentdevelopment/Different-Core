@@ -8,7 +8,13 @@ return [
             '/admin/dashboard',
             'backpack::base.dashboard',
             'las la-home'
-        ),
+        )/* ,
+        new SidebarMenuItem(
+            '/admin/posts',
+            'Posts',
+            'las la-post',
+            'post-list'
+        ), */
     ],
 
     // Ha azt szeretnénk, hogy legyen "Egy kattintásos bejelentkezés"
