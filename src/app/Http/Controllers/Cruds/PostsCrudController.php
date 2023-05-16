@@ -3,10 +3,7 @@
 namespace Different\DifferentCore\app\Http\Controllers\Cruds;
 
 use Different\DifferentCore\app\Models\Post;
-use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Different\DifferentCore\app\Http\Controllers\Cruds\BaseCrudController;
-use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Different\DifferentCore\app\Utils\Tab\TabItem;
 use Different\DifferentCore\app\Http\Requests\Crud\Post\PostStoreRequest;
 use Different\DifferentCore\app\Http\Requests\Crud\Post\PostUpdateRequest;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
@@ -20,16 +17,16 @@ class PostsCrudController extends BaseCrudController
 {
     use ShowOperation;
     use ListOperation;
-     use CreateOperation {
+    use CreateOperation {
         store as traitStore;
     }
-    use UpdateOperation {
+    use UpdateOperation{
         update as traitUpdate;
     }
-    use DeleteOperation;
+    use DeleteOperation{
+        destroy as traitDestroy;
+    }
 
-
-    
     public function setup()
     {
         crud_permissions($this->crud, 'post');
@@ -41,7 +38,7 @@ class PostsCrudController extends BaseCrudController
             new BreadcrumbMenuItem(
                 backpack_url('dashboard'),
                 __('backpack::crud.admin'),
-                'las la-clipboard',
+                'las la-tachometer-alt',
             ),
         ];
     }
@@ -68,15 +65,6 @@ class PostsCrudController extends BaseCrudController
 
         //region Filters
         $this->crud->addFilter([
-            'name' => 'id',
-            'type' => 'number',
-            'label' => __('different-core::posts.id'),
-        ],
-            false,
-            function ($value) {
-                $this->crud->addClause('where', 'id', 'like', '%'.$value.'%');
-            });
-        $this->crud->addFilter([
             'name' => 'title',
             'type' => 'text',
             'label' => __('different-core::posts.title'),
@@ -99,7 +87,7 @@ class PostsCrudController extends BaseCrudController
     }
 
     protected function setupShowOperation()
-    {//
+    {
         $this->crud->set('show.setFromDb', false);
         $this->crud->setColumns([
             [
@@ -135,36 +123,47 @@ class PostsCrudController extends BaseCrudController
     {
         $this->crud->setValidation(PostUpdateRequest::class);
         $this->addFields();
-        $this->crud->modifyField('slug', [
+        $this->crud->modifyField('slug',[
             'attributes' => null
-         ]);
+        ]);
     }
 
     protected function addFields()
     {
-        $this->crud->addField([
+        $this->crud->addField(
+            [
             'name' => 'title',
             'label' => 'Title',
             'type' => 'text'
-        ],
-        [
+            ]); 
+            $this->crud->addField([
             'name' => 'slug',
+            'target' => 'title',
             'label' => 'Slug',
-            //'type' => 'slug',
-            'type' => 'text',
+            'type' => 'slug',
             'attributes' => [
                 'readonly' => 'readonly'
               ]
-        ],
-        [
+        ]);
+        $this->crud->addField([
             'name' => 'content',
             'label' => 'Content',
-            //'type' => 'wysiwyg'
-            'type' => 'text',
-        ]
-        );
+            'type' => 'wysiwyg'
+        ]);
     }
 
+    public function store(){
+        $this->crud->setValidation(PostStoreRequest::class);
+        $this->crud->setRequest($this->crud->validateRequest());
 
+        return parent::store();
+    }
+
+    public function update(){
+        $this->crud->setValidation(PostUpdateRequest::class);
+        $this->crud->setRequest($this->crud->validateRequest());
+
+        return parent::update();
+    }
 
 }

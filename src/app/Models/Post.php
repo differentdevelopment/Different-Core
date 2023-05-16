@@ -3,13 +3,14 @@
 namespace Different\DifferentCore\app\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Post
+ * Class User
  *
  * @property int $id
  * @property string $title
@@ -19,17 +20,28 @@ use Carbon\Carbon;
  * @property Carbon $updated_at
  * @property Carbon $deleted_at
  */
-class Posts extends Model
+class Post extends Model
 {
     use CrudTrait;
     use HasFactory;
     use SoftDeletes;
 
-    
-    protected $table = 'posts';
-    protected $primaryKey = 'id';
+    //region Globális változók
     protected $guarded = ['id'];
-    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
-    protected $fillable = ['title', 'slug', 'content'];
+
+    protected $fillable = [
+        'title',
+        'slug',
+        'content'
+    ];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+    ];
+
+    protected $guard_name = 'web';
+    //endregion
+
 
 }

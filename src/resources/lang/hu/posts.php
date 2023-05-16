@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'id' => 'ID',
     'post' => 'Bejegyzés',
     'posts' => 'Bejegyzések',
     'title' => 'Cím',
