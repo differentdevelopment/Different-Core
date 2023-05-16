@@ -4,6 +4,7 @@ namespace Different\DifferentCore\app\Http\Controllers\Cruds;
 
 use Different\DifferentCore\app\Models\Post;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Different\DifferentCore\app\Http\Controllers\Cruds\BaseCrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Different\DifferentCore\app\Utils\Tab\TabItem;
 use Different\DifferentCore\app\Http\Requests\Crud\Post\PostStoreRequest;
@@ -15,45 +16,32 @@ use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Different\DifferentCore\app\Utils\Breadcrumb\BreadcrumbMenuItem;
 
-class PostsCrudController extends CrudController
+class PostsCrudController extends BaseCrudController
 {
     use ShowOperation;
     use ListOperation;
-/*     use CreateOperation {
+     use CreateOperation {
         store as traitStore;
     }
     use UpdateOperation {
         update as traitUpdate;
     }
-    use DeleteOperation; */
+    use DeleteOperation;
 
 
     
     public function setup()
     {
         crud_permissions($this->crud, 'post');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/posts');
-        $this->crud->setEntityNameStrings('posts', 'posts');
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/post');
+        $this->crud->setEntityNameStrings(__('different-core::posts.post'), __('different-core::posts.posts'));
         $this->crud->setModel(Post::class);
 
-         /*$this->data['tabs'] = [
-            new TabItem(
-                route('posts.index'),
-                'Posts',
-                'las la-post',
-                'post.list',
-                false,
-                false,
-                true,
-                true,
-                true
-            )
-        ]; */
         $this->data['breadcrumbs_menu'] = [
             new BreadcrumbMenuItem(
                 backpack_url('dashboard'),
                 __('backpack::crud.admin'),
-                'las la-tachometer-alt',
+                'las la-clipboard',
             ),
         ];
     }

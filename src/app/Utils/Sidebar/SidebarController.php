@@ -10,6 +10,7 @@ class SidebarController
             new SidebarMenuGroup(
                 'different-core::sidebar.system',
                 [
+                    new SidebarMenuItem(route('admin.post.index'), 'different-core::posts.posts', 'las la-clipboard', 'post-list'),
                     new SidebarMenuItem(route('admin.user.index'), 'different-core::users.users', 'las la-user', 'user-list'),
                     new SidebarMenuItem(route('admin.account.index'), 'different-core::accounts.accounts', 'las la-users', 'account-list'),
                     new SidebarMenuItem(route('admin.role.index'), 'different-core::roles.roles', 'las la-id-badge', 'role-manage'),
@@ -19,6 +20,7 @@ class SidebarController
                 ],
                 'las la-cog',
                 [
+                    'post-list',
                     'user-list',
                     'role-manage',
                     'activity-list',
