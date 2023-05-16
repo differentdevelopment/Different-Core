@@ -25,7 +25,7 @@ class PostUpdateRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string'],
-            'slug' => ['nullable', 'string'],
+            'slug' => ['required', 'string'],
             'content' => ['nullable', 'string'],
         ];
     }

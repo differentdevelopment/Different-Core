@@ -10,7 +10,7 @@ use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class User
+ * Class Post
  *
  * @property int $id
  * @property string $title

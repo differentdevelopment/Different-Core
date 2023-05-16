@@ -133,13 +133,13 @@ class PostsCrudController extends BaseCrudController
         $this->crud->addField(
             [
             'name' => 'title',
-            'label' => 'Title',
+            'label' => __('different-core::posts.title'),
             'type' => 'text'
             ]); 
             $this->crud->addField([
             'name' => 'slug',
             'target' => 'title',
-            'label' => 'Slug',
+            'label' => __('different-core::posts.slug'),
             'type' => 'slug',
             'attributes' => [
                 'readonly' => 'readonly'
@@ -147,7 +147,7 @@ class PostsCrudController extends BaseCrudController
         ]);
         $this->crud->addField([
             'name' => 'content',
-            'label' => 'Content',
+            'label' => __('different-core::posts.content'),
             'type' => 'wysiwyg'
         ]);
     }
