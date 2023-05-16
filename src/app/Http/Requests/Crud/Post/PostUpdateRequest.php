@@ -23,16 +23,6 @@ class PostUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        $postModel = config('backpack.permissionmanager.models.post');
-        $postModel = new $postModel();
-        $routeSegmentWithId = empty(config('backpack.base.route_prefix')) ? '2' : '3';
-
-        $postId = $this->get('id') ?? \Request::instance()->segment($routeSegmentWithId);
-
-        if (! $postModel->find($postId)) {
-            abort(400, 'Could not find that entry in the database.');
-        }
-
         return [
             'title' => ['required', 'string'],
             'slug' => ['nullable', 'string'],
