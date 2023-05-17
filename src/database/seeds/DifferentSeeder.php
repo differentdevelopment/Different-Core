@@ -73,6 +73,31 @@ class DifferentSeeder extends Seeder
                 'readable_name' => 'Felhasználó törlése',
             ],
             [
+                'group' => 'Bejegyzés',
+                'name' => 'post-list',
+                'readable_name' => 'Bejegyzésk listázása',
+            ],
+            [
+                'group' => 'Bejegyzés',
+                'name' => 'post-show',
+                'readable_name' => 'Bejegyzés megtekintése',
+            ],
+            [
+                'group' => 'Bejegyzés',
+                'name' => 'post-create',
+                'readable_name' => 'Bejegyzés hozzáadása',
+            ],
+            [
+                'group' => 'Bejegyzés',
+                'name' => 'post-update',
+                'readable_name' => 'Bejegyzés frissítése',
+            ],
+            [
+                'group' => 'Bejegyzés',
+                'name' => 'post-delete',
+                'readable_name' => 'Bejegyzés törlése',
+            ],
+            [
                 'group' => 'Általános',
                 'name' => 'activity-list',
                 'readable_name' => 'Aktivitások listázása',

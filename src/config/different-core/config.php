@@ -8,7 +8,7 @@ return [
             '/admin/dashboard',
             'backpack::base.dashboard',
             'las la-home'
-        ),
+        ) ,
     ],
 
     // Ha azt szeretnénk, hogy legyen "Egy kattintásos bejelentkezés"

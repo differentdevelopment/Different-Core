@@ -8,6 +8,7 @@ use Different\DifferentCore\app\Http\Controllers\Cruds\FilesCrudController;
 use Different\DifferentCore\app\Http\Controllers\Cruds\RolesCrudController;
 use Different\DifferentCore\app\Http\Controllers\Cruds\SettingsCrudController;
 use Different\DifferentCore\app\Http\Controllers\Cruds\UsersCrudController;
+use Different\DifferentCore\app\Http\Controllers\Cruds\PostsCrudController;
 use Different\DifferentCore\app\Http\Controllers\FilesController;
 use Different\DifferentCore\app\Http\Controllers\MagicLinkController;
 use Different\DifferentCore\app\Http\Middlewares\DisableDebugbarMiddleware;
@@ -47,11 +48,13 @@ Route::group([
     'middleware' => ['web', config('backpack.base.middleware_key', 'admin')],
     'as' => 'admin.',
 ], function () {
+    Route::crud('post', PostsCrudController::class);
     Route::crud('user', UsersCrudController::class);
     Route::crud('account', AccountsCrudController::class);
     Route::crud('activity', ActivitiesCrudController::class);
     Route::crud('role', RolesCrudController::class);
     Route::crud('filemanager', FilesCrudController::class);
+    
 
     Route::get('change-account/{id}', [ChangeAccountController::class, 'changeAccount'])->name('change-account');
 
