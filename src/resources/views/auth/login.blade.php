@@ -8,7 +8,7 @@
             <label class="control-label" for="{{ $username }}">{{ trans('backpack::base.email_address') }}</label>
 
             <div>
-                <input type="text" class="form-control{{ $errors->has($username) ? ' is-invalid' : '' }}" name="{{ $username }}" value="{{ old($username) }}" id="{{ $username }}">
+                <input type="text" class="form-control{{ $errors->has($username) ? ' is-invalid' : '' }}" name="{{ $username }}" value="{{ old($username) }}" id="{{ $username }}" required>
 
                 @if ($errors->has($username))
                     <span class="invalid-feedback">
@@ -22,7 +22,7 @@
             <label class="control-label" for="password">{{ trans('backpack::base.password') }}</label>
 
             <div>
-                <input type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" id="password">
+                <input type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" id="password" required>
 
                 @if ($errors->has('password'))
                     <span class="invalid-feedback">
@@ -64,4 +64,15 @@
     @if (config('backpack.base.registration_open'))
         <div class="text-center"><a href="{{ route('backpack.auth.register') }}">{{ trans('backpack::base.register') }}</a></div>
     @endif
+@endsection
+
+@section('after_scripts')
+    <script>
+        const form = document.querySelector('form');
+        const submit = document.querySelector('button[type="submit"]');
+        form.addEventListener("submit", function() {
+            submit.classList.add("disabled");
+            submit.disabled = true;
+        });
+    </script>
 @endsection
