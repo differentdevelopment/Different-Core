@@ -10,10 +10,10 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Spatie\Activitylog\Facades\CauserResolver;
@@ -124,15 +124,18 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(File::class);
     }
 
+    /**
+     * @return BelongsToMany
+     */
     public function accounts(): BelongsToMany
     {
         return $this->belongsToMany(Account::class);
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return HasMany
      */
-    public function loginTokens()
+    public function loginTokens(): HasMany
     {
         return $this->hasMany(LoginToken::class);
     }
