@@ -16,8 +16,8 @@ class ModifyUsersTable extends Migration
             $table->unsignedInteger('profile_image_id')
                 ->nullable()
                 ->constrained()
-                ->onUpdate('cascade')
-                ->onDelete('set null')
+                ->cascadeOnUpdate()
+                ->nullOnDelete()
                 ->after('remember_token');
         });
     }
