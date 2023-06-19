@@ -21,11 +21,6 @@ class ActivitiesCrudController extends CrudController
         $this->crud->setEntityNameStrings(__('different-core::activities.activity'), __('different-core::activities.activities'));
         $this->crud->setModel(Activity::class);
 
-        // https://backpackforlaravel.com/docs/5.x/crud-operation-list-entries#large-tables-millions-of-entries
-        // https://github.com/Laravel-Backpack/CRUD/issues/2696
-        $this->crud->setOperationSetting('showEntryCount', false);
-
-
         $system_error_count = Activity::query()->whereDate('created_at', \Carbon\Carbon::today())->where('log_name', 'system')->count();
         if ($system_error_count) {
             Widget::add([
@@ -39,6 +34,10 @@ class ActivitiesCrudController extends CrudController
 
     protected function setupListOperation()
     {
+        // https://backpackforlaravel.com/docs/5.x/crud-operation-list-entries#large-tables-millions-of-entries
+        // https://github.com/Laravel-Backpack/CRUD/issues/2696
+        $this->crud->setOperationSetting('showEntryCount', false);
+
         $this->crud->setColumns([
             [
                 'name' => 'log_name',
@@ -111,6 +110,8 @@ class ActivitiesCrudController extends CrudController
                 $this->crud->addClause('where', 'created_at', '<=', $dates->to.' 23:59:59');
             });
 
+        /*
+        // TODO: Fixme
         $this->crud->addFilter([
             'name' => 'causer',
             'type' => 'select2_multiple',
@@ -123,6 +124,7 @@ class ActivitiesCrudController extends CrudController
                 $this->crud->addClause('whereIn', 'causer_type', ['App\Models\User', 'Different\DifferentCore\app\Models\User']);
                 $this->crud->addClause('whereIn', 'causer_id', json_decode($values));
             });
+        */
             
 
         $this->crud->addFilter([
