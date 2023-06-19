@@ -21,6 +21,11 @@ class ActivitiesCrudController extends CrudController
         $this->crud->setEntityNameStrings(__('different-core::activities.activity'), __('different-core::activities.activities'));
         $this->crud->setModel(Activity::class);
 
+        // https://backpackforlaravel.com/docs/5.x/crud-operation-list-entries#large-tables-millions-of-entries
+        // https://github.com/Laravel-Backpack/CRUD/issues/2696
+        $this->crud->setOperationSetting('showEntryCount', false);
+
+
         $system_error_count = Activity::query()->whereDate('created_at', \Carbon\Carbon::today())->where('log_name', 'system')->count();
         if ($system_error_count) {
             Widget::add([
