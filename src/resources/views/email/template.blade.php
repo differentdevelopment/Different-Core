@@ -115,9 +115,9 @@
             <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
               <!--[if mso | IE]>
                   <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                
+
         <tr>
-      
+
             <td
                class="" style="vertical-align:top;width:600px;"
             >
@@ -127,15 +127,15 @@
                   <tr>
                     <td style="font-size:0px;word-break:break-word;">
                       <!--[if mso | IE]>
-    
+
         <table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td height="20" style="vertical-align:top;height:20px;">
-      
+
     <![endif]-->
                       <div style="height:20px;"> &nbsp; </div>
                       <!--[if mso | IE]>
-    
+
         </td></tr></table>
-      
+
     <![endif]-->
                     </td>
                   </tr>
@@ -143,9 +143,9 @@
               </div>
               <!--[if mso | IE]>
             </td>
-          
+
         </tr>
-      
+
                   </table>
                 <![endif]-->
             </td>
@@ -157,7 +157,7 @@
           </td>
         </tr>
       </table>
-      
+
       <table
          align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
       >
@@ -171,9 +171,9 @@
             <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
               <!--[if mso | IE]>
                   <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                
+
         <tr>
-      
+
             <td
                class="" style="vertical-align:top;width:600px;"
             >
@@ -198,28 +198,28 @@
                   <tr>
                     <td style="font-size:0px;word-break:break-word;">
                       <!--[if mso | IE]>
-    
+
         <table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td height="20" style="vertical-align:top;height:20px;">
-      
+
     <![endif]-->
                       <div style="height:20px;"> &nbsp; </div>
                       <!--[if mso | IE]>
-    
+
         </td></tr></table>
-      
+
     <![endif]-->
                     </td>
                   </tr>
 
                   @yield('content')
-                
+
                 </table>
               </div>
               <!--[if mso | IE]>
             </td>
-          
+
         </tr>
-      
+
                   </table>
                 <![endif]-->
             </td>
@@ -231,7 +231,7 @@
           </td>
         </tr>
       </table>
-      
+
       <table
          align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
       >
@@ -245,9 +245,9 @@
             <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
               <!--[if mso | IE]>
                   <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                
+
         <tr>
-      
+
             <td
                class="" style="vertical-align:top;width:600px;"
             >
@@ -257,6 +257,7 @@
                   <tr>
                     <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                       <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:20px;text-align:center;color:#93999f;">
+                          @yield('footer_content')
                         © {{ date('Y') }} {{ config('different-core.email.footer_company') }}
                         <br>
                         E-mail: <a class="footer-link" href="mailto:{{ config('different-core.email.footer_email') }}">
@@ -273,9 +274,9 @@
               </div>
               <!--[if mso | IE]>
             </td>
-          
+
         </tr>
-      
+
                   </table>
                 <![endif]-->
             </td>
@@ -287,7 +288,7 @@
           </td>
         </tr>
       </table>
-      
+
       <table
          align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
       >
@@ -301,9 +302,9 @@
             <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
               <!--[if mso | IE]>
                   <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                
+
         <tr>
-      
+
             <td
                class="" style="vertical-align:top;width:600px;"
             >
@@ -313,15 +314,15 @@
                   <tr>
                     <td style="font-size:0px;word-break:break-word;">
                       <!--[if mso | IE]>
-    
+
         <table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td height="1" style="vertical-align:top;height:1px;">
-      
+
     <![endif]-->
                       <div style="height:1px;"> &nbsp; </div>
                       <!--[if mso | IE]>
-    
+
         </td></tr></table>
-      
+
     <![endif]-->
                     </td>
                   </tr>
@@ -329,9 +330,9 @@
               </div>
               <!--[if mso | IE]>
             </td>
-          
+
         </tr>
-      
+
                   </table>
                 <![endif]-->
             </td>
