@@ -248,9 +248,14 @@ class FilesController extends Controller
             }
         }
 
-        $filename = Str::random(40) . '.' . $uploaded_file->getClientOriginalExtension();
-        $path = Storage::putFileAs($directory, $uploaded_file, $filename, 'public');
-
+        $extension = $uploaded_file->getClientOriginalExtension();
+        if ($extension) {
+            $filename = Str::random(40) . '.' . $extension;
+            $path = Storage::putFileAs($directory, $uploaded_file, $filename, 'public');
+        } else {
+            $path = Storage::putFile($directory, $uploaded_file, 'public');
+        }
+        
         $file = new File;
         $file->original_name = $original_name;
         $file->mime_type = $mime_type;
