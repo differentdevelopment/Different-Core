@@ -64,13 +64,14 @@
                 const accepted_file_types = JSON.parse(fileRemoves[0].dataset.acceptedFileTypes);
                 const max_file_size = JSON.parse(fileRemoves[0].dataset.maxFileSize);
                 const uuids = JSON.parse(fileRemoves[0].dataset.urls);
+                const uuidValues = Object.values(uuids);
                 const clickable = JSON.parse(fileRemoves[0].dataset.clickable);
                 const files = [];
 
-                if (Object.entries(uuids).length > 0) {
-                    Object.entries(uuids).forEach((entry) => {
+                if (uuidValues.length > 0) {
+                    uuidValues.forEach((entry) => {
                         files.push({
-                            source: entry[1].uuid,
+                            source: entry.uuid,
                             options: {
                                 type: 'local',
                             },
@@ -98,20 +99,15 @@
                     allowFileSizeValidation: max_file_size ? true : false,
                     onremovefile: (error, file) => {
                         if (file.serverId) {
-                            let file_id = null;
-                            for (const [id, uuid] of Object.entries(uuids)) {
-                                if (uuid === file.serverId) {
-                                    file_id = id;
-                                }
-                            }
+                            const found = uuidValues.find((entry) => entry.uuid === file.serverId);
 
-                            if (file_id === null) {
+                            if (!found) {
                                 return;
                             }
 
                             const removeInput = document.createElement('input');
                             removeInput.name = "remove_{{ $field['name'] }}[]";
-                            removeInput.value = file_id;
+                            removeInput.value = found.id;
                             removeInput.type = "hidden";
 
                             fileRemoves.append(removeInput);
