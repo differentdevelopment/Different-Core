@@ -49,12 +49,11 @@ Route::group([
     'as' => 'admin.',
 ], function () {
     Route::crud('post', PostsCrudController::class);
-    Route::crud('user', UsersCrudController::class);
+    Route::crud('user', config('different-core.config.users_crud', UsersCrudController::class));
     Route::crud('account', AccountsCrudController::class);
     Route::crud('activity', ActivitiesCrudController::class);
     Route::crud('role', RolesCrudController::class);
     Route::crud('filemanager', FilesCrudController::class);
-    
 
     Route::get('change-account/{id}', [ChangeAccountController::class, 'changeAccount'])->name('change-account');
 

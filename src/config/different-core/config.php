@@ -1,6 +1,7 @@
 <?php
 
 use Different\DifferentCore\app\Utils\Sidebar\SidebarMenuItem;
+use Different\DifferentCore\app\Http\Controllers\Cruds\UsersCrudController;
 
 return [
     'sidebar_menu' => [
@@ -22,4 +23,6 @@ return [
 
     // Ha projekt szintent szeretnéd az error kezelést akkor ezt állítsd false-ra
     'project_uses_core_error_handling' => env('CORE_PROJECT_USES_CORE_ERROR_HANDLING', true),
+
+    'users_crud' => UsersCrudController::class,
 ];
