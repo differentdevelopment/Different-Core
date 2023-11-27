@@ -25,7 +25,7 @@ class BaseCrudController extends CrudController
         }
     }
 
-    
+
     protected function addAccountIdFieldIfNeeded()
     {
         if ($this->isAccountBasedCrud()) {

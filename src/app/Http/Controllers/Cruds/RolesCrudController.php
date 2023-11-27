@@ -51,6 +51,13 @@ class RolesCrudController extends BaseCrudController
 
     public function update()
     {
+        $request = $this->crud->getRequest();
+        $request->request->set('name', Str::slug($request->input('readable_name', '-')));
+        $this->crud->setRequest($request);
+
+        $this->crud->setValidation(RoleUpdateRequest::class);
+        $this->crud->setRequest($this->crud->validateRequest());
+
         User::query()
             ->whereHas('roles', function($query){
                 $query->where('roles.id', request()->id);
