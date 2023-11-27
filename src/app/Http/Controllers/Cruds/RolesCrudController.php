@@ -179,10 +179,12 @@ class RolesCrudController extends BaseCrudController
 
         $this->crud->addField([
             'label' => ucfirst(trans('backpack::permissionmanager.permission_plural')),
-            'type' => 'permissions',
+            'type' => 'checklist',
             'name' => 'permissions',
-            'permisisons' => Permission::query()->orderBy('group')->get(),
-            'view_namespace' => 'different-core::fields',
+            'entity' => 'permissions',
+            'attribute' => 'name',
+            'model' => config('backpack.permissionmanager.models.permission'),
+            'pivot' => true,
         ]);
 
         $this->crud->addField([
