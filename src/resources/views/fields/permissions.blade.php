@@ -1,13 +1,21 @@
 <!-- checklist -->
 @php
-  $field['value'] = old(square_brackets_to_dots($field['name'])) ?? $field['value'] ?? $field['default'] ?? [];
-  if ($field['value'] instanceof Illuminate\Database\Eloquent\Collection) {
-    $field['value'] = $field['value']->pluck("id")->toArray();
-  } elseif (is_string($field['value'])){
-    $field['value'] = json_decode($field['value']);
-  }
-  $field['wrapper']['data-init-function'] =  $field['wrapper']['data-init-function'] ?? 'bpFieldInitChecklist';
-  $group = null;
+    $key_attribute = (new $field['model'])->getKeyName();
+    $field['number_of_columns'] = $field['number_of_columns'] ?? 3;
+
+    // calculate the value of the hidden input
+    $field['value'] = old_empty_or_null($field['name'], []) ??  $field['value'] ?? $field['default'] ?? [];
+    if(!empty($field['value'])) {
+        if (is_a($field['value'], \Illuminate\Support\Collection::class)) {
+            $field['value'] = ($field['value'])->pluck($key_attribute)->toArray();
+        } elseif (is_string($field['value'])){
+          $field['value'] = json_decode($field['value']);
+        }
+    }
+
+    // define the init-function on the wrapper
+    $field['wrapper']['data-init-function'] =  $field['wrapper']['data-init-function'] ?? 'bpFieldInitChecklist';
+    $group = null;
 @endphp
 
 @include('crud::fields.inc.wrapper_start')
@@ -34,11 +42,11 @@
             @endif
             <div class="col-sm-4 mb-3" >
                 <div class="custom-control custom-checkbox">
-                    <input 
-                      type="checkbox" 
-                      class="custom-control-input" 
-                      data-group="{{ $group }}" 
-                      id="permCheck{{ $option->id }}" 
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      data-group="{{ $group }}"
+                      id="permCheck{{ $option->id }}"
                       value="{{ $option->id }}"
                     >
                     <label class="custom-control-label" for="permCheck{{ $option->id }}" style="line-height: 1.3;">
@@ -75,24 +83,27 @@
                 var selectAlls = element.find('.select-all-perm');
                 // set the default checked/unchecked states on checklist options
                 checkboxes.each(function(key, option) {
-                  var id = $(this).val();
-                  if (selected_options.find(e => e.id == id)) {
-                    $(this).prop('checked', 'checked');
-                  } else {
-                    $(this).prop('checked', false);
-                  }
+                    var id = $(this).val();
+
+                    if (selected_options.map(String).includes(id)) {
+                        $(this).prop('checked', 'checked');
+                    } else {
+                        $(this).prop('checked', false);
+                    }
                 });
                 // when a checkbox is clicked
                 // set the correct value on the hidden input
                 checkboxes.on("change", function() {
-                  var newValue = [];
-                  checkboxes.each(function() {
-                    if ($(this).is(':checked')) {
-                      var id = $(this).val();
-                      newValue.push(id);
-                    }
-                  });
-                  hidden_input.val(JSON.stringify(newValue));
+                    var newValue = [];
+
+                    checkboxes.each(function() {
+                        if ($(this).is(':checked')) {
+                            var id = $(this).val();
+                            newValue.push(id);
+                        }
+                    });
+
+                    hidden_input.val(JSON.stringify(newValue)).trigger('change');
                 });
 
                 selectAlls.on("click", function(e) {
@@ -104,6 +115,14 @@
                       $(this).click();
                     }
                   });
+                });
+
+                hidden_input.on('CrudField:disable', function(e) {
+                    checkboxes.attr('disabled', 'disabled');
+                });
+
+                hidden_input.on('CrudField:enable', function(e) {
+                    checkboxes.removeAttr('disabled');
                 });
             }
         </script>
