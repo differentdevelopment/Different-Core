@@ -57,7 +57,8 @@ class FilesController extends Controller
         });
         $img->stream();
 
-        Storage::put($filepath, $img, 'public');
+        $option = config('different-core.storage_put_options.visibility', 'public');
+        Storage::put($filepath, $img, $option);
         return Storage::response($filepath);
     }
 
@@ -208,7 +209,10 @@ class FilesController extends Controller
         }
 
         $file_path = $directory.'/'.$safe_name;
-        Storage::put($file_path, $file_data, 'public');
+
+        $option = config('different-core.storage_put_options.visibility', 'public');
+
+        Storage::put($file_path, $file_data, $option);
 
         $file = new File;
         $file->original_name = $safe_name;
@@ -249,7 +253,8 @@ class FilesController extends Controller
         }
 
         $filename = Str::random(40) . '.' . $uploaded_file->getClientOriginalExtension();
-        $path = Storage::putFileAs($directory, $uploaded_file, $filename, 'public');
+        $option = config('different-core.storage_put_options.visibility', 'public');
+        $path = Storage::putFileAs($directory, $uploaded_file, $filename, $option);
 
         $file = new File;
         $file->original_name = $original_name;
