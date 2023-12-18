@@ -25,4 +25,8 @@ return [
     'project_uses_core_error_handling' => env('CORE_PROJECT_USES_CORE_ERROR_HANDLING', true),
 
     'users_crud' => UsersCrudController::class,
+
+    'storage_put_options' => [
+        'visibility' => env('CORE_STORAGE_VISIBILITY', 'public'),
+    ],
 ];
