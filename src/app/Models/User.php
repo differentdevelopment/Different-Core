@@ -101,7 +101,7 @@ class User extends Authenticatable implements MustVerifyEmail
             return $this->profile_image?->getThumbnailUrl();
         }
 
-        return 'https://avatars.dicebear.com/api/initials/'.substr(Str::slug($this->name, ''), 0, 2).'.svg';
+        return 'https://api.dicebear.com/7.x/initials/svg?seed='.substr(Str::slug($this->name, ''), 0, 2);
     }
 
     public function sendLoginLink()
