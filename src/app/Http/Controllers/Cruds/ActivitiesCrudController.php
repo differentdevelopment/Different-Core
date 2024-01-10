@@ -75,6 +75,9 @@ class ActivitiesCrudController extends CrudController
                 'limit' => 99999,
                 'label' => __('different-core::activities.subject_type'),
                 'type' => 'text',
+                'searchLogic' => function ($query, $column, $searchTerm) {
+                    $query->orWhere('subject_type', 'like', '%'.addslashes($searchTerm).'%');
+                } 
             ],
             [
                 'name' => 'subject_id',
@@ -134,6 +137,9 @@ class ActivitiesCrudController extends CrudController
             'name' => 'subject_type',
             'type' => 'text',
             'label' => __('different-core::activities.subject_type'),
+            'searchLogic' => function ($query, $column, $searchTerm) {
+                $query->orWhere('subject_type', 'like', '%'.addslashes($searchTerm).'%');
+            } 
         ],
             false,
             function ($value) {
