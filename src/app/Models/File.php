@@ -158,10 +158,9 @@ class File extends Model
                 }
                 $token = request()->bearerToken() ?? session()?->getId();
 
-                if(!$token)
-                {
-                    return null;
-                }
+                if(!$token) return null;
+
+                if(!$this->id) return null;
 
                 $file_uuid = $this->file_uuids()->where('token', $token)->first();
                 if(!$file_uuid)
