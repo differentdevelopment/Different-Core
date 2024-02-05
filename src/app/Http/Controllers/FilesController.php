@@ -3,6 +3,7 @@
 namespace Different\DifferentCore\app\Http\Controllers;
 
 use Different\DifferentCore\app\Models\File;
+use Different\DifferentCore\app\Models\FileUuid;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Response;
@@ -59,6 +60,7 @@ class FilesController extends Controller
 
         $option = config('different-core.config.storage_put_options.visibility', 'public');
         Storage::put($filepath, $img, $option);
+
         return Storage::response($filepath);
     }
 
@@ -73,6 +75,54 @@ class FilesController extends Controller
         $file_path = self::getPath($file);
 
         return Storage::response($file_path);
+    }
+
+    public static function getFileComplexUuid(string $uuid)
+    {
+        $token = session()?->getId() ?? request()->bearerToken();
+
+        $file = FileUuid::query()->where('token', $token)->where('uuid', $uuid)->first()?->file;
+
+        if(!$file)
+        {
+            return response(status: 404);
+        }
+
+        FileUuid::query()->where('created_at', '<', now()->subDay())->delete();
+
+        return self::getFile($file);
+    }
+
+    public static function downloadComplexUuid(string $uuid)
+    {
+        $token = session()?->getId() ?? request()->bearerToken();
+
+        $file = FileUuid::query()->where('token', $token)->where('uuid', $uuid)->first()?->file;
+
+        if(!$file)
+        {
+            return response(status: 404);
+        }
+
+        FileUuid::query()->where('created_at', '<', now()->subDay())->delete();
+
+        return self::getFileDownload($file);
+    }
+
+    public static function thumbnailComplexUuid(string $uuid, $width = 200, $height = 200)
+    {
+        $token = session()?->getId() ?? request()->bearerToken();
+
+        $file = FileUuid::query()->where('token', $token)->where('uuid', $uuid)->first()?->file;
+
+        if(!$file)
+        {
+            return response(status: 404);
+        }
+
+        FileUuid::query()->where('created_at', '<', now()->subDay())->delete();
+
+        return self::thumbnail($file, $width, $height);
     }
 
     /**

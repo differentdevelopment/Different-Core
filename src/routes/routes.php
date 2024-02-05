@@ -21,9 +21,16 @@ Route::group([
     ],
 ], function () {
     Route::get('change-lang/{lang}', [ChangeLangController::class, 'changeLang'])->name('change-lang');
-    Route::get('/file/{file:uuid}', FilesController::class)->name('different-core.file');
-    Route::get('/file/{file:uuid}/download', [FilesController::class, 'download'])->name('different-core.file-download');
-    Route::get('/thumbnail/{file:uuid}/{width?}/{height?}', [FilesController::class, 'thumbnail'])->name('different-core.thumbnail');
+
+    if(!config('different-core.config.unique_file_uuid_for_every_session_or_token')){
+        Route::get('/file/{file:uuid}', FilesController::class)->name('different-core.file');
+        Route::get('/file/{file:uuid}/download', [FilesController::class, 'download'])->name('different-core.file-download');
+        Route::get('/thumbnail/{file:uuid}/{width?}/{height?}', [FilesController::class, 'thumbnail'])->name('different-core.thumbnail');
+    }else{
+        Route::get('/file/{uuid}', [FilesController::class, 'getFileComplexUuid'])->name('different-core.file');
+        Route::get('/file/{uuid}/download', [FilesController::class, 'downloadComplexUuid'])->name('different-core.file-download');
+        Route::get('/thumbnail/{uuid}/{width?}/{height?}', [FilesController::class, 'thumbnailComplexUuid'])->name('different-core.thumbnail');
+    }
 });
 
 if (config('different-core.config.magic_link_login')) {
@@ -54,7 +61,7 @@ Route::group([
     Route::crud('activity', ActivitiesCrudController::class);
     Route::crud('role', RolesCrudController::class);
     Route::crud('filemanager', FilesCrudController::class);
-    
+
 
     Route::get('change-account/{id}', [ChangeAccountController::class, 'changeAccount'])->name('change-account');
 
