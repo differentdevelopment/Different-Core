@@ -71,7 +71,7 @@ class File extends Model
             return "";
         }
 
-        if(!config('different-core.config.unique_file_uuid_for_every_session_or_token')){
+        if(!config('different-core.config.unique_file_uuid_for_every_session_or_token', false)){
             return route('different-core.file', $this);
         }
 
@@ -98,7 +98,7 @@ class File extends Model
             return "";
         }
 
-        if(!config('different-core.config.unique_file_uuid_for_every_session_or_token')){
+        if(!config('different-core.config.unique_file_uuid_for_every_session_or_token', false)){
             return route('different-core.thumbnail', $this);
         }
 
@@ -152,7 +152,7 @@ class File extends Model
     {
         return Attribute::make(
             get: function(){
-                if(!config('different-core.config.unique_file_uuid_for_every_session_or_token'))
+                if(!config('different-core.config.unique_file_uuid_for_every_session_or_token', false))
                 {
                     return $this->attributes['uuid'];
                 }

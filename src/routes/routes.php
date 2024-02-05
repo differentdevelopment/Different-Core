@@ -22,7 +22,7 @@ Route::group([
 ], function () {
     Route::get('change-lang/{lang}', [ChangeLangController::class, 'changeLang'])->name('change-lang');
 
-    if(!config('different-core.config.unique_file_uuid_for_every_session_or_token')){
+    if(!config('different-core.config.unique_file_uuid_for_every_session_or_token', false)){
         Route::get('/file/{file:uuid}', FilesController::class)->name('different-core.file');
         Route::get('/file/{file:uuid}/download', [FilesController::class, 'download'])->name('different-core.file-download');
         Route::get('/thumbnail/{file:uuid}/{width?}/{height?}', [FilesController::class, 'thumbnail'])->name('different-core.thumbnail');
