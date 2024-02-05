@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Different\DifferentCore\app\Http\Controllers\FilesController;
 use Different\DifferentCore\app\Traits\Uuid;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
@@ -42,7 +43,7 @@ class File extends Model
         'path',
     ];
     protected $appends = [
-        'url'
+        'url',
     ];
 
     /*
@@ -69,8 +70,26 @@ class File extends Model
         if (!$this) {
             return "";
         }
-        
-        return route('different-core.file', $this);
+
+        if(!config('different-core.config.unique_file_uuid_for_every_session_or_token')){
+            return route('different-core.file', $this);
+        }
+
+        $token = session()?->getId() ?? request()->bearerToken();
+
+        if(!$token)
+        {
+            return null;
+        }
+
+        $file_uuid = $this->file_uuids()->where('token', $token)->first();
+
+        if(!$file_uuid)
+        {
+            return null;
+        }
+
+        return route('different-core.file', $file_uuid->uuid);
     }
 
     public function getThumbnailUrl()
@@ -78,8 +97,26 @@ class File extends Model
         if (!$this) {
             return "";
         }
-        
-        return route('different-core.thumbnail', $this);
+
+        if(!config('different-core.config.unique_file_uuid_for_every_session_or_token')){
+            return route('different-core.thumbnail', $this);
+        }
+
+        $token = session()?->getId() ?? request()->bearerToken();
+
+        if(!$token)
+        {
+            return null;
+        }
+
+        $file_uuid = $this->file_uuids()->where('token', $token)->first();
+
+        if(!$file_uuid)
+        {
+            return null;
+        }
+
+        return route('different-core.thumbnail', $file_uuid->uuid);
     }
 
     /*
@@ -87,6 +124,11 @@ class File extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
+
+    public function file_uuids(): HasMany
+    {
+        return $this->hasMany(FileUuid::class);
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -103,7 +145,38 @@ class File extends Model
     {
         return Attribute::make(
             get: fn () => $this->getUrl(),
-        )->shouldCache();
+        );
+    }
+
+    protected function uuid(): Attribute
+    {
+        return Attribute::make(
+            get: function(){
+                if(!config('different-core.config.unique_file_uuid_for_every_session_or_token'))
+                {
+                    return $this->attributes['uuid'];
+                }
+                $token = session()?->getId() ?? request()->bearerToken();
+
+                if(!$token)
+                {
+                    return null;
+                }
+
+                $file_uuid = $this->file_uuids()->where('token', $token)->first();
+                if(!$file_uuid)
+                {
+                    $file_uuid = FileUuid::query()
+                        ->create([
+                            'file_id' => $this->id,
+                            'token' => $token,
+                            'uuid' => Str::uuid()->toString(),
+                        ]);
+                }
+
+                return $file_uuid->uuid;
+            },
+        );
     }
 
     /*

@@ -3,6 +3,7 @@
 namespace Different\DifferentCore\app\Http\Controllers;
 
 use Different\DifferentCore\app\Models\File;
+use Different\DifferentCore\app\Models\FileUuid;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Response;
@@ -57,7 +58,9 @@ class FilesController extends Controller
         });
         $img->stream();
 
-        Storage::put($filepath, $img, 'public');
+        $option = config('different-core.config.storage_put_options.visibility', 'public');
+        Storage::put($filepath, $img, $option);
+
         return Storage::response($filepath);
     }
 
@@ -72,6 +75,54 @@ class FilesController extends Controller
         $file_path = self::getPath($file);
 
         return Storage::response($file_path);
+    }
+
+    public static function getFileComplexUuid(string $uuid)
+    {
+        $token = session()?->getId() ?? request()->bearerToken();
+
+        $file = FileUuid::query()->where('token', $token)->where('uuid', $uuid)->first()?->file;
+
+        if(!$file)
+        {
+            return response(status: 404);
+        }
+
+        FileUuid::query()->where('created_at', '<', now()->subDay())->delete();
+
+        return self::getFile($file);
+    }
+
+    public static function downloadComplexUuid(string $uuid)
+    {
+        $token = session()?->getId() ?? request()->bearerToken();
+
+        $file = FileUuid::query()->where('token', $token)->where('uuid', $uuid)->first()?->file;
+
+        if(!$file)
+        {
+            return response(status: 404);
+        }
+
+        FileUuid::query()->where('created_at', '<', now()->subDay())->delete();
+
+        return self::getFileDownload($file);
+    }
+
+    public static function thumbnailComplexUuid(string $uuid, $width = 200, $height = 200)
+    {
+        $token = session()?->getId() ?? request()->bearerToken();
+
+        $file = FileUuid::query()->where('token', $token)->where('uuid', $uuid)->first()?->file;
+
+        if(!$file)
+        {
+            return response(status: 404);
+        }
+
+        FileUuid::query()->where('created_at', '<', now()->subDay())->delete();
+
+        return self::thumbnail($file, $width, $height);
     }
 
     /**
@@ -208,7 +259,10 @@ class FilesController extends Controller
         }
 
         $file_path = $directory.'/'.$safe_name;
-        Storage::put($file_path, $file_data, 'public');
+
+        $option = config('different-core.config.storage_put_options.visibility', 'public');
+
+        Storage::put($file_path, $file_data, $option);
 
         $file = new File;
         $file->original_name = $safe_name;
@@ -249,11 +303,12 @@ class FilesController extends Controller
         }
 
         $extension = $uploaded_file->getClientOriginalExtension();
+        $option = config('different-core.config.storage_put_options.visibility', 'public');
         if ($extension) {
             $filename = Str::random(40) . '.' . $extension;
-            $path = Storage::putFileAs($directory, $uploaded_file, $filename, 'public');
+            $path = Storage::putFileAs($directory, $uploaded_file, $filename, $option);
         } else {
-            $path = Storage::putFile($directory, $uploaded_file, 'public');
+            $path = Storage::putFile($directory, $uploaded_file, $option);
         }
 
         $file = new File;

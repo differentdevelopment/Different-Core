@@ -22,4 +22,11 @@ return [
 
     // Ha projekt szintent szeretnéd az error kezelést akkor ezt állítsd false-ra
     'project_uses_core_error_handling' => env('CORE_PROJECT_USES_CORE_ERROR_HANDLING', true),
+
+    'storage_put_options' => [
+        'visibility' => env('CORE_STORAGE_VISIBILITY', 'public'),
+    ],
+
+    //Ha bonyolultabb file elérési logikát szeretnénk, akkor ezt állítsuk true-ra
+    'unique_file_uuid_for_every_session_or_token' => env('CORE_UNIQUE_FILE_UUID_FOR_EVERY_SESSION_OR_TOKEN', false),
 ];
