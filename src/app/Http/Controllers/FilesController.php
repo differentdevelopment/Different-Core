@@ -79,7 +79,7 @@ class FilesController extends Controller
 
     public static function getFileComplexUuid(string $uuid)
     {
-        $token = session()?->getId() ?? request()->bearerToken();
+        $token = request()->bearerToken() ?? session()?->getId();
 
         $file = FileUuid::query()->where('token', $token)->where('uuid', $uuid)->first()?->file;
 
@@ -95,7 +95,7 @@ class FilesController extends Controller
 
     public static function downloadComplexUuid(string $uuid)
     {
-        $token = session()?->getId() ?? request()->bearerToken();
+        $token = request()->bearerToken() ?? session()?->getId();
 
         $file = FileUuid::query()->where('token', $token)->where('uuid', $uuid)->first()?->file;
 
@@ -111,7 +111,7 @@ class FilesController extends Controller
 
     public static function thumbnailComplexUuid(string $uuid, $width = 200, $height = 200)
     {
-        $token = session()?->getId() ?? request()->bearerToken();
+        $token = request()->bearerToken() ?? session()?->getId();
 
         $file = FileUuid::query()->where('token', $token)->where('uuid', $uuid)->first()?->file;
 

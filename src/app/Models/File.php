@@ -75,7 +75,7 @@ class File extends Model
             return route('different-core.file', $this);
         }
 
-        $token = session()?->getId() ?? request()->bearerToken();
+        $token = request()->bearerToken() ?? session()?->getId();
 
         if(!$token)
         {
@@ -102,7 +102,7 @@ class File extends Model
             return route('different-core.thumbnail', $this);
         }
 
-        $token = session()?->getId() ?? request()->bearerToken();
+        $token = request()->bearerToken() ?? session()?->getId();
 
         if(!$token)
         {
@@ -156,7 +156,7 @@ class File extends Model
                 {
                     return $this->attributes['uuid'];
                 }
-                $token = session()?->getId() ?? request()->bearerToken();
+                $token = request()->bearerToken() ?? session()?->getId();
 
                 if(!$token)
                 {
