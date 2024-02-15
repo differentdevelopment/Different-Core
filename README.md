@@ -11,23 +11,17 @@
 
 ## Telepítés
 
-  
-
 Egy teljesen új projekt esetén a telepítéshez a következő parancsokat kell futtatni:
 
-  
-
-> laravel new **PROJEKT-NEVE**  <br  />
+> laravel new **PROJEKT-NEVE** <br  />
 
 > composer require backpack/crud<br  />
-
-> composer require --dev backpack/generators <br  />
 
 Adatbázis létrehozása és az `.env`-ben felvenni!
 
 > php artisan backpack:install <br  />
 
-Fontos: Ha a Different-Core csomagot szeretnéd fejleszteni akkor létre kell hozni egy `packages` nevű mappát a gyökérkönyvtárban, és oda kicheckoutolni a repo-t!
+Fontos: Ha a Different-Core csomagot szeretnéd fejleszteni, akkor létre kell hozni egy `packages` nevű mappát a gyökérkönyvtárban, és oda kicheckoutolni a repo-t!
 
 > composer require differentdevelopment/Different-Core <br  />
 
@@ -42,21 +36,11 @@ Backpack PRO kiegészítő feltelepítése: https://backpackforlaravel.com/produ
 
 A parancsok lefuttatása után állítsuk be az alábbi értékeket a konfigurációs fájlokban:
 
-  
-
-`config\backpack\base.php`<br  />
-
-'view_namespace' => 'different-core::',<br  />
+`config\backpack\ui.php`<br />
 
 'default_date_format' => 'YYYY. MMM. D.',<br  />
 
 'default_datetime_format' => 'YYYY. MMM. D. HH:mm',<br  />
-
-'avatar_type' => 'getProfileImageUrl',<br  />
-
-'guard' => null,<br  />
-
-'passwords' => null,<br  />
 
 'project_name' => '**PROJEKT-NEVE**',<br  />
 
@@ -70,6 +54,18 @@ A parancsok lefuttatása után állítsuk be az alábbi értékeket a konfigurá
 
 'show_powered_by' => false,<br />
 
+'view_namespace' => 'different-core::',<br />
+
+<br  />
+
+`config\backpack\base.php`<br  />
+
+'avatar_type' => 'getProfileImageUrl',<br  />
+
+'guard' => null,<br  />
+
+'passwords' => null,<br  />
+
 <br  />
 
 `config\app.php`<br  />
@@ -80,20 +76,20 @@ A parancsok lefuttatása után állítsuk be az alábbi értékeket a konfigurá
 
 <br  />
 
-`config\base.php`<br />
-
-'middleware_class' => [
-    ...
-    \Different\DifferentCore\app\Http\Middlewares\SetLangMiddleware::class,
-]
-
 `config/backpack/crud.php`<br />
 
 Itt a locales-t kitölteni, melyek a választható nyelvek.
 
-`config\auth.php`<br  />
+`app\Models\User.php`<br  />
 
-'model' => Different\DifferentCore\app\Models\User::class,<br  />
+```
+    use Different\DifferentCore\app\Models\User as CoreUser;
+
+    class User extends CoreUser
+    {
+        //
+    }
+```
 
 <br  />
 
@@ -116,11 +112,7 @@ public const HOME = '/';<br  />
 
 **Ne felejtsd el az `.env` fájl helyes kitöltését!**
 
-  
-
 Ha ez megvolt akkor már csak az alábbi pár parancsot kell lefuttatni:
-
-  
 
 > php artisan migrate --seed<br  />
 
@@ -131,28 +123,16 @@ Ha ez megvolt akkor már csak az alábbi pár parancsot kell lefuttatni:
 
 ## Opcionális csomagok / kiegészítések<br />
 
-### Módosított Backpack design<br />
+### language-switcher
 
-> php artisan vendor:publish --tag=scss --force
-
-Módosítsd a színeket a `backpack-overrides.scss` fájlban a `:root {` selectorban. Színek generálásához érdemes ezt használni: https://ionicframework.com/docs/theming/color-generator
-
-Új elemet felvenni a `vite.config.js` fájlban a laravel -> input tömbhöz:<br />
-> 'resources/scss/backpack-overrides.scss'
-
-Az új elemet felvenni a `config/backpack/base.php -> vite_styles` tömbhöz:<br />
-
-'resources/scss/backpack-overrides.scss',
-
-<br  />
-
-> `yarn` majd `yarn dev` futtatása.
+https://github.com/Laravel-Backpack/language-switcher<br  />
 
 <br  />
 
 ### Rendszer szintű logolás<br  />
 
 Nyisd meg a `app\Exceptions\Handler.php` fájlt és módosítsd a `register` metódust erre:
+
 ```
     public function register()
     {

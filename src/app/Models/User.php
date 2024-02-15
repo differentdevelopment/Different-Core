@@ -4,7 +4,6 @@ namespace Different\DifferentCore\app\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
-use Different\DifferentCore\app\Mail\MagicLoginLink;
 use Different\DifferentCore\app\Traits\HasUploadFields;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -101,17 +100,7 @@ class User extends Authenticatable implements MustVerifyEmail
             return $this->profile_image?->getThumbnailUrl();
         }
 
-        return 'https://avatars.dicebear.com/api/initials/'.substr(Str::slug($this->name, ''), 0, 2).'.svg';
-    }
-
-    public function sendLoginLink()
-    {
-        $plaintext = Str::random(32);
-        $token = $this->loginTokens()->create([
-            'token' => hash('sha256', $plaintext),
-            'expires_at' => now()->addMinutes(5),
-        ]);
-        Mail::to($this->email)->queue(new MagicLoginLink($plaintext, $token->expires_at, $this->name));
+        return 'https://api.dicebear.com/7.x/initials/svg?seed=Muffin'.substr(Str::slug($this->name, ''), 0, 2);
     }
     //endregion
 

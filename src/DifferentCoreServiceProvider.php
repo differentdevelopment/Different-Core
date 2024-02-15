@@ -53,7 +53,6 @@ class DifferentCoreServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/config/different-core/config.php', 'different-core.config');
         $this->mergeConfigFrom(__DIR__.'/config/different-core/activitylog.php', 'activitylog');
         $this->mergeConfigFrom(__DIR__.'/config/different-core/permission.php', 'permission');
-        $this->mergeConfigFrom(__DIR__.'/config/different-core/permissionmanager.php', 'permissionmanager');
 
         // Register the main class to use with the facade
         $this->app->singleton('different-core', function () {

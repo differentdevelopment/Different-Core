@@ -32,19 +32,19 @@ class RolesCrudController extends BaseCrudController
     {
         crud_permission($this->crud, 'role-manage');
 
-        $this->permission_model = config('backpack.permissionmanager.models.permission');
+        $this->permission_model = config('different-core.config.permissionmanager.models.permission');
 
         $this->crud->setModel(Role::class);
-        $this->crud->setEntityNameStrings(trans('backpack::permissionmanager.role'), trans('backpack::permissionmanager.roles'));
+        $this->crud->setEntityNameStrings(trans('different-core::roles.role'), trans('different-core::roles.roles'));
         $this->crud->setRoute(backpack_url('role'));
 
-        if (config('backpack.permissionmanager.allow_role_create') == false) {
+        if (config('different-core.config.permissionmanager.allow_role_create') == false) {
             $this->crud->denyAccess('create');
         }
-        if (config('backpack.permissionmanager.allow_role_update') == false) {
+        if (config('different-core.config.permissionmanager.allow_role_update') == false) {
             $this->crud->denyAccess('update');
         }
-        if (config('backpack.permissionmanager.allow_role_delete') == false) {
+        if (config('different-core.config.permissionmanager.allow_role_delete') == false) {
             $this->crud->denyAccess('delete');
         }
     }
@@ -82,7 +82,7 @@ class RolesCrudController extends BaseCrudController
          */
         $this->crud->addColumn([
             'name' => 'readable_name',
-            'label' => trans('backpack::permissionmanager.name'),
+            'label' => trans('different-core::roles.name'),
             'type' => 'text',
         ]);
 
@@ -97,7 +97,7 @@ class RolesCrudController extends BaseCrudController
          */
         $this->crud->query->withCount('users');
         $this->crud->addColumn([
-            'label' => trans('backpack::permissionmanager.users'),
+            'label' => trans('different-core::users.users'),
             'type' => 'text',
             'name' => 'users_count',
             'wrapper' => [
@@ -105,26 +105,15 @@ class RolesCrudController extends BaseCrudController
                     return backpack_url('user?roles='.urlencode('["'.$entry->getKey().'"]'));
                 },
             ],
-            'suffix' => ' ' . __('backpack::permissionmanager.user'),
+            'suffix' => ' ' . __('different-core::users.user'),
         ]);
-
-        /**
-         * In case multiple guards are used, show a column for the guard.
-         */
-        if (config('backpack.permissionmanager.multiple_guards')) {
-            $this->crud->addColumn([
-                'name' => 'guard_name',
-                'label' => trans('backpack::permissionmanager.guard_type'),
-                'type' => 'text',
-            ]);
-        }
 
         /**
          * Show the exact permissions that role has.
          */
         $this->crud->addColumn([
             // n-n relationship (with pivot table)
-            'label' => ucfirst(trans('backpack::permissionmanager.permission_plural')),
+            'label' => ucfirst(trans('different-core::permissions.permissions')),
             'type' => 'select_multiple',
             'name' => 'permissions', // the method that defines the relationship in your Model
             'entity' => 'permissions', // the method that defines the relationship in your Model
@@ -164,21 +153,12 @@ class RolesCrudController extends BaseCrudController
     {
         $this->crud->addField([
             'name' => 'readable_name',
-            'label' => trans('backpack::permissionmanager.name'),
+            'label' => trans('different-core::permissions.name'),
             'type' => 'text',
         ]);
 
-        if (config('backpack.permissionmanager.multiple_guards')) {
-            $this->crud->addField([
-                'name' => 'guard_name',
-                'label' => trans('backpack::permissionmanager.guard_type'),
-                'type' => 'select_from_array',
-                'options' => $this->getGuardTypes(),
-            ]);
-        }
-
         $this->crud->addField([
-            'label' => ucfirst(trans('backpack::permissionmanager.permission_plural')),
+            'label' => ucfirst(trans('different-core::permissions.permissions')),
             'type' => 'permissions',
             'name' => 'permissions',
             'permisisons' => Permission::query()->orderBy('group')->get(),

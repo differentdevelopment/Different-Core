@@ -1,0 +1,23 @@
+:root {
+  --bs-primary: red;
+  --cui-primary: #176bff;
+  --cui-link-color: red;
+  --cui-link-hover-color: #176bff;
+  --cui-primary-rgb: 124, 105, 239;
+  --cui-input-group-addon-bg: #f9fbfd;
+  --cui-input-group-addon-border-color: #0028641f;
+  --cui-input-border-color: #0028641f;
+  --cui-form-check-input-checked-bg-color: #7c69ef;
+  --cui-form-check-input-checked-border-color: #7c69ef;
+  --cui-sidebar-1: #001a3a;
+  --cui-sidebar-2: #0d2e55;
+
+  --cui-heading-color: #001a3a;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100% !important;
+  object-fit: cover;
+  border-radius: 50em;
+}

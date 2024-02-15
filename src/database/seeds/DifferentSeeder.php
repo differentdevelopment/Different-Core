@@ -13,8 +13,11 @@ class DifferentSeeder extends Seeder
 {
     public function run()
     {
+        $user_model = config('backpack.base.user_model_fqn', User::class);
+        $account_model = config('backpack.base.account_model_fqn', Account::class);
+
         //region Felhasználók
-        $user = User::query()->firstOrCreate([
+        $user = $user_model::query()->firstOrCreate([
             'email' => 'fejlesztes@different.hu',
         ], [
             'name' => 'Different Fejlesztő Kft.',
@@ -130,7 +133,7 @@ class DifferentSeeder extends Seeder
         //endregion
 
         //region Fiókok
-        $account = Account::query()->firstOrCreate([
+        $account = $account_model::query()->firstOrCreate([
             'name' => 'Different Fejlesztő Kft.',
         ]);
         $account->users()->syncWithoutDetaching($user->id);

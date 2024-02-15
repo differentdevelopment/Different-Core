@@ -37,14 +37,6 @@ class AccountsCrudController extends BaseCrudController
         if (! $this->crud->getRequest()->order) {
             $this->crud->orderBy('name', 'asc');
         }
-
-        $this->data['breadcrumbs_menu'] = [
-            new BreadcrumbMenuItem(
-                route('admin.user.index'),
-                __('different-core::users.users'),
-                'las la-user',
-            ),
-        ];
     }
 
     protected function setupListOperation()

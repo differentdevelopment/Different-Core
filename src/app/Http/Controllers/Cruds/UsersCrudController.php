@@ -7,8 +7,6 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Different\DifferentCore\app\Http\Controllers\Operations\DeleteOperation;
-// use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Different\DifferentCore\app\Http\Controllers\Traits\VerifyButton;
 use Different\DifferentCore\app\Http\Requests\Crud\User\UserStoreRequest;
 use Different\DifferentCore\app\Http\Requests\Crud\User\UserUpdateRequest;
 use Different\DifferentCore\app\Models\Role;
@@ -20,7 +18,6 @@ use Prologue\Alerts\Facades\Alert;
 
 class UsersCrudController extends BaseCrudController
 {
-    use VerifyButton;
     use ListOperation;
     use ShowOperation;
     use CreateOperation {
@@ -193,37 +190,27 @@ class UsersCrudController extends BaseCrudController
                     ],
                 ],
                 [
-                    'label' => __('different-core::users.user_role_permission'),
+                    // two interconnected entities
+                    'label'             => trans('backpack::permissionmanager.user_role_permission'),
                     'field_unique_name' => 'user_role_permission',
-                    'type' => 'roles',
-                    'view_namespace' => 'different-core::fields',
-                    'name' => ['roles', 'permissions'],
-                    'subfields' => [
+                    'type'              => 'checklist_dependency',
+                    'name'              => 'roles_permissions',
+                    'subfields'         => [
                         'primary' => [
-                            'label' => __('different-core::users.roles'),
-                            'name' => 'roles',
-                            'entity' => 'roles',
-                            'entity_secondary' => 'permissions',
-                            'attribute' => 'readable_name',
-                            'secondary_attribute' => 'name',
-                            'model' => config('permission.models.role'),
-                            'pivot' => true,
-                            'number_columns' => 4,
-                            'order_by' => 'id',
-                            'hasGroup' => false,
+                            'label'            => trans('backpack::permissionmanager.role'),
+                            'name'             => 'roles', // the method that defines the relationship in your Model
+                            'entity'           => 'roles', // the method that defines the relationship in your Model
+                            'entity_secondary' => 'permissions', // the method that defines the relationship in your Model
+                            'attribute'        => 'name', // foreign key attribute that is shown to user
+                            'model'            => config('permission.models.role'), // foreign key model
                         ],
                         'secondary' => [
-                            'label' => ucfirst(__('different-core::users.permissions')),
-                            'name' => 'permissions',
-                            'entity' => 'permissions',
-                            'entity_primary' => 'roles',
-                            'attribute' => 'name',
-                            'secondary_attribute' => 'readable_name',
-                            'model' => config('permission.models.permission'),
-                            'pivot' => true,
-                            'number_columns' => 3,
-                            'order_by' => 'group',
-                            'hasGroup' => true,
+                            'label'            => mb_ucfirst(trans('backpack::permissionmanager.permission_singular')),
+                            'name'             => 'permissions', // the method that defines the relationship in your Model
+                            'entity'           => 'permissions', // the method that defines the relationship in your Model
+                            'entity_primary'   => 'roles', // the method that defines the relationship in your Model
+                            'attribute'        => 'name', // foreign key attribute that is shown to user
+                            'model'            => config('permission.models.permission'), // foreign key model,
                         ],
                     ],
                     'events' => [

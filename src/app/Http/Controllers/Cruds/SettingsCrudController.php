@@ -14,7 +14,7 @@ class SettingsCrudController extends CrudController
     {
         $this->crud->setRoute(backpack_url('settings'));
         $this->crud->setModel(Setting::class);
-        $this->crud->setEntityNameStrings(trans('different-core::settings.setting'), trans('different-core::settings.settings')); // TODO: Fixme
+        $this->crud->setEntityNameStrings(trans('different-core::settings.setting'), trans('different-core::settings.settings'));
     }
 
     public function index()

@@ -1,13 +1,11 @@
 @php
-    $url = backpack_avatar_url($entry)
+    $url = backpack_avatar_url($entry);
 @endphp
 <div class="d-flex align-items-center">
     @if ($url)
-        <div class="avatar mr-3">
-            <img class="img-avatar" src="{{ $url }}" alt="{{ $entry->name??'' }}" >
-        </div>
+        <img class="rounded-circle avatar me-2" src="{{ $url }}" alt="{{ $entry->name ?? '' }}">
     @endif
     <strong>
-        {{ $entry->name??'' }}
+        {{ $entry->name ?? '' }}
     </strong>
 </div>
