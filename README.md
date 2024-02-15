@@ -129,6 +129,26 @@ https://github.com/Laravel-Backpack/language-switcher<br  />
 
 <br  />
 
+### Módosított Backpack design<br />
+
+> php artisan vendor:publish --tag=scss --force
+
+Módosítsd a színeket a `themes.scss` fájlban a `:root {` selectorban.
+
+Sass csomagot feltelepíteni:<br />
+
+> yarn add sass
+
+Új elemet felvenni a `vite.config.js` fájlban a laravel -> input tömbhöz:<br />
+
+> 'resources/scss/themes.scss'
+
+Új elemet felvenni a `ui.php` config fájlban a `vite_styles` tömb elemeként:<br />
+
+> 'resources/scss/themes.scss'
+
+<br />
+
 ### Rendszer szintű logolás<br  />
 
 Nyisd meg a `app\Exceptions\Handler.php` fájlt és módosítsd a `register` metódust erre:
