@@ -45,9 +45,9 @@ class FilesController extends Controller
         $_file = Storage::get($storage_path);
         $_mime = Storage::mimeType($storage_path);
 
-        $allowed_mime_types = ['image/jpeg','image/gif','image/png'];
+        $allowed_mime_types = ['image/jpeg', 'image/gif', 'image/png'];
 
-        if(!in_array($_mime, $allowed_mime_types)) {
+        if (!in_array($_mime, $allowed_mime_types)) {
             return Storage::response($storage_path);
         }
 
@@ -74,7 +74,7 @@ class FilesController extends Controller
     {
         $file_path = self::getPath($file);
 
-        return Storage::response($file_path);
+        return Storage::response($file_path, $file->original_name);
     }
 
     public static function getFileComplexUuid(string $uuid)
@@ -83,8 +83,7 @@ class FilesController extends Controller
 
         $file = FileUuid::query()->where('token', $token)->where('uuid', $uuid)->first()?->file;
 
-        if(!$file)
-        {
+        if (!$file) {
             return response(status: 404);
         }
 
@@ -99,8 +98,7 @@ class FilesController extends Controller
 
         $file = FileUuid::query()->where('token', $token)->where('uuid', $uuid)->first()?->file;
 
-        if(!$file)
-        {
+        if (!$file) {
             return response(status: 404);
         }
 
@@ -115,8 +113,7 @@ class FilesController extends Controller
 
         $file = FileUuid::query()->where('token', $token)->where('uuid', $uuid)->first()?->file;
 
-        if(!$file)
-        {
+        if (!$file) {
             return response(status: 404);
         }
 
@@ -135,7 +132,7 @@ class FilesController extends Controller
     {
         $file_path = self::getPath($file);
 
-        return Response::make('data:'.Storage::mimeType($file_path).';base64,'.base64_encode(Storage::get($file_path)), 200);
+        return Response::make('data:' . Storage::mimeType($file_path) . ';base64,' . base64_encode(Storage::get($file_path)), 200);
     }
 
     /**
@@ -186,7 +183,7 @@ class FilesController extends Controller
      */
     private static function getPath(File $file)
     {
-        if (! Storage::exists($file->path)) {
+        if (!Storage::exists($file->path)) {
             return '';
         }
 
@@ -239,9 +236,9 @@ class FilesController extends Controller
         $image_parts = explode(';base64,', $base64);
         $image_type_aux = explode('data:', $image_parts[0]);
         $image_type_file = explode('/', $image_type_aux[1]);
-        $safe_name = $original_name ?? Str::uuid()->toString().'.'.$image_type_file[1];
+        $safe_name = $original_name ?? Str::uuid()->toString() . '.' . $image_type_file[1];
 
-        $tmp_file_path = sys_get_temp_dir().'/'.Str::uuid()->toString();
+        $tmp_file_path = sys_get_temp_dir() . '/' . Str::uuid()->toString();
         $file_data = base64_decode($image_parts[1]);
         file_put_contents($tmp_file_path, $file_data);
         $tmp_file = new \Illuminate\Http\File($tmp_file_path);
@@ -258,7 +255,7 @@ class FilesController extends Controller
             }
         }
 
-        $file_path = $directory.'/'.$safe_name;
+        $file_path = $directory . '/' . $safe_name;
 
         $option = config('different-core.config.storage_put_options.visibility', 'public');
 
