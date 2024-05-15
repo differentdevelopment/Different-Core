@@ -71,21 +71,19 @@ class File extends Model
             return "";
         }
 
-        if(!config('different-core.config.unique_file_uuid_for_every_session_or_token', false)){
+        if (!config('different-core.config.unique_file_uuid_for_every_session_or_token', false)) {
             return route('different-core.file', $this);
         }
 
         $token = request()->bearerToken() ?? session()?->getId();
 
-        if(!$token)
-        {
+        if (!$token) {
             return null;
         }
 
         $file_uuid = $this->file_uuids()->where('token', $token)->first();
 
-        if(!$file_uuid)
-        {
+        if (!$file_uuid) {
             return null;
         }
 
@@ -98,21 +96,19 @@ class File extends Model
             return "";
         }
 
-        if(!config('different-core.config.unique_file_uuid_for_every_session_or_token', false)){
+        if (!config('different-core.config.unique_file_uuid_for_every_session_or_token', false)) {
             return route('different-core.thumbnail', $this);
         }
 
         $token = request()->bearerToken() ?? session()?->getId();
 
-        if(!$token)
-        {
+        if (!$token) {
             return null;
         }
 
         $file_uuid = $this->file_uuids()->where('token', $token)->first();
 
-        if(!$file_uuid)
-        {
+        if (!$file_uuid) {
             return null;
         }
 
@@ -151,20 +147,19 @@ class File extends Model
     protected function uuid(): Attribute
     {
         return Attribute::make(
-            get: function(){
-                if(!config('different-core.config.unique_file_uuid_for_every_session_or_token', false))
-                {
-                    return $this->attributes['uuid'];
+            get: function ($value) {
+                if (!config('different-core.config.unique_file_uuid_for_every_session_or_token', false)) {
+                    return $value;
                 }
+
                 $token = request()->bearerToken() ?? session()?->getId();
 
-                if(!$token) return null;
+                if (!$token) return null;
 
-                if(!$this->id) return null;
+                if (!$this->id) return null;
 
                 $file_uuid = $this->file_uuids()->where('token', $token)->first();
-                if(!$file_uuid)
-                {
+                if (!$file_uuid) {
                     $file_uuid = FileUuid::query()
                         ->create([
                             'file_id' => $this->id,
