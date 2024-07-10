@@ -79,24 +79,28 @@ class UsersCrudController extends BaseCrudController
         //endregion
 
         //region Filters
-        $this->crud->addFilter([
-            'name' => 'name',
-            'type' => 'text',
-            'label' => __('different-core::users.name'),
-        ],
+        $this->crud->addFilter(
+            [
+                'name' => 'name',
+                'type' => 'text',
+                'label' => __('different-core::users.name'),
+            ],
             false,
             function ($value) {
-                $this->crud->addClause('where', 'name', 'like', '%'.$value.'%');
-            });
-        $this->crud->addFilter([
-            'name' => 'email',
-            'type' => 'text',
-            'label' => __('different-core::users.email'),
-        ],
+                $this->crud->addClause('where', 'name', 'like', '%' . $value . '%');
+            }
+        );
+        $this->crud->addFilter(
+            [
+                'name' => 'email',
+                'type' => 'text',
+                'label' => __('different-core::users.email'),
+            ],
             false,
             function ($value) {
-                $this->crud->addClause('where', 'email', 'like', '%'.$value.'%');
-            });
+                $this->crud->addClause('where', 'email', 'like', '%' . $value . '%');
+            }
+        );
         $this->crud->addFilter([
             'name' => 'roles',
             'type' => 'select2_multiple',
@@ -134,92 +138,92 @@ class UsersCrudController extends BaseCrudController
         //region Create & Update Operation
         $this->crud->addFields(
             array_merge( //Hogy feltételesen tehessem be a Lang selectort, ha több lang van, csak akkor jelenjen meg
-            [
                 [
-                    'name' => 'name',
-                    'label' => __('different-core::users.name'),
-                    'type' => 'text',
-                    'wrapper' => [
-                        'class' => 'form-group col-md-10'
-                    ]
-                ],
-            ], (count(LangService::getAvailableLangShortcodesInArray()) > 1) ?
-            [[
-                    'name' => 'lang',
-                    'label' => __('different-core::users.lang'),
-                    'type' => 'select2_from_array',
-                    'allows_null' => true,
-                    'options' => LangService::getAvailableLangShortcodesInArray(),
-                    'wrapper' => [
-                        'class' => 'form-group col-md-2'
-                    ]
-            ]] : [[
-                    'name' => 'lang_hidden',
-                    'type' => 'hidden',
-                    'value' => null,
-                ]]
-            ,
-            [
-                [
-                    'name' => 'email',
-                    'label' => __('different-core::users.email'),
-                    'type' => 'email',
-                ],
-                [
-                    'name' => 'password',
-                    'label' => __('different-core::users.password'),
-                    'type' => 'password',
-                ],
-                [
-                    'name' => 'password_confirmation',
-                    'label' => __('different-core::users.password_confirmation'),
-                    'type' => 'password',
-                ],
-                [
-                    'name' => 'accounts',
-                    'type' => 'select2_multiple',
-                    'label' => __('different-core::accounts.accounts'),
-                    'pivot' => true,
-                    'options' => (function($query){
-                        return $query->orderBy('name', 'asc')->get();
-                    }),
-                    'events' => [
-                        'updating' => function($entry){
-                            Cache::forget('selectable_accounts_for_user_' . backpack_user()->id);
-                        },
+                    [
+                        'name' => 'name',
+                        'label' => __('different-core::users.name'),
+                        'type' => 'text',
+                        'wrapper' => [
+                            'class' => 'form-group col-md-10'
+                        ]
                     ],
                 ],
+                (count(LangService::getAvailableLangShortcodesInArray()) > 1) ?
+                    [[
+                        'name' => 'lang',
+                        'label' => __('different-core::users.lang'),
+                        'type' => 'select2_from_array',
+                        'allows_null' => true,
+                        'options' => LangService::getAvailableLangShortcodesInArray(),
+                        'wrapper' => [
+                            'class' => 'form-group col-md-2'
+                        ]
+                    ]] : [[
+                        'name' => 'lang_hidden',
+                        'type' => 'hidden',
+                        'value' => null,
+                    ]],
                 [
-                    // two interconnected entities
-                    'label'             => trans('backpack::permissionmanager.user_role_permission'),
-                    'field_unique_name' => 'user_role_permission',
-                    'type'              => 'checklist_dependency',
-                    'name'              => 'roles_permissions',
-                    'subfields'         => [
-                        'primary' => [
-                            'label'            => trans('backpack::permissionmanager.role'),
-                            'name'             => 'roles', // the method that defines the relationship in your Model
-                            'entity'           => 'roles', // the method that defines the relationship in your Model
-                            'entity_secondary' => 'permissions', // the method that defines the relationship in your Model
-                            'attribute'        => 'name', // foreign key attribute that is shown to user
-                            'model'            => config('permission.models.role'), // foreign key model
-                        ],
-                        'secondary' => [
-                            'label'            => mb_ucfirst(trans('backpack::permissionmanager.permission_singular')),
-                            'name'             => 'permissions', // the method that defines the relationship in your Model
-                            'entity'           => 'permissions', // the method that defines the relationship in your Model
-                            'entity_primary'   => 'roles', // the method that defines the relationship in your Model
-                            'attribute'        => 'name', // foreign key attribute that is shown to user
-                            'model'            => config('permission.models.permission'), // foreign key model,
+                    [
+                        'name' => 'email',
+                        'label' => __('different-core::users.email'),
+                        'type' => 'email',
+                    ],
+                    [
+                        'name' => 'password',
+                        'label' => __('different-core::users.password'),
+                        'type' => 'password',
+                    ],
+                    [
+                        'name' => 'password_confirmation',
+                        'label' => __('different-core::users.password_confirmation'),
+                        'type' => 'password',
+                    ],
+                    [
+                        'name' => 'accounts',
+                        'type' => 'select2_multiple',
+                        'label' => __('different-core::accounts.accounts'),
+                        'pivot' => true,
+                        'options' => (function ($query) {
+                            return $query->orderBy('name', 'asc')->get();
+                        }),
+                        'events' => [
+                            'updating' => function ($entry) {
+                                Cache::forget('selectable_accounts_for_user_' . backpack_user()->id);
+                            },
                         ],
                     ],
-                    'events' => [
-                        'updating' => function($entry){
-                            Cache::forget('selectable_accounts_for_user_' . backpack_user()->id);
-                        },
+                    [
+                        // two interconnected entities
+                        'label'             => trans('different-core::permissions.user_role_permission'),
+                        'field_unique_name' => 'user_role_permission',
+                        'type'              => 'checklist_dependency',
+                        'name'              => 'roles,permissions',
+                        'subfields'         => [
+                            'primary' => [
+                                'label'            => trans('different-core::roles.role'),
+                                'name'             => 'roles', // the method that defines the relationship in your Model
+                                'entity'           => 'roles', // the method that defines the relationship in your Model
+                                'entity_secondary' => 'permissions', // the method that defines the relationship in your Model
+                                'attribute'        => 'name', // foreign key attribute that is shown to user
+                                'model'            => config('permission.models.role'), // foreign key model
+                            ],
+                            'secondary' => [
+                                'label'            => mb_ucfirst(trans('different-core::permissions.permission')),
+                                'name'             => 'permissions', // the method that defines the relationship in your Model
+                                'entity'           => 'permissions', // the method that defines the relationship in your Model
+                                'entity_primary'   => 'roles', // the method that defines the relationship in your Model
+                                'attribute'        => 'name', // foreign key attribute that is shown to user
+                                'model'            => config('permission.models.permission'), // foreign key model,
+                            ],
+                        ],
+                        'events' => [
+                            'updating' => function ($entry) {
+                                Cache::forget('selectable_accounts_for_user_' . backpack_user()->id);
+                            },
+                        ],
                     ],
-                ],
-                /*
+                    /*
                 *   Üdv idegen, gondolom azt keresed hogy lehet feltölteni képet vagy fájlt egy model-hez CRUD-on keresztül, hát tessék:
                 *
                 *   'name': mező megadása kötelező, fontos, hogy ugyan az legyen mint a realtion. Itt is látható, hogy
@@ -237,19 +241,20 @@ class UsersCrudController extends BaseCrudController
                 *   Adatbázis szinten figyelni kell hogy ne legyen cascade törlés hiszen akkor a fájl törléssel együtt az adott elem is törlődik amit
                 *   éppen szerkesztünk.
                 */
-                [
-                    'name' => 'profile_image',
-                    'label' => __('different-core::users.profile_image'),
-                    'view_namespace' => 'different-core::fields',
-                    'type' => 'file',
-                    'has_preview' => true,
-                    'upload' => true,
-                    'wrapper' => [
-                        'class' => 'form-group col-12',
+                    [
+                        'name' => 'profile_image',
+                        'label' => __('different-core::users.profile_image'),
+                        'view_namespace' => 'different-core::fields',
+                        'type' => 'file',
+                        'has_preview' => true,
+                        'upload' => true,
+                        'wrapper' => [
+                            'class' => 'form-group col-12',
+                        ],
                     ],
-                ],
-            ]
-            ));
+                ]
+            )
+        );
         //endregion
     }
 
