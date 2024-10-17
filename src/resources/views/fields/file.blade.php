@@ -20,7 +20,9 @@
 <input type="file" name="upload_{{ $field['name'] }}">
 <div class="file-removes" data-urls="{{ json_encode($urls) }}" data-max-file-size="{{ json_encode($field['max_file_size']) }}"
     data-accepted-file-types="{{ json_encode($field['accepted_file_types']) }}"
-    data-clickable="{{ json_encode($field['clickable']) }}"></div>
+    data-clickable="{{ json_encode($field['clickable']) }}"
+    data-field-name="{{ $field['name'] }}"
+></div>
 
 {{-- HINT --}}
 @if (isset($field['hint']))
@@ -52,6 +54,7 @@
             function bpFieldInitFileElement(element) {
                 const fileInput = element.find("input[type='file']");
                 const fileRemoves = element.find(".file-removes");
+                const fieldName = fileRemoves.data('field-name');
 
                 const accepted_file_types = JSON.parse(fileRemoves[0].dataset.acceptedFileTypes);
                 const max_file_size = JSON.parse(fileRemoves[0].dataset.maxFileSize);
@@ -99,7 +102,7 @@
                             }
 
                             const removeInput = document.createElement('input');
-                            removeInput.name = "remove_{{ $field['name'] }}";
+                            removeInput.name = "remove_" + fieldName;
                             removeInput.value = found.id;
                             removeInput.type = "hidden";
 
