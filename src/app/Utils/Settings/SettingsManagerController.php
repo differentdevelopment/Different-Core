@@ -201,7 +201,7 @@ class SettingsManagerController
     {
         $settings = Setting::query()->get();
         foreach ($settings as &$setting) {
-            foreach ($setting->options as $key => $option) {
+            foreach ($setting->options ?? [] as $key => $option) {
                 $setting->{$key} = $option;
             }
             unset($setting->options);
