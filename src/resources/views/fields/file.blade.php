@@ -49,7 +49,7 @@
         <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script>
         <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
         <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
-        <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
+        <script src="https://unpkg.com/jquery-filepond@1.0.0/filepond.jquery.js"></script>
         <script>
             function bpFieldInitFileElement(element) {
                 const fileInput = element.find("input[type='file']");

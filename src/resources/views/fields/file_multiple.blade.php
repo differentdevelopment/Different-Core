@@ -5,7 +5,7 @@
     $field['accepted_file_types'] = $field['accepted_file_types'] ?? [];
     $field['max_file_size'] = $field['max_file_size'] ?? null;
     $field['clickable'] = $field['clickable'] ?? false;
-    
+
     $urls = [];
     if (!empty($field['value'])) {
         foreach ($field['value'] as $file) {
@@ -55,7 +55,7 @@
         <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script>
         <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
         <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
-        <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
+        <script src="https://unpkg.com/jquery-filepond@1.0.0/filepond.jquery.js"></script>
         <script>
             function bpFieldInitUploadElement(element) {
                 const fileInput = element.find("input[type='file']");
