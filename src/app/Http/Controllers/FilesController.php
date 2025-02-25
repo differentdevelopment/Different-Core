@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
+use Different\DifferentCore\app\Models\FileUuid;
 
 class FilesController extends Controller
 {
@@ -282,5 +283,53 @@ class FilesController extends Controller
 
 
         return Response::make('', 204);
+    }
+
+    public static function getFileComplexUuid(string $uuid)
+    {
+        $token = session()?->getId() ?? request()->bearerToken();
+
+        $file = FileUuid::query()->where('token', $token)->where('uuid', $uuid)->first()?->file;
+
+        if(!$file)
+        {
+            return response(status: 404);
+        }
+
+        FileUuid::query()->where('created_at', '<', now()->subDay())->delete();
+
+        return self::getFile($file);
+    }
+
+    public static function downloadComplexUuid(string $uuid)
+    {
+        $token = session()?->getId() ?? request()->bearerToken();
+
+        $file = FileUuid::query()->where('token', $token)->where('uuid', $uuid)->first()?->file;
+
+        if(!$file)
+        {
+            return response(status: 404);
+        }
+
+        FileUuid::query()->where('created_at', '<', now()->subDay())->delete();
+
+        return self::getFileDownload($file);
+    }
+
+    public static function thumbnailComplexUuid(string $uuid, $width = 200, $height = 200)
+    {
+        $token = session()?->getId() ?? request()->bearerToken();
+
+        $file = FileUuid::query()->where('token', $token)->where('uuid', $uuid)->first()?->file;
+
+        if(!$file)
+        {
+            return response(status: 404);
+        }
+
+        FileUuid::query()->where('created_at', '<', now()->subDay())->delete();
+
+        return self::thumbnail($file, $width, $height);
     }
 }
