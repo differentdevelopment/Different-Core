@@ -158,7 +158,7 @@ class File extends Model
                 }
                 $token = session()?->getId() ?? request()->bearerToken();
 
-                if(!$token)
+                if(!$token || !$this->id)
                 {
                     return null;
                 }
