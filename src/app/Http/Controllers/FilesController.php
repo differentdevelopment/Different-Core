@@ -5,6 +5,7 @@ namespace Different\DifferentCore\app\Http\Controllers;
 use Different\DifferentCore\app\Models\File;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -287,12 +288,16 @@ class FilesController extends Controller
 
     public static function getFileComplexUuid(string $uuid)
     {
-        $token = session()?->getId() ?? request()->bearerToken();
+        $token = request()->bearerToken() ?? session()?->getId();
 
         $file = FileUuid::query()->where('token', $token)->where('uuid', $uuid)->first()?->file;
 
         if(!$file)
         {
+            Log::warning('File not found', [
+                'token' => $token,
+                'uuid' => $uuid,
+            ]);
             return response(status: 404);
         }
 
@@ -303,12 +308,16 @@ class FilesController extends Controller
 
     public static function downloadComplexUuid(string $uuid)
     {
-        $token = session()?->getId() ?? request()->bearerToken();
+        $token = request()->bearerToken() ?? session()?->getId();
 
         $file = FileUuid::query()->where('token', $token)->where('uuid', $uuid)->first()?->file;
 
         if(!$file)
         {
+            Log::warning('File not found', [
+                'token' => $token,
+                'uuid' => $uuid,
+            ]);
             return response(status: 404);
         }
 
@@ -319,12 +328,16 @@ class FilesController extends Controller
 
     public static function thumbnailComplexUuid(string $uuid, $width = 200, $height = 200)
     {
-        $token = session()?->getId() ?? request()->bearerToken();
+        $token = request()->bearerToken() ?? session()?->getId();
 
         $file = FileUuid::query()->where('token', $token)->where('uuid', $uuid)->first()?->file;
 
         if(!$file)
         {
+            Log::warning('File not found', [
+                'token' => $token,
+                'uuid' => $uuid,
+            ]);
             return response(status: 404);
         }
 
