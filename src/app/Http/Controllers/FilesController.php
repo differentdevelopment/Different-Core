@@ -32,7 +32,7 @@ class FilesController extends Controller
      * @param  int  $width
      * @param  int  $height
      */
-    public function thumbnail(File $file, $width = 200, $height = 200)
+    public static function thumbnail(File $file, $width = 200, $height = 200)
     {
         $storage_path = self::getPath($file);
 
