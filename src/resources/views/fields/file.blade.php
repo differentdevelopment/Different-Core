@@ -5,10 +5,10 @@
     $field['accepted_file_types'] = $field['accepted_file_types'] ?? [];
     $field['max_file_size'] = $field['max_file_size'] ?? null;
     $field['clickable'] = $field['clickable'] ?? false;
-    
+
     $urls = [];
     if (!empty($field['value'])) {
-        $urls[$field['value']] = $field['model']::find($field['value'])->uuid;
+        $urls[$field['value']] = $field['model']::find($field['value']);
     }
 @endphp
 
@@ -56,7 +56,7 @@
             function bpFieldInitFileElement(element) {
                 const fileInput = element.find("input[type='file']");
                 const fileRemoves = element.find(".file-removes");
-                
+
                 const accepted_file_types = JSON.parse(fileRemoves[0].dataset.acceptedFileTypes);
                 const max_file_size = JSON.parse(fileRemoves[0].dataset.maxFileSize);
                 const uuids = JSON.parse(fileRemoves[0].dataset.urls);
