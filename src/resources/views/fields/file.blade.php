@@ -67,7 +67,7 @@
                 if (Object.entries(uuids).length > 0) {
                     Object.entries(uuids).forEach((entry) => {
                         files.push({
-                            source: entry[1],
+                            source: entry[1].uuid,
                             options: {
                                 type: 'local',
                             },
