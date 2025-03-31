@@ -39,16 +39,16 @@
     @endphp
 
     @push('crud_fields_styles')
-        <link rel="stylesheet" href="{{ asset('css/filepond.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/filepond-plugin-image-preview.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/filepond.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/filepond-plugin-image-preview.min.css') }}">
     @endpush
 
     @push('crud_fields_scripts')
         <!-- no scripts -->
         <script src="{{ asset('js/filepond.min.js') }}"></script>
         <script src="{{ asset('js/filepond-plugin-image-preview.min.js') }}"></script>
-        <script src="{{ asset('js/filepond-plugin-file-validate-type.js') }}"></script>
-        <script src="{{ asset('js/filepond-plugin-file-validate-size.js') }}"></script>
+        <script src="{{ asset('js/filepond-plugin-file-validate-type.min.js') }}"></script>
+        <script src="{{ asset('js/filepond-plugin-file-validate-size.min.js') }}"></script>
         <script src="{{ asset('js/jquery-filepond.js') }}"></script>
         <script>
             function bpFieldInitFileElement(element) {
