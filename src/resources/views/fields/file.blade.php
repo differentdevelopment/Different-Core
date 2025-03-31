@@ -39,17 +39,17 @@
     @endphp
 
     @push('crud_fields_styles')
-        <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet" />
-        <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
+        @vite('resources/css/filepond.css')
+        @vite('resources/css/filepond-plugin-image-preview.css')
     @endpush
 
     @push('crud_fields_scripts')
         <!-- no scripts -->
-        <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
-        <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script>
-        <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
-        <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
-        <script src="https://unpkg.com/jquery-filepond@1.0.0/filepond.jquery.js"></script>
+        @vite('resources/js/filepond.min.js')
+        @vite('resources/js/filepond-plugin-image-preview.min.js')
+        @vite('resources/js/filepond-plugin-file-validate-type.js')
+        @vite('resources/js/filepond-plugin-file-validate-size.js')
+        @vite('resources/js/jquery-filepond.js')
         <script>
             function bpFieldInitFileElement(element) {
                 const fileInput = element.find("input[type='file']");
