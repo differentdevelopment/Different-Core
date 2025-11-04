@@ -93,6 +93,22 @@
                     acceptedFileTypes: accepted_file_types ?? [],
                     maxFileSize: max_file_size ?? null,
                     allowFileSizeValidation: max_file_size ? true : false,
+                    // onremovefile: (error, file) => {
+                    //     if (file.serverId) {
+                    //         const found = uuidValues.find((entry) => entry.uuid === file.serverId);
+                    //
+                    //         if (!found) {
+                    //             return;
+                    //         }
+                    //
+                    //         const removeInput = document.createElement('input');
+                    //         removeInput.name = "remove_" + fieldName;
+                    //         removeInput.value = found.id;
+                    //         removeInput.type = "hidden";
+                    //
+                    //         fileRemoves.append(removeInput);
+                    //     }
+                    // },
                     onremovefile: (error, file) => {
                         if (file.serverId) {
                             const found = uuidValues.find((entry) => entry.uuid === file.serverId);
@@ -101,12 +117,18 @@
                                 return;
                             }
 
+                            // Add hidden field to mark removal
                             const removeInput = document.createElement('input');
                             removeInput.name = "remove_" + fieldName;
                             removeInput.value = found.id;
                             removeInput.type = "hidden";
-
                             fileRemoves.append(removeInput);
+
+                            // Clear original field so it doesn't submit old value
+                            const originalInput = document.querySelector(`[name="${fieldName}"]`);
+                            if (originalInput) {
+                                originalInput.value = '';
+                            }
                         }
                     },
                     onactivatefile: (file) => {
