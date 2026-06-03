@@ -36,6 +36,10 @@ class FilesController extends Controller
     {
         $storage_path = self::getPath($file);
 
+        if ($storage_path === '') {
+            abort(404);
+        }
+
         $ext = pathinfo(storage_path($storage_path), PATHINFO_EXTENSION);
         $filepath = 'generated/' . $file->id . '/' . $width . '_' . $height . '.' . $ext;
 
@@ -74,6 +78,10 @@ class FilesController extends Controller
     {
         $file_path = self::getPath($file);
 
+        if ($file_path === '') {
+            abort(404);
+        }
+
         return Storage::response($file_path);
     }
 
@@ -87,6 +95,10 @@ class FilesController extends Controller
     {
         $file_path = self::getPath($file);
 
+        if ($file_path === '') {
+            abort(404);
+        }
+
         return Response::make('data:'.Storage::mimeType($file_path).';base64,'.base64_encode(Storage::get($file_path)), 200);
     }
 
@@ -99,6 +111,10 @@ class FilesController extends Controller
     public static function getFileDownload(File $file)
     {
         $file_path = self::getPath($file);
+
+        if ($file_path === '') {
+            abort(404);
+        }
 
         return Storage::download($file_path, $file->original_name);
     }
